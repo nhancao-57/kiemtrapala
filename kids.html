@@ -229,7 +229,7 @@
 
     async function init() {
       try {
-        const response = await fetch('/tests/kids.json');
+        const response = await fetch('/tests/kids/kids.json');
         if (!response.ok) throw new Error('Không thể đọc file JSON');
         
         testData = await response.json();
