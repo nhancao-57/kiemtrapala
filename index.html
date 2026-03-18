@@ -1,83 +1,121 @@
-```html
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kiểm tra xếp lớp | Ngoại Ngữ Pala</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: linear-gradient(135deg, #4f46e5, #06b6d4);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      text-align: center;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hệ thống Kiểm tra Năng lực - Trung tâm Ngoại ngữ Pala</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'custom-pink': {
+              50: '#fdf2f8', 100: '#fce7f3', 200: '#fbcfe8',
+              300: '#f9a8d4', 400: '#f472b6', 500: '#ec4899',
+              600: '#db2777', 700: '#be185d', 800: '#9d174d', 900: '#831843'
+            }
+          },
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          animation: {
+            'fade-in-up': 'fadeInUp 0.6s ease-out forwards',
+          },
+          keyframes: {
+            fadeInUp: {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            }
+          }
+        }
+      }
     }
-    .container {
-      max-width: 600px;
-      padding: 32px;
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: 16px;
-      backdrop-filter: blur(10px);
-    }
-    h1 {
-      margin-bottom: 16px;
-      font-size: 28px;
-    }
-    p {
-      margin: 8px 0;
-      opacity: 0.9;
-    }
-    .btn {
-      margin-top: 24px;
-      display: inline-block;
-      padding: 12px 20px;
-      background: #fff;
-      color: #4f46e5;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: 0.2s;
-    }
-    .btn:hover {
-      background: #e5e7eb;
-    }
-    .footer {
-      margin-top: 24px;
-      font-size: 12px;
-      opacity: 0.7;
-    }
-  </style>
+  </script>
 </head>
-<body>
-  <div class="container">
-    <h1>Kiểm tra trình độ đầu vào</h1>
-    <p>Hệ thống kiểm tra xếp lớp đang được chuẩn bị.</p>
-    <p>Vui lòng quay lại trong thời gian sớm nhất.</p>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-custom-pink-200 selection:text-custom-pink-900 relative">
 
-    <p style="margin-top:16px;">Placement test system is coming soon.</p>
-    <p>Please check back shortly.</p>
-
-    <a class="btn" href="https://ngoaingupala.edu.vn">
-      ← Quay lại trang chủ
-    </a>
-
-    <div class="footer">
-      © 2026 Ngoại Ngữ Pala
+  <header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50 h-16 flex items-center justify-center">
+    <div class="container mx-auto px-4 flex justify-center items-center">
+      <img src="images/PLC_Logo_FA_Horizontal_COLOUR.png" alt="Pala Language Centre Logo" class="h-10 md:h-12 w-auto object-contain transition-transform hover:scale-105" onerror="this.outerHTML='<span class=\'text-2xl font-black text-custom-pink-600 tracking-tight\'>PALA<span class=\'text-slate-800\'>CENTRE</span></span>'">
     </div>
-  </div>
+  </header>
+
+  <main class="flex-grow container mx-auto px-4 py-12 max-w-5xl flex flex-col items-center">
+
+    <div class="text-center mb-16 animate-fade-in-up">
+      <div class="inline-block px-4 py-1.5 rounded-full bg-custom-pink-50 border border-custom-pink-100 text-custom-pink-600 font-bold text-sm tracking-widest uppercase mb-4">
+        Hệ thống đánh giá
+      </div>
+      <h1 class="text-3xl md:text-5xl font-black text-custom-pink-600 text-slate-800 mb-4 tracking-tight">
+        Bài Kiểm Tra Năng Lực Đầu Vào
+      </h1>
+      <p class="text-slate-500 font-medium text-lg md:text-xl max-w-2xl mx-auto">
+        Vui lòng chọn bài kiểm tra phù hợp với độ tuổi và chương trình học của bạn để bắt đầu.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
+      
+      <a href="kids.html" class="group bg-white rounded-3xl shadow-sm hover:shadow-xl border-2 border-slate-100 hover:border-custom-pink-300 p-8 transition-all duration-300 flex flex-col h-full animate-fade-in-up" style="animation-delay: 0.1s;">
+        <div class="w-16 h-16 bg-custom-pink-50 text-custom-pink-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        </div>
+        <div class="mb-4">
+          <span class="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-bold uppercase tracking-wider rounded-lg mb-3 inline-block">6 - 11 Tuổi</span>
+          <h2 class="text-2xl font-black text-slate-800 group-hover:text-custom-pink-600 transition-colors">Tiếng Anh Trẻ Em</h2>
+        </div>
+        <p class="text-slate-500 font-medium mb-8 flex-grow">
+          Bài kiểm tra trình độ đầu v theo khung YLE (Starters, Movers, Flyers)
+        </p>
+        <div class="w-full bg-slate-800 group-hover:bg-custom-pink-600 text-white font-bold py-3 px-6 rounded-xl text-center transition-colors shadow-md mt-auto uppercase tracking-wide">
+          Bắt đầu kiểm tra
+        </div>
+      </a>
+
+      <a href="#" class="group bg-white rounded-3xl shadow-sm hover:shadow-xl border-2 border-slate-100 hover:border-custom-pink-300 p-8 transition-all duration-300 flex flex-col h-full animate-fade-in-up" style="animation-delay: 0.2s;">
+        <div class="w-16 h-16 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+        </div>
+        <div class="mb-4">
+          <span class="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-bold uppercase tracking-wider rounded-lg mb-3 inline-block">12 - 15 Tuổi</span>
+          <h2 class="text-2xl font-black text-slate-800 group-hover:text-custom-pink-600 transition-colors">Tiếng Anh Thiếu Niên</h2>
+        </div>
+        <p class="text-slate-500 font-medium mb-8 flex-grow">
+          Đề kiểm tra đang được xây dựng.
+        </p>
+        <div class="w-full bg-slate-800 group-hover:bg-custom-pink-600 text-white font-bold py-3 px-6 rounded-xl text-center transition-colors shadow-md mt-auto uppercase tracking-wide">
+          Bắt đầu kiểm tra
+        </div>
+      </a>
+
+      <a href="#" class="group bg-white rounded-3xl shadow-sm hover:shadow-xl border-2 border-slate-100 hover:border-custom-pink-300 p-8 transition-all duration-300 flex flex-col h-full animate-fade-in-up" style="animation-delay: 0.3s;">
+        <div class="w-16 h-16 bg-amber-50 text-amber-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+        </div>
+        <div class="mb-4">
+          <span class="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-bold uppercase tracking-wider rounded-lg mb-3 inline-block">15+ Tuổi</span>
+          <h2 class="text-2xl font-black text-slate-800 group-hover:text-custom-pink-600 transition-colors">IELTS Foundation</h2>
+        </div>
+        <p class="text-slate-500 font-medium mb-8 flex-grow">
+          Đề kiểm tra đang được xây dựng
+        </p>
+        <div class="w-full bg-slate-800 group-hover:bg-custom-pink-600 text-white font-bold py-3 px-6 rounded-xl text-center transition-colors shadow-md mt-auto uppercase tracking-wide">
+          Bắt đầu kiểm tra
+        </div>
+      </a>
+
+    </div>
+  </main>
+
+  <footer class="bg-white border-t border-slate-200 py-8 mt-auto">
+    <div class="container mx-auto px-4 text-center">
+      <p class="text-sm text-slate-400 font-semibold tracking-wide">© 2026 Trung tâm Ngoại ngữ Pala.</p>
+    </div>
+  </footer>
+
 </body>
 </html>
-```
-
----
-
-### 💡 Optional tweaks you might want
-
-* Change title if you pick a different subdomain (e.g. “Placement Test”)
-* Add logo image at the top
-* Replace hom
