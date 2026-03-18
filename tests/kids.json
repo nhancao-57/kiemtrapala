@@ -1,0 +1,536 @@
+{
+  "testInformation": {
+    "center": "PALA LANGUAGE CENTER",
+    "title": "PLACEMENT TEST FOR YLE LEVEL",
+    "totalScore": 50
+  },
+  "parts": [
+    {
+      "partNumber": 1,
+      "title": "Writing",
+      "instructions": "Choose the correct answer: ( Chọn đáp án đúng )",
+      "totalPoints": 50,
+      "questions": [
+        {
+          "id": 1,
+          "question": "What is it?",
+          "options": {
+            "A": "It’s an apple.",
+            "B": "It’s a apple.",
+            "C": "It’s an egg."
+          },
+          "correctAnswer": "A",
+          "imageUrl": ""
+        },
+        {
+          "id": 2,
+          "question": "What are they?",
+          "options": {
+            "A": "They’re pigs.",
+            "B": "They’re ducks.",
+            "C": "They’re cows."
+          },
+          "correctAnswer": "C",
+          "imageUrl": ""
+        },
+        {
+          "id": 3,
+          "question": "What color is it?",
+          "options": {
+            "A": "It’s blue.",
+            "B": "It’s green.",
+            "C": "It’s red."
+          },
+          "correctAnswer": "B",
+          "imageUrl": ""
+        },
+        {
+          "id": 4,
+          "question": "How many pens?",
+          "options": {
+            "A": "They’re pens.",
+            "B": "Four pen.",
+            "C": "Four pens."
+          },
+          "correctAnswer": "C",
+          "imageUrl": ""
+        },
+        {
+          "id": 5,
+          "question": "I can _______.",
+          "options": {
+            "A": "dance.",
+            "B": "sing.",
+            "C": "run."
+          },
+          "correctAnswer": "B",
+          "imageUrl": ""
+        },
+        {
+          "id": 6,
+          "question": "Let’s count!",
+          "options": {
+            "A": "OK! I’m fine.",
+            "B": "OK! Four.",
+            "C": "OK! I’m six."
+          },
+          "correctAnswer": "B",
+          "imageUrl": ""
+        },
+        {
+          "id": 7,
+          "question": "These are _____.",
+          "options": {
+            "A": "my eyes",
+            "B": "my nose",
+            "C": "my ears"
+          },
+          "correctAnswer": "C",
+          "imageUrl": ""
+        },
+        {
+          "id": 8,
+          "question": "What shape is it?",
+          "options": {
+            "A": "It’s a square.",
+            "B": "It’s a star.",
+            "C": "It’s a triangle."
+          },
+          "correctAnswer": "C",
+          "imageUrl": ""
+        },
+        {
+          "id": 9,
+          "question": "What is it?",
+          "options": {
+            "A": "It’s a bag blue.",
+            "B": "It’s an blue bag.",
+            "C": "It’s a blue bag."
+          },
+          "correctAnswer": "C",
+          "imageUrl": ""
+        },
+        {
+          "id": 10,
+          "question": "How many books?",
+          "options": {
+            "A": "Six books.",
+            "B": "Seven books.",
+            "C": "Eight books."
+          },
+          "correctAnswer": "A",
+          "imageUrl": ""
+        },
+        {
+          "id": 11,
+          "question": "What can you do?",
+          "options": {
+            "A": "I can dance.",
+            "B": "I can jump rope.",
+            "C": "I can swim."
+          },
+          "correctAnswer": "C",
+          "imageUrl": ""
+        },
+        {
+          "id": 12,
+          "question": "Is it a big dog?",
+          "options": {
+            "A": "No, it is.",
+            "B": "Yes, it is.",
+            "C": "Yes, they are."
+          },
+          "correctAnswer": "B",
+          "imageUrl": ""
+        },
+        {
+          "id": 13,
+          "question": "Is it a fat dog?",
+          "options": {
+            "A": "Yes, it is.",
+            "B": "No, it is.",
+            "C": "No, it isn’t."
+          },
+          "correctAnswer": "C",
+          "imageUrl": ""
+        },
+        {
+          "id": 14,
+          "question": "Sắp xếp câu : can/ ride/ I/ bicycle/ a.",
+          "options": {
+            "A": "I can a ride bicycle.",
+            "B": "I can a bicycle ride.",
+            "C": "I can ride a bicycle."
+          },
+          "correctAnswer": "C"
+        },
+        {
+          "id": 15,
+          "question": "Sắp xếp câu : is/ doctor/ ?/ a/ she",
+          "options": {
+            "A": "Is a she doctor?",
+            "B": "Is she a doctor?",
+            "C": "She is a doctor?"
+          },
+          "correctAnswer": "B"
+        },
+        {
+          "id": 16,
+          "question": "I ____ every day.",
+          "options": {
+            "A": "drink milk",
+            "B": "eat bread",
+            "C": "read books"
+          },
+          "correctAnswer": "A",
+          "imageUrl": ""
+        },
+        {
+          "id": 17,
+          "question": "What do you like? - I like ________.",
+          "options": {
+            "A": "rabbits",
+            "B": "hamsters",
+            "C": "kittens"
+          },
+          "correctAnswer": "C",
+          "imageUrl": ""
+        },
+        {
+          "id": 18,
+          "question": "How’s the weather? - It’s ________.",
+          "options": {
+            "A": "rainy",
+            "B": "sunny",
+            "C": "windy"
+          },
+          "correctAnswer": "B",
+          "imageUrl": ""
+        },
+        {
+          "id": 19,
+          "question": "I’m hungry. I want _______.",
+          "options": {
+            "A": "a burger",
+            "B": "a sandwich",
+            "C": "a cake"
+          },
+          "correctAnswer": "A",
+          "imageUrl": ""
+        },
+        {
+          "id": 20,
+          "question": "Do you like meat?",
+          "options": {
+            "A": "Yes, I don’t.",
+            "B": "No, I do.",
+            "C": "Yes, I do."
+          },
+          "correctAnswer": "C",
+          "imageUrl": ""
+        },
+        {
+          "id": 21,
+          "question": "Where is the dog?",
+          "options": {
+            "A": "On the table.",
+            "B": "In the table.",
+            "C": "Under the table."
+          },
+          "correctAnswer": "C",
+          "imageUrl": ""
+        },
+        {
+          "id": 22,
+          "question": "Are there books on the desk?",
+          "options": {
+            "A": "Yes, there are.",
+            "B": "Yes, there aren’t.",
+            "C": "No, there are."
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "id": 23,
+          "question": "Do you ever play outside at night?",
+          "options": {
+            "A": "Yes, I am.",
+            "B": "No, I’m not.",
+            "C": "Yes, I do."
+          },
+          "correctAnswer": "C"
+        },
+        {
+          "id": 24,
+          "question": "What’s your address?",
+          "options": {
+            "A": "It’s 20 Orchard Street.",
+            "B": "It’s 20 years old.",
+            "C": "It’s (020) 312-3242."
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "id": 25,
+          "question": "Can he play baseball?",
+          "options": {
+            "A": "No, he can.",
+            "B": "No, he can’t.",
+            "C": "No, he isn’t."
+          },
+          "correctAnswer": "B"
+        },
+        {
+          "id": 26,
+          "question": "What time is it?",
+          "options": {
+            "A": "It’s Monday.",
+            "B": "It’s May.",
+            "C": "It’s ten o’clock."
+          },
+          "correctAnswer": "C"
+        },
+        {
+          "id": 27,
+          "question": "Where are they?",
+          "options": {
+            "A": "They’re students.",
+            "B": "They’re at the park.",
+            "C": "They’re yellow cars."
+          },
+          "correctAnswer": "B"
+        },
+        {
+          "id": 28,
+          "question": "Does he have a key?",
+          "options": {
+            "A": "No, he doesn’t.",
+            "B": "Yes, he doesn’t.",
+            "C": "Yes, I do."
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "id": 29,
+          "question": "What do you do at weekends?",
+          "options": {
+            "A": "I go to English class.",
+            "B": "I goes to English class.",
+            "C": "I am go to English class."
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "id": 30,
+          "question": "What’s he doing?",
+          "options": {
+            "A": "He is watch TV.",
+            "B": "He is watching TV.",
+            "C": "He watching TV."
+          },
+          "correctAnswer": "B"
+        },
+        {
+          "id": 31,
+          "question": "What’s for breakfast, Mom?",
+          "options": {
+            "A": "Bread and egg.",
+            "B": "Banana and ruler.",
+            "C": "Juice and notebook."
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "id": 32,
+          "question": "My father is a farmer. What can he do?",
+          "options": {
+            "A": "He can drive a taxi.",
+            "B": "He can plant vegetables.",
+            "C": "He can teach English."
+          },
+          "correctAnswer": "B"
+        },
+        {
+          "id": 33,
+          "question": "Which sports do you like?",
+          "options": {
+            "A": "I like basketball.",
+            "B": "I like turtles.",
+            "C": "I like fruit."
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "id": 34,
+          "question": "What does your sister do?",
+          "options": {
+            "A": "He’s a cook.",
+            "B": "She is 25 years old.",
+            "C": "She’s a pilot."
+          },
+          "correctAnswer": "C"
+        },
+        {
+          "id": 35,
+          "question": "What does she do after school?",
+          "options": {
+            "A": "She plays tennis.",
+            "B": "She play tennis.",
+            "C": "She is playing tennis."
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "id": 36,
+          "question": "How was the party yesterday?",
+          "options": {
+            "A": "It is wonderful.",
+            "B": "It’s a wonderful.",
+            "C": "It was wonderful."
+          },
+          "correctAnswer": "C"
+        },
+        {
+          "id": 37,
+          "question": "When will he go on vacation?",
+          "options": {
+            "A": "Next weekend.",
+            "B": "Last month.",
+            "C": "In London."
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "id": 38,
+          "question": "Were they at home yesterday?",
+          "options": {
+            "A": "Yes, they are.",
+            "B": "Yes, they were.",
+            "C": "Yes, they was."
+          },
+          "correctAnswer": "B"
+        },
+        {
+          "id": 39,
+          "question": "What do you have to do?",
+          "options": {
+            "A": "You have to clean my room.",
+            "B": "I have to clean my room.",
+            "C": "I have clean my room."
+          },
+          "correctAnswer": "B"
+        },
+        {
+          "id": 40,
+          "question": "What does your mom look like?",
+          "options": {
+            "A": "She has long dark hair.",
+            "B": "She likes cooking.",
+            "C": "Her name is Anna."
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "id": 41,
+          "question": "What’s your favorite subject?",
+          "options": {
+            "A": "Cheese.",
+            "B": "Drawing.",
+            "C": "Maths."
+          },
+          "correctAnswer": "C"
+        },
+        {
+          "id": 42,
+          "question": "What did you do yesterday?",
+          "options": {
+            "A": "I play badminton with my friends.",
+            "B": "I played badminton with my friends.",
+            "C": "I playing badminton with my friends."
+          },
+          "correctAnswer": "B"
+        },
+        {
+          "id": 43,
+          "question": "Where did the boy go?",
+          "options": {
+            "A": "He is going to the store.",
+            "B": "He goes to the store.",
+            "C": "He went to the store."
+          },
+          "correctAnswer": "C"
+        },
+        {
+          "id": 44,
+          "question": "Did your dad swim yesterday?",
+          "options": {
+            "A": "Yes, he did.",
+            "B": "Yes, she did.",
+            "C": "Yes, he didn’t."
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "id": 45,
+          "question": "What is he going to do?",
+          "options": {
+            "A": "He is going shopping.",
+            "B": "He is going to go shopping.",
+            "C": "He is going to shopping."
+          },
+          "correctAnswer": "B"
+        },
+        {
+          "id": 46,
+          "question": "A horse is ___ a mouse.",
+          "options": {
+            "A": "big",
+            "B": "bigger than",
+            "C": "biger than"
+          },
+          "correctAnswer": "B"
+        },
+        {
+          "id": 47,
+          "question": "What do you like?",
+          "options": {
+            "A": "I like reading books.",
+            "B": "I have brown hair.",
+            "C": "I want some bread."
+          },
+          "correctAnswer": "A"
+        },
+        {
+          "id": 48,
+          "question": "Which cake is the ___?",
+          "options": {
+            "A": "better",
+            "B": "goodest",
+            "C": "best"
+          },
+          "correctAnswer": "C"
+        },
+        {
+          "id": 49,
+          "question": "Should I take a big hat?",
+          "options": {
+            "A": "Yes, I should.",
+            "B": "No, I shouldn’t.",
+            "C": "Yes, you should."
+          },
+          "correctAnswer": "C"
+        },
+        {
+          "id": 50,
+          "question": "Would you like some coffee?",
+          "options": {
+            "A": "No, I don’t.",
+            "B": "No, thanks.",
+            "C": "No, I’m not."
+          },
+          "correctAnswer": "B"
+        }
+      ]
+    }
+  ]
+}
