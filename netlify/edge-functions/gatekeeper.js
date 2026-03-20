@@ -9,8 +9,8 @@ export default async (request, context) => {
   }
 
   // Fetch expected credentials
-  const expectedUser = Netlify.env.get("SITE_USERNAME") || "admin";
-  const expectedPass = Netlify.env.get("SITE_PASSWORD") || "password123";
+  const expectedUser = Netlify.env.get("SITE_USERNAME")
+  const expectedPass = Netlify.env.get("SITE_PASSWORD")
 
   // 2. Handle the form submission from login.html
   if (url.pathname === '/login' && request.method === 'POST') {
