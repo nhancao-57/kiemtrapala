@@ -1,5 +1,3 @@
 [[edge_functions]]
-  # This matches the filename of your function (without the extension)
   function = "gatekeeper"
-  # This tells Netlify to run the function on every single page and asset
   path = "/*"
