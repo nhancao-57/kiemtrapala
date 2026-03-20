@@ -2,7 +2,7 @@
 <html lang="vi" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>Đăng Nhập - Trung tâm Ngoại ngữ Pala</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,17 +36,17 @@
     }
   </script>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-custom-pink-200 selection:text-custom-pink-900 relative">
+<body class="bg-slate-50 text-slate-800 font-sans min-h-[100dvh] flex flex-col selection:bg-custom-pink-200 selection:text-custom-pink-900 relative">
 
-  <header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50 h-16 flex items-center justify-center">
+  <header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50 h-16 flex items-center justify-center shrink-0">
     <div class="container mx-auto px-4 flex justify-center items-center">
       <img src="images/PLC_Logo_FA_Horizontal_COLOUR.png" alt="Pala Language Centre Logo" class="h-10 md:h-12 w-auto object-contain transition-transform hover:scale-105" onerror="this.outerHTML='<span class=\'text-2xl font-black text-custom-pink-600 tracking-tight\'>PALA<span class=\'text-slate-800\'>CENTRE</span></span>'">
     </div>
   </header>
 
-  <main class="flex-grow container mx-auto px-4 py-12 flex items-center justify-center">
+  <main class="flex-1 w-full flex items-center justify-center px-4">
     
-    <div class="bg-white rounded-3xl shadow-sm border-2 border-slate-100 p-8 md:p-10 w-full max-w-md animate-fade-in-up hover:border-custom-pink-300 transition-colors duration-300">
+    <div class="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 sm:p-10 w-full max-w-md animate-fade-in-up hover:border-custom-pink-200 transition-colors duration-300">
       
       <div class="w-16 h-16 bg-custom-pink-50 text-custom-pink-500 rounded-2xl flex items-center justify-center mb-6 mx-auto">
         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -55,8 +55,8 @@
       </div>
 
       <div class="text-center mb-8">
-        <h1 class="text-2xl font-black text-slate-800 mb-2 tracking-tight">Bài kiểm tra đầu vào </h1>
-        <p class="text-slate-500 font-medium">Vui lòng nhập tên đăng nhập và mật khẩu được cấp bởi giáo viên/nhân viên để đăng nhập</p>
+        <h1 class="text-2xl sm:text-3xl font-black text-custom-pink-600 mb-2 tracking-tight">Hệ thống Kiểm tra năng lực đầu vào</h1>
+        <p class="text-slate-500 font-medium text-sm sm:text-base">Vui lòng nhập tên đăng nhập và mật khẩu được cấp bởi giáo viên/nhân viên để đăng nhập</p>
       </div>
 
       <form id="login-form" action="/login" method="POST" class="space-y-5">
@@ -79,7 +79,7 @@
         </div>
 
         <button type="submit" 
-          class="w-full bg-slate-800 hover:bg-custom-pink-600 text-white font-bold py-3.5 px-6 rounded-xl text-center transition-colors shadow-md mt-2 uppercase tracking-wide">
+          class="w-full bg-custom-pink-600 hover:bg-custom-pink-700 text-white font-bold py-3.5 px-6 rounded-xl text-center transition-colors shadow-md mt-2 uppercase tracking-wide">
           Đăng Nhập
         </button>
       </form>
@@ -88,12 +88,11 @@
 
   </main>
 
-  <footer class="bg-white border-t border-slate-200 py-8 mt-auto">
+  <footer class="bg-white border-t border-slate-200 py-5 shrink-0">
     <div class="container mx-auto px-4 text-center">
       <p class="text-sm text-slate-400 font-semibold tracking-wide">© 2026 Trung tâm Ngoại ngữ Pala.</p>
     </div>
   </footer>
-
 
   <script>
     // Check if the URL has '?error=1'
@@ -102,7 +101,5 @@
       document.getElementById('error-message').classList.remove('hidden');
     }
   </script>
-</body>
-
 </body>
 </html>
