@@ -1,0 +1,318 @@
+{
+  "testTitle": "MINDSET FOR IELTS PLACEMENT TEST - READING",
+  "parts": [
+    {
+      "partNumber": 1,
+      "title": "Part 1: Holidays",
+      "context": "### HOLIDAY PLUS\nNeed a break? Choose from these three wonderful holidays!\n\n| Holiday location | Price* | Number of nights | Daily meals included in package | Comments | Transport to/from airport |\n| :--- | :--- | :--- | :--- | :--- | :--- |\n| **A Mountain Lodge**<br>a unique wilderness retreat on the edge of the World Heritage-listed National Park and only 5 km from the sea | $330 | | mountain buffet breakfast plus free soft drinks always available | free canoeing<br>free talks in the evening<br>free open-air tennis courts<br>horse-riding optional extra | self-drive auto 1 hour 15 minutes<br>or bus three times/week approx. 2 hours |\n| **B Pelican Resort**<br>a true coral island right on the Great Barrier Reef | $580 | 4 | hot breakfast plus beach picnic lunch plus set 4-course dinner | refurbishment: resort will close for May<br>free minibus trip around island<br>swim straight from the beach | 1½ hour by minibus<br>plane flights to Wilson Island only $50 |\n| **C Cedar Lodge**<br>a blend of casual sophistication and rich rainforest ambience for those over 25 | $740 | 4 | tropical breakfast<br>picnic lunch optional extra | oldest living rainforest<br>free bikes and tennis courts; horse-riding extra | 10 mins by taxi |",
+      "questionSets": [
+        {
+          "instructions": "Questions 1-4: Look at the three holidays above, A, B and C. For which holiday are the following statements true? Write the correct letter, A, B or C.",
+          "questions": [
+            {
+              "number": 1,
+              "type": "multiple_choice",
+              "questionText": "This holiday isn't available to young children.",
+              "options": ["A", "B", "C"],
+              "answer": "C"
+            },
+            {
+              "number": 2,
+              "type": "multiple_choice",
+              "questionText": "This holiday provides a tour at no extra cost.",
+              "options": ["A", "B", "C"],
+              "answer": "B"
+            },
+            {
+              "number": 3,
+              "type": "multiple_choice",
+              "questionText": "This holiday involves most travel time from the airport.",
+              "options": ["A", "B", "C"],
+              "answer": "A"
+            },
+            {
+              "number": 4,
+              "type": "multiple_choice",
+              "questionText": "This holiday offers trips to another location.",
+              "options": ["A", "B", "C"],
+              "answer": "B"
+            }
+          ]
+        },
+        {
+          "instructions": "Questions 5-7: Answer the questions below.",
+          "questions": [
+            {
+              "number": 5,
+              "type": "short_answer",
+              "questionText": "When will one of the holiday locations not be open?",
+              "answer": "May"
+            },
+            {
+              "number": 6,
+              "type": "short_answer",
+              "questionText": "Which two outdoor activities are provided at no extra cost at Mountain Lodge?",
+              "answer": "canoeing and open-air tennis",
+              "acceptableAnswers": ["canoeing, tennis", "canoeing and tennis", "canoeing, open-air tennis"]
+            },
+            {
+              "number": 7,
+              "type": "short_answer",
+              "questionText": "What is the fastest way to travel to Mountain Lodge?",
+              "answer": "self-drive auto",
+              "acceptableAnswers": ["self-drive"]
+            }
+          ]
+        },
+        {
+          "instructions": "Questions 8-12: Read the text again and find:",
+          "questions": [
+            {
+              "number": 8,
+              "type": "short_answer",
+              "questionText": "an adjective that means 'very, very good'.",
+              "answer": "wonderful"
+            },
+            {
+              "number": 9,
+              "type": "short_answer",
+              "questionText": "an adjective meaning one of a kind/special",
+              "answer": "unique"
+            },
+            {
+              "number": 10,
+              "type": "short_answer",
+              "questionText": "a noun meaning a mixture of different things",
+              "answer": "blend"
+            },
+            {
+              "number": 11,
+              "type": "short_answer",
+              "questionText": "an adjective that can mean a situation or place is informal and comfortable",
+              "answer": "casual"
+            },
+            {
+              "number": 12,
+              "type": "short_answer",
+              "questionText": "an adjective meaning something you can choose to do / pay for",
+              "answer": "optional"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "partNumber": 2,
+      "title": "Part 2: Working Conditions & Choosing Premises",
+      "context": "### Payday: CALIFORNIA STATE COLLEGE\n**WORKING CONDITIONS AND BENEFITS FOR EMPLOYEES**\n\nEmployees are paid every other Friday. If Friday is a holiday, payday will be the following Monday. Generally, employees pick up the pay checks in their department; if not, they may be picked up at the Business Office.\n\n**Overtime**\nAll time worked over eight hours in one day and forty hours in a workweek, and also the first eight hours worked on the seventh day of work in a workweek is considered overtime for non-exempt employees. The supervisor must approve all overtime before overtime occurs.\n\n**Parking**\nAll employees who will be parking in a staff parking zone must obtain a parking permit. A monthly pre-tax payroll deduction can be made by visiting Human Resources. If you wish to pay cash, present your staff I.D. and license number to the Cashier's Office. The Safety Department will ticket cars without a parking permit and a fine will be applied.\n\n**I.D. Card**\nAll employees are required to carry an I.D. card. If an employee loses his/her card, there will be an automatic charge of $5.00 to issue a duplicate. If an employee gives up employment, his/her I.D. card must be returned prior to release of final paycheck.\n\n**Holidays**\nAll regular and temporary full-time employees generally receive approximately 13 paid holidays during the course of each calendar year. Regular part-time employees will receive holiday benefits worked out using a prorated system. The holiday schedule is initiated annually.\n\n**Personal Holiday**\nEach employee is granted one extra day as a Personal Holiday at the time of hire, and at the beginning of each calendar year. Personal Holiday hours must be taken at one time (eight hours full-time or prorated based on the employee's time). Employees requesting Personal Holiday will be required to complete 'Leave Request' forms. No more than one Personal Holiday is authorized annually.\n\n**Birthday Holiday**\nAll regular and temporary full-time or part-time employees are entitled to take their birthday off with pay. An employee has a fifteen-day span before and following his/her birthday to take the paid day off. What is known as a grace period through January 15th is given to those employees whose birthdays fall between December 16th and the end of the year.\n\n---\n\n### CHOOSING PREMISES FOR A NEW BUSINESS\n\n**What you need**\n1. Three different factors dominate the priorities of small businesses looking for premises: cost, cost and cost. Nobody ever has enough money, so there is an overwhelming urge to go for the cheapest property. It is a mistake that can take decades to rectify and even threaten the future of a promising business.\n2. Ironically some firms swing too far in the other direction, committing themselves to a heavy initial outlay because they believe in the importance of image and that does not come cheap. Finding the right premises is the real secret. That can, and will, vary enormously according to the type of business. But there are some general rules that apply to any operation.\n\n**Location**\n3. High street premises are important for shops which rely on passing trade - but these are expensive. Rents fall quickly within a few metres of main roads. Offices, however, need not be located centrally, primarily if most business is done on the phone or via email.\n4. Manufacturing and storage relies heavily on access. Think about how vans and lorries will deliver and collect goods from the premises. Nearby parking can be important for staff, and public transport can be even more so, as traffic restrictions tighten.\n\n**Size**\n5. This is a crucial decision. Health and Safety laws provide basic guidance on how much room is required per office desk or manufacturing operation. But remember to allow for growth.\n\n**Growth**\n6. Every small business aims to become a big business, but this prospect can be obstructed if the wrong decisions are made early on. It is important to consider flexibility from the start. Can a building be physically altered internally by knocking down walls or by extending outwards or adding extra floors? Is there spare land next door to expand later if necessary?\n7. Landlords obviously have to agree to any changes so it is important that the contract includes details of what will be allowed and how much extra will be charged on top of the costs of rebuilding or alteration. Planning rules must also be considered. Local authorities may have rigid rules about increasing density of development. The building may be in an area near housing, in which case it will be much more difficult to consider changes.",
+      "questionSets": [
+        {
+          "instructions": "Questions 13-16: Read the text 'Payday' and answer the questions.",
+          "questions": [
+            {
+              "number": 13,
+              "type": "short_answer",
+              "questionText": "Where do most employees collect their wages?",
+              "answer": "in their department",
+              "acceptableAnswers": ["department", "their department"]
+            },
+            {
+              "number": 14,
+              "type": "short_answer",
+              "questionText": "Who has to authorise any extra time an employee wishes to do?",
+              "answer": "the supervisor",
+              "acceptableAnswers": ["supervisor"]
+            },
+            {
+              "number": 15,
+              "type": "short_answer",
+              "questionText": "Where should employees go to have the parking charge taken off their salary?",
+              "answer": "Human Resources"
+            },
+            {
+              "number": 16,
+              "type": "short_answer",
+              "questionText": "What is the name of the benefit provided to employees who have birthdays in the second half of December?",
+              "answer": "grace period",
+              "acceptableAnswers": ["a grace period"]
+            }
+          ]
+        },
+        {
+          "instructions": "Questions 17-20: Complete the sentences below based on 'Choosing Premises for a New Business'.",
+          "questions": [
+            {
+              "number": 17,
+              "type": "fill_in_the_blank",
+              "questionText": "Some people choose expensive premises because they want to create an impressive ______ for their company.",
+              "answer": "image"
+            },
+            {
+              "number": 18,
+              "type": "fill_in_the_blank",
+              "questionText": "Businesses which produce goods must check there is ______ to the premises for delivery vehicles.",
+              "answer": "access"
+            },
+            {
+              "number": 19,
+              "type": "fill_in_the_blank",
+              "questionText": "When choosing a building for your premises, find out whether ______ could be removed to change the inside of the building.",
+              "answer": "walls"
+            },
+            {
+              "number": 20,
+              "type": "fill_in_the_blank",
+              "questionText": "If business premises are located close to ______ extensions may not be allowed.",
+              "answer": "housing"
+            }
+          ]
+        },
+        {
+          "instructions": "Questions 21-25: Read the text 'Choosing Premises for a New Business' again and find:",
+          "questions": [
+            {
+              "number": 21,
+              "type": "short_answer",
+              "questionText": "a verb in Paragraph 1 that means to correct something.",
+              "answer": "rectify"
+            },
+            {
+              "number": 22,
+              "type": "short_answer",
+              "questionText": "a two-word phrase in Paragraph 2 that has a similar meaning to 'differ greatly'.",
+              "answer": "vary enormously"
+            },
+            {
+              "number": 23,
+              "type": "short_answer",
+              "questionText": "an adjective in Paragraph 5 that means very important",
+              "answer": "crucial"
+            },
+            {
+              "number": 24,
+              "type": "short_answer",
+              "questionText": "a noun in Paragraph 6 that means a possibility that something might happen in the future.",
+              "answer": "prospect"
+            },
+            {
+              "number": 25,
+              "type": "short_answer",
+              "questionText": "a noun in Paragraph 7 that describes the number of people in a place compared with the size of the place",
+              "answer": "density"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "partNumber": 3,
+      "title": "Part 3: Pterosaurs",
+      "context": "### PTEROSAURS\nFossils* of the pterosaur, a cousin of the dinosaur, are found on every continent.\n*(fossil: the remains or impression of a plant or animal which has been preserved in rock for a long time)*\n\n1. Until recently, most scientists believed that, because pterosaurs were reptiles, these creatures must therefore have been cold-blooded, much like modern snakes and lizards, and dissimilar to the birds that came into existence in later times. They reasoned that pterosaurs would have lacked the stamina to power their muscles for long periods of time, and flying would have been awkward as a result. However, a number of fossil discoveries have since prompted researchers to re-examine these views, and today's scientists suspect that pterosaurs had a covering resembling fur. This would suggest a warm-blooded body that could maintain the kind of effort needed to fly across huge expanses of land or water; these physical characteristics would also have allowed pterosaurs to feed off other creatures while doing so.\n\n2. Controversy has surrounded pterosaurs since the first discovery of one in the early 1700s. Cosimo Alessandro Collini, the first natural historian to study the fossil, was unable to classify it. It was not until 1791 that the great French anatomist Georges Cuvier deduced that the animal was in fact a flying reptile, whose fourth finger supported a wing. He named the fossil Pterodactylus, combining the Greek words for wing and finger. In 1873, a remarkable pterosaur specimen came to light that confirmed Cuvier's deduction. Normally only bones survive the fossilisation process, but this new find near the Bavarian town of Solnhofen displayed delicate markings of its wings, establishing definitely that the extinct reptile was capable of soaring through the skies.\n\n3. Most researchers conclude that pterosaurs were descended from a small tree-dwelling reptile that spent its life jumping between branches. This creature would have spread its limbs and used flaps of skin attached to its limbs and body to help it to land gently on the ground. Over many generations the fourth finger on each of its front 'arms' would have grown longer, making the skin surface larger and enabling the animal to glide farther. Meanwhile, the competing argument holds that pterosaurs developed from two-legged reptiles that ran along the ground, perhaps spreading their arms for balance, which would then have evolved into wings. Ultimately, it is difficult to say how pterosaurs changed over time because the earliest fossils we have are of pterosaurs whose fourth finger has already transformed into a wing. As such, this problematic issue will only be resolved with the discovery of earlier forms of pterosaurs.\n\n4. The earliest known pterosaurs have shorter wings than later forms, but there is some evidence they were skilful fliers, capable of catching fish over open water. Proof of this has been found in the fossil of a Eudimorphodon, a 215-million-year-old pterosaur found near Bergamo, Italy. A different but equally impressive sight is the Quetzalcoatlus northropi. With a beak the size of a man and wings over 11 metres wide, it was the largest flying animal ever known. What makes Quetzalcoatlus stand out as the height of pterosaur evolution is the fact that, unlike smaller pterosaurs, its dimensions were such that it could use natural currents to stay in the air without having to move its wings continuously. With their hollow bones, these pterosaurs had a very light construction, ideal for such activity, and they harnessed the benefits of gliding on air currents without needing to exert itself.\n\n5. Even though Pterosaurs had evolved over the years into a vast array of shapes and sizes, their triumphant reign ended with this giant flier. At the end of the Cretaceous period 65 million years ago, a meteorite or comet slammed into the Earth. That calamity - and other disastrous events - wiped out roughly three quarters of all species, including all pterosaurs and dinosaurs. But before their disappearance, pterosaurs enjoyed unequalled success. Uncontested in the air, they flew into sunny skies before any other vertebrate, able to do so on the strength of a fragile finger.",
+      "questionSets": [
+        {
+          "instructions": "Questions 26-29: Complete this summary of a section of the 'Pterosaurs' text using the list of phrases, A-H, below.\nA airborne predators\nB contemporary reptiles\nC extended flight\nD fossilised bones\nE flying ability\nF known specimens\nG muscle strength\nH wing impressions",
+          "questions": [
+            {
+              "number": 26,
+              "type": "multiple_choice",
+              "questionText": "It was once believed that pterosaurs shared many characteristics, such as cold blood, with contemporary reptiles, and that their stamina and ______ were inadequate compared to modern-day birds.",
+              "options": ["A", "B", "C", "D", "E", "F", "G", "H"],
+              "answer": "E"
+            },
+            {
+              "number": 27,
+              "type": "multiple_choice",
+              "questionText": "More recent research, however, concludes that pterosaurs were ______ with warm-blooded bodies capable of travelling over longer distances.",
+              "options": ["A", "B", "C", "D", "E", "F", "G", "H"],
+              "answer": "A"
+            },
+            {
+              "number": 28,
+              "type": "multiple_choice",
+              "questionText": "This theory can be traced back to the discovery in 1873 of one pterosaur fossil, which was hugely important in establishing how these creatures moved around. Whereas, typically, it is only ______ that are uncovered by archaeologists...",
+              "options": ["A", "B", "C", "D", "E", "F", "G", "H"],
+              "answer": "D"
+            },
+            {
+              "number": 29,
+              "type": "multiple_choice",
+              "questionText": "...this example contained ______ thus providing the first evidence of flight.",
+              "options": ["A", "B", "C", "D", "E", "F", "G", "H"],
+              "answer": "H"
+            }
+          ]
+        },
+        {
+          "instructions": "Questions 30-32: Choose the correct letter, A, B, C or D.",
+          "questions": [
+            {
+              "number": 30,
+              "type": "multiple_choice",
+              "questionText": "In the third paragraph, the writer's main point is that",
+              "options": [
+                "A there is insufficient evidence to conclude how pterosaurs learnt to fly.",
+                "B there was a huge variety of pterosaurs during the time that they existed.",
+                "C there is disagreement among scientists about the size of pterosaurs.",
+                "D there were some pterosaurs that evolved more quickly than others."
+              ],
+              "answer": "A"
+            },
+            {
+              "number": 31,
+              "type": "multiple_choice",
+              "questionText": "According to the writer, the most striking aspect of Quetzalcoatlus northropi was that",
+              "options": [
+                "A it fed from lakes, rivers and seas.",
+                "B it used the wind as a source of energy.",
+                "C it was far bigger than any other pterosaur.",
+                "D it weighed very little in relation to its size."
+              ],
+              "answer": "B"
+            },
+            {
+              "number": 32,
+              "type": "multiple_choice",
+              "questionText": "What is the writer's main purpose in the final paragraph?",
+              "options": [
+                "A To emphasise the length of time that pterosaurs existed for.",
+                "B To summarise how pterosaurs evolved and became extinct.",
+                "C To illustrate the weakness that led to the end of the pterosaurs.",
+                "D To highlight the dominance of the pterosaurs while they lived."
+              ],
+              "answer": "D"
+            }
+          ]
+        },
+        {
+          "instructions": "Questions 33-36: Read the text again and find:",
+          "questions": [
+            {
+              "number": 33,
+              "type": "short_answer",
+              "questionText": "a noun in Paragraph 2 that means a disagreement or argument.",
+              "answer": "controversy"
+            },
+            {
+              "number": 34,
+              "type": "short_answer",
+              "questionText": "an adjective in Paragraph 2 that means all living examples are dead and gone.",
+              "answer": "extinct"
+            },
+            {
+              "number": 35,
+              "type": "short_answer",
+              "questionText": "an adverb in Paragraph 3 that means an action done in a light and quiet way",
+              "answer": "gently"
+            },
+            {
+              "number": 36,
+              "type": "short_answer",
+              "questionText": "a noun in Paragraph 4 that means a measurement of something, its height, length and width.",
+              "answer": "dimensions"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

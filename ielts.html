@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>IELTS Reading Placement Test - Pala Language Centre</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'custom-pink': {
+              50: '#fdf2f8', 100: '#fce7f3', 200: '#fbcfe8',
+              300: '#f9a8d4', 400: '#f472b6', 500: '#ec4899',
+              600: '#db2777', 700: '#be185d', 800: '#9d174d', 900: '#831843'
+            }
+          },
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          animation: {
+            'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
+            'pulse-soft': 'pulseSoft 2s infinite',
+          },
+          keyframes: {
+            fadeInUp: {
+              '0%': { opacity: '0', transform: 'translateY(15px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            pulseSoft: {
+              '0%, 100%': { transform: 'scale(1)' },
+              '50%': { transform: 'scale(1.02)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Radio Buttons */
+    .option-radio:checked + div {
+      border-color: #db2777;
+      background-color: #fdf2f8;
+      box-shadow: 0 4px 6px -1px rgba(219, 39, 119, 0.1);
+    }
+    .option-radio:checked + div .radio-circle {
+      border-color: #db2777;
+      background-color: #db2777;
+    }
+    .option-radio:checked + div .radio-circle::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: white;
+    }
+    
+    /* Loading Spinner */
+    .loader {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #db2777;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    /* Custom Scrollbar for Reading Passages */
+    .reading-pane::-webkit-scrollbar { width: 6px; }
+    .reading-pane::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 8px; }
+    .reading-pane::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
+    .reading-pane::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-custom-pink-200 selection:text-custom-pink-900 relative">
+
+  <header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50 h-16 flex items-center justify-center">
+    <div class="container mx-auto px-4 flex justify-center items-center">
+      <img src="images/PLC_Logo_FA_Horizontal_COLOUR.png" alt="Pala Language Centre Logo" class="h-10 md:h-12 w-auto object-contain transition-transform hover:scale-105" onerror="this.outerHTML='<span class=\'text-2xl font-black text-custom-pink-600 tracking-tight\'>PALA<span class=\'text-slate-800\'>CENTRE</span></span>'">
+    </div>
+  </header>
+
+  <main class="flex-grow container mx-auto px-4 py-8 max-w-4xl flex flex-col items-center justify-center">
+
+    <div id="loading-screen" class="text-center py-20 w-full animate-fade-in-up">
+      <div class="loader mx-auto mb-6"></div>
+      <p class="text-slate-500 font-medium text-lg animate-pulse">Đang tải dữ liệu bài thi...</p>
+    </div>
+
+    <div id="error-screen" class="hidden text-center py-20 w-full bg-white rounded-3xl shadow-lg border border-red-100 p-8 animate-fade-in-up">
+      <div class="text-red-500 text-6xl mb-4">⚠️</div>
+      <h2 class="text-2xl font-bold text-slate-800 mb-2">Không thể tải bài thi</h2>
+      <p class="text-slate-600 mb-8" id="error-message">Vui lòng kiểm tra lại đường dẫn file JSON.</p>
+      <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-900 text-white px-8 py-3 rounded-xl font-bold transition-colors shadow-md">Thử lại</button>
+    </div>
+
+    <section id="start-screen" class="hidden w-full bg-white rounded-3xl shadow-xl border border-slate-100 p-6 md:p-10 animate-fade-in-up">
+      <div class="text-center mb-8">
+        <h1 id="test-title" class="text-2xl md:text-4xl font-black text-custom-pink-600 mb-3 uppercase tracking-tight">IELTS Reading Test</h1>
+        <p class="text-slate-500 font-bold tracking-widest uppercase text-sm" id="test-center">Pala Language Centre</p>
+      </div>
+
+      <div class="bg-custom-pink-50/50 rounded-2xl p-6 mb-8 border border-custom-pink-100 text-sm md:text-base">
+        <h2 class="font-bold text-slate-800 mb-3 flex items-center">
+          <span class="text-2xl mr-2">📝</span> Hướng dẫn làm bài:
+        </h2>
+        <ul class="list-disc list-inside text-slate-700 space-y-2 font-medium">
+          <li>Bài thi gồm <strong id="q-count" class="text-custom-pink-600 text-lg">0</strong> câu hỏi.</li>
+          <li>Đọc kỹ đoạn văn và trả lời các câu hỏi bên dưới.</li>
+          <li>Điền tên Học viên trước khi làm bài.</li>
+        </ul>
+      </div>
+
+      <form id="start-form" class="space-y-6">
+        <div>
+          <label for="student-name" class="block font-bold text-slate-700 mb-2">Nhập họ và tên Học viên <span class="text-red-500">*</span></label>
+          <input type="text" id="student-name" required placeholder="Ví dụ: Nguyễn Văn A..." 
+                 class="w-full px-5 py-3 rounded-xl border-2 border-slate-200 focus:outline-none focus:border-custom-pink-500 focus:ring-4 focus:ring-custom-pink-100 transition-all text-slate-800 font-semibold text-lg">
+        </div>
+
+        <button type="submit" class="w-full bg-custom-pink-600 hover:bg-custom-pink-700 text-white font-black py-4 px-8 rounded-xl transition-all shadow-lg hover:shadow-custom-pink-500/30 text-lg uppercase tracking-wide">
+          Bắt đầu làm bài
+        </button>
+      </form>
+      
+      <div id="resume-prompt" class="hidden mt-6 text-center p-6 bg-amber-50 rounded-2xl border border-amber-200">
+        <p class="mb-4 font-bold text-amber-800">Cảnh báo: Bạn có bài thi đang làm dở trước đó.</p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <button id="btn-resume" class="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl transition-colors shadow-md">Tiếp tục làm bài</button>
+          <button id="btn-restart-clear" class="px-6 py-3 bg-white border-2 border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-700 font-bold rounded-xl transition-all">Xóa & Làm lại từ đầu</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="test-screen" class="hidden w-full animate-fade-in-up">
+      <div class="bg-white/95 p-3 rounded-xl shadow-sm border border-slate-200 mb-8 sticky top-[76px] z-40 backdrop-blur-md">
+        <div class="flex justify-between items-center mb-2 px-1">
+          <div>
+            <p id="display-name" class="font-bold text-slate-800 truncate max-w-[150px] md:max-w-xs text-sm"></p>
+          </div>
+          <div class="text-right">
+            <p class="font-black text-custom-pink-600 text-sm"><span id="progress-text">0</span><span class="text-slate-400">/<span id="total-text">0</span></span></p>
+          </div>
+        </div>
+        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+          <div id="progress-bar-fill" class="bg-custom-pink-500 h-full rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <div id="questions-container" class="space-y-12">
+        </div>
+
+      <div class="mt-12 mb-8 pt-6 border-t border-slate-200 text-center">
+        <button id="btn-submit-test" class="bg-custom-pink-500 hover:bg-slate-900 text-white bg-custom-pink-600 font-black py-4 px-12 rounded-xl transition-all shadow-lg text-lg w-full md:w-auto uppercase tracking-wide">
+          Nộp Bài
+        </button>
+        <p class="text-slate-500 text-sm mt-4 font-medium">Vui lòng kiểm tra kĩ các câu trả lời trước khi nộp bài.</p>
+      </div>
+    </section>
+
+    <section id="result-screen" class="hidden w-full bg-white rounded-3xl shadow-xl border border-slate-100 p-6 md:p-10 animate-fade-in-up">
+      <div class="text-center">
+        <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner animate-pulse-soft">
+          <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7" /></svg>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-black text-slate-800 mb-4 tracking-tight">Hoàn Thành Bài Thi!</h2>
+        
+        <div class="mb-8 inline-block text-left bg-slate-50 border border-slate-100 p-4 rounded-2xl min-w-[250px]">
+            <p class="text-slate-500 text-sm font-bold uppercase tracking-wider mb-1">Thông tin học viên</p>
+            <p class="text-xl text-slate-800 font-black truncate"><span id="result-name"></span></p>
+            <div class="flex items-center text-slate-500 mt-2 text-sm font-medium">
+                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span id="result-time"></span>
+            </div>
+        </div>
+
+        <div class="bg-gradient-to-br from-custom-pink-50 to-custom-pink-100 rounded-3xl p-8 mb-8 w-full border border-custom-pink-200 shadow-sm">
+          <p class="text-custom-pink-800 font-black uppercase tracking-widest mb-2 text-sm">Điểm số của bạn</p>
+          <div class="text-7xl font-black text-custom-pink-600 drop-shadow-sm flex items-baseline justify-center">
+            <span id="score-correct">0</span>
+            <span class="text-4xl text-custom-pink-300 mx-1">/</span>
+            <span id="score-total" class="text-5xl text-custom-pink-400">0</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-slate-200 pt-6 mt-4">
+        <button id="btn-toggle-review" class="w-full flex justify-between items-center text-left py-4 px-6 bg-slate-50 hover:bg-slate-100 rounded-xl transition-all font-bold text-slate-800 border border-slate-200 hover:border-slate-300">
+          <span class="text-lg">Xem chi tiết bài làm</span>
+          <svg id="icon-review-arrow" class="w-6 h-6 transition-transform text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+        </button>
+
+        <div id="review-container" class="hidden mt-6 space-y-4">
+          </div>
+      </div>
+
+      <div class="mt-12 text-center">
+        <button id="btn-retake" class="text-slate-400 hover:text-custom-pink-600 font-bold transition-colors underline decoration-2 underline-offset-4 text-sm uppercase tracking-wider">
+          Làm lại bài kiểm tra
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bg-white border-t border-slate-200 py-8 mt-auto">
+    <div class="container mx-auto px-4 text-center">
+      <p class="text-sm text-slate-400 font-semibold tracking-wide">© 2026 Trung tâm Ngoại ngữ Pala.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Configuration
+    const JSON_PATH = '/tests/IELTS/ielts.json'; // CHANGE THIS TO YOUR JSON PATH
+    const STORAGE_KEY = 'pala_ielts_reading_progress';
+    
+    let testData = null;
+    let flatQuestions = [];
+    let state = { name: '', answers: {}, isCompleted: false, completionTime: null };
+
+    const ui = {
+      screens: {
+        loading: document.getElementById('loading-screen'),
+        error: document.getElementById('error-screen'),
+        start: document.getElementById('start-screen'),
+        test: document.getElementById('test-screen'),
+        result: document.getElementById('result-screen')
+      },
+      start: {
+        title: document.getElementById('test-title'),
+        qCount: document.getElementById('q-count'),
+        form: document.getElementById('start-form'),
+        nameInput: document.getElementById('student-name'),
+        resumePrompt: document.getElementById('resume-prompt'),
+        btnResume: document.getElementById('btn-resume'),
+        btnRestartClear: document.getElementById('btn-restart-clear')
+      },
+      test: {
+        name: document.getElementById('display-name'),
+        progress: document.getElementById('progress-text'),
+        total: document.getElementById('total-text'),
+        progressBarFill: document.getElementById('progress-bar-fill'),
+        container: document.getElementById('questions-container'),
+        btnSubmit: document.getElementById('btn-submit-test')
+      },
+      result: {
+        name: document.getElementById('result-name'),
+        time: document.getElementById('result-time'),
+        score: document.getElementById('score-correct'),
+        total: document.getElementById('score-total'),
+        btnReview: document.getElementById('btn-toggle-review'),
+        reviewContainer: document.getElementById('review-container'),
+        arrow: document.getElementById('icon-review-arrow'),
+        btnRetake: document.getElementById('btn-retake')
+      }
+    };
+
+    async function init() {
+      try {
+        const response = await fetch(JSON_PATH);
+        if (!response.ok) throw new Error('Không thể đọc file JSON');
+        
+        testData = await response.json();
+        
+        // Extract all questions across parts and sets
+        flatQuestions = testData.parts.flatMap(part => 
+          part.questionSets.flatMap(set => set.questions)
+        );
+
+        // Populate Start Screen
+        if(testData.testTitle) ui.start.title.textContent = testData.testTitle;
+        ui.start.qCount.textContent = flatQuestions.length;
+        ui.test.total.textContent = flatQuestions.length;
+
+        loadState();
+      } catch (error) {
+        console.error(error);
+        showScreen('error');
+      }
+    }
+
+    function loadState() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        state = JSON.parse(saved);
+        if (state.isCompleted) {
+          showScreen('result');
+          renderResults();
+        } else if (state.name) {
+          ui.start.resumePrompt.classList.remove('hidden');
+          showScreen('start');
+        } else {
+          showScreen('start');
+        }
+      } else {
+        showScreen('start');
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function showScreen(screen) {
+      Object.values(ui.screens).forEach(s => s.classList.add('hidden'));
+      ui.screens[screen].classList.remove('hidden');
+      window.scrollTo(0, 0);
+    }
+
+    // --- EVENT LISTENERS ---
+    ui.start.form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      state.name = ui.start.nameInput.value.trim();
+      state.answers = {};
+      state.isCompleted = false;
+      state.completionTime = null;
+      saveState();
+      buildTestUI();
+    });
+
+    ui.start.btnResume.addEventListener('click', buildTestUI);
+    
+    ui.start.btnRestartClear.addEventListener('click', () => {
+      localStorage.removeItem(STORAGE_KEY);
+      state = { name: '', answers: {}, isCompleted: false, completionTime: null };
+      ui.start.resumePrompt.classList.add('hidden');
+      ui.start.nameInput.value = '';
+    });
+
+    ui.test.btnSubmit.addEventListener('click', () => {
+      // Calculate answered by checking if value is not empty string
+      const answered = Object.values(state.answers).filter(val => val && val.trim() !== '').length;
+      const total = flatQuestions.length;
+      
+      let confirmMessage = 'Bạn có chắc chắn muốn nộp bài?';
+      if (answered < total) {
+        confirmMessage = `Bạn mới hoàn thành ${answered}/${total} câu. Bạn có chắc chắn muốn nộp bài khi chưa làm xong?`;
+      }
+
+      if (confirm(confirmMessage)) {
+        state.isCompleted = true;
+        state.completionTime = new Date().toISOString();
+        saveState();
+        renderResults();
+        showScreen('result');
+      }
+    });
+
+    ui.result.btnReview.addEventListener('click', () => {
+      ui.result.reviewContainer.classList.toggle('hidden');
+      ui.result.arrow.classList.toggle('rotate-180');
+    });
+
+    ui.result.btnRetake.addEventListener('click', () => {
+      if(confirm('Làm lại sẽ xóa điểm số hiện tại. Bạn đồng ý chứ?')) {
+        localStorage.removeItem(STORAGE_KEY);
+        state = { name: '', answers: {}, isCompleted: false, completionTime: null };
+        ui.result.reviewContainer.classList.add('hidden');
+        ui.result.arrow.classList.remove('rotate-180');
+        ui.start.nameInput.value = '';
+        ui.start.resumePrompt.classList.add('hidden');
+        showScreen('start');
+      }
+    });
+
+    // --- BUILD TEST ---
+    function buildTestUI() {
+      ui.test.name.textContent = state.name;
+      ui.test.container.innerHTML = '';
+
+      testData.parts.forEach(part => {
+        const partDiv = document.createElement('div');
+        partDiv.className = "animate-fade-in-up bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-200";
+        
+        // Parse the markdown context
+        const parsedContext = marked.parse(part.context);
+
+        let html = `
+          <h3 class="text-2xl font-black text-slate-800 uppercase tracking-tight mb-4">${part.title}</h3>
+          
+          <div class="reading-pane bg-slate-50 border border-slate-200 rounded-2xl p-6 mb-8 max-h-[500px] overflow-y-auto prose prose-slate max-w-none prose-table:w-full prose-th:bg-slate-200 prose-td:border-b prose-td:border-slate-200 prose-a:text-custom-pink-600">
+            ${parsedContext}
+          </div>
+        `;
+
+        part.questionSets.forEach((set, setIdx) => {
+          html += `
+            <div class="mb-6 mt-8 p-4 bg-custom-pink-50/50 rounded-xl border border-custom-pink-100">
+              <p class="text-slate-700 font-bold text-base md:text-lg italic">${set.instructions}</p>
+            </div>
+            <div class="space-y-4" id="part-${part.partNumber}-set-${setIdx}"></div>
+          `;
+        });
+
+        partDiv.innerHTML = html;
+        ui.test.container.appendChild(partDiv);
+
+        part.questionSets.forEach((set, setIdx) => {
+          const qContainer = partDiv.querySelector(`#part-${part.partNumber}-set-${setIdx}`);
+
+          set.questions.forEach(q => {
+            const qCard = document.createElement('div');
+            qCard.className = 'bg-white rounded-2xl p-5 md:p-6 border border-slate-200 shadow-sm transition-all hover:shadow-md';
+            
+            let inputHtml = '';
+            const savedAnswer = state.answers[q.number] || '';
+
+            if (q.type === 'multiple_choice') {
+              let optionsHtml = '';
+              q.options.forEach(opt => {
+                const isChecked = savedAnswer === opt ? 'checked' : '';
+                optionsHtml += `
+                  <label class="block relative cursor-pointer group mb-3 last:mb-0">
+                    <input type="radio" name="q_${q.number}" value="${opt}" class="sr-only option-radio" ${isChecked} onchange="handleInput(${q.number}, this.value)">
+                    <div class="flex items-center p-4 border-2 border-slate-100 hover:border-custom-pink-200 rounded-xl transition-all bg-slate-50/50">
+                      <div class="w-6 h-6 rounded-full border-2 border-slate-300 mr-4 relative radio-circle flex-shrink-0 transition-colors"></div>
+                      <span class="text-slate-700 font-medium text-lg leading-relaxed">${opt}</span>
+                    </div>
+                  </label>
+                `;
+              });
+              inputHtml = `<div class="grid grid-cols-1 gap-2">${optionsHtml}</div>`;
+            } else if (q.type === 'short_answer' || q.type === 'fill_in_the_blank') {
+              inputHtml = `
+                <input type="text" value="${savedAnswer}" placeholder="Nhập câu trả lời của bạn..." 
+                       oninput="handleInput(${q.number}, this.value)"
+                       class="w-full mt-2 px-5 py-3 rounded-xl border-2 border-slate-200 focus:outline-none focus:border-custom-pink-500 focus:ring-2 focus:ring-custom-pink-100 transition-all text-slate-800 font-medium text-lg">
+              `;
+            }
+
+            qCard.innerHTML = `
+              <div class="flex flex-col md:flex-row md:items-start gap-4">
+                <div class="flex-shrink-0 w-10 h-10 bg-slate-100 text-slate-500 font-black rounded-full flex items-center justify-center border border-slate-200 shadow-inner">${q.number}</div>
+                <div class="flex-grow w-full">
+                  <h4 class="text-lg font-bold text-slate-800 mb-4 leading-relaxed">${q.questionText}</h4>
+                  ${inputHtml}
+                </div>
+              </div>
+            `;
+            qContainer.appendChild(qCard);
+          });
+        });
+      });
+
+      updateProgress();
+      showScreen('test');
+    }
+
+    // Global handler for inputs and radios
+    window.handleInput = function(qId, answer) {
+      state.answers[qId] = answer;
+      saveState();
+      updateProgress();
+    };
+
+    function updateProgress() {
+      const answered = Object.values(state.answers).filter(val => val && val.trim() !== '').length;
+      const total = flatQuestions.length;
+      
+      ui.test.progress.textContent = answered;
+      
+      const percentage = (answered / total) * 100;
+      ui.test.progressBarFill.style.width = `${percentage}%`;
+
+      if (answered === total) {
+        ui.test.btnSubmit.classList.remove('bg-slate-800', 'hover:bg-slate-900');
+        ui.test.btnSubmit.classList.add('bg-custom-pink-600', 'hover:bg-custom-pink-700', 'shadow-custom-pink-500/40');
+      } else {
+        ui.test.btnSubmit.classList.add('bg-slate-800', 'hover:bg-slate-900');
+        ui.test.btnSubmit.classList.remove('bg-custom-pink-600', 'hover:bg-custom-pink-700', 'shadow-custom-pink-500/40');
+      }
+    }
+
+    function isAnswerCorrect(userAns, q) {
+      if (!userAns) return false;
+      const normalizedUser = userAns.trim().toLowerCase();
+      
+      let validAnswers = [q.answer.toLowerCase()];
+      if (q.acceptableAnswers && Array.isArray(q.acceptableAnswers)) {
+        validAnswers = validAnswers.concat(q.acceptableAnswers.map(a => a.toLowerCase()));
+      }
+      
+      return validAnswers.includes(normalizedUser);
+    }
+
+    function renderResults() {
+      ui.result.name.textContent = state.name;
+      ui.result.total.textContent = flatQuestions.length;
+      
+      if (state.completionTime) {
+          const dateObj = new Date(state.completionTime);
+          ui.result.time.textContent = dateObj.toLocaleDateString('vi-VN', { 
+            year: 'numeric', month: '2-digit', day: '2-digit', 
+            hour: '2-digit', minute: '2-digit' 
+          });
+      } else {
+          ui.result.time.textContent = "Không xác định";
+      }
+
+      let correct = 0;
+      let wrongs = [];
+
+      flatQuestions.forEach(q => {
+        const ans = state.answers[q.number];
+        if (isAnswerCorrect(ans, q)) {
+          correct++;
+        } else {
+          wrongs.push({ q, userAns: ans || null });
+        }
+      });
+
+      ui.result.score.textContent = correct;
+      ui.result.reviewContainer.innerHTML = '';
+
+      if (wrongs.length === 0) {
+        ui.result.reviewContainer.innerHTML = '<div class="p-6 bg-green-50 text-green-700 font-bold text-center rounded-2xl border border-green-100 text-lg">Tuyệt vời! Bạn đã làm đúng tất cả các câu hỏi. 🎉</div>';
+      } else {
+        wrongs.forEach(item => {
+          const q = item.q;
+          const isUnanswered = !item.userAns || item.userAns.trim() === '';
+          
+          let statusLabel = isUnanswered 
+            ? '<span class="px-2 py-1 bg-amber-100 text-amber-700 text-xs font-black rounded uppercase tracking-wider">Bỏ qua</span>'
+            : '<span class="px-2 py-1 bg-red-100 text-red-600 text-xs font-black rounded uppercase tracking-wider">Sai</span>';
+
+          const userText = isUnanswered ? 'Chưa trả lời' : item.userAns;
+          
+          // Display main answer and acceptable answers if they exist
+          let correctText = `<span class="text-green-600 font-bold">${q.answer}</span>`;
+          if (q.acceptableAnswers && q.acceptableAnswers.length > 0) {
+              correctText += ` <span class="text-green-500 text-sm font-medium">(Hoặc: ${q.acceptableAnswers.join(', ')})</span>`;
+          }
+
+          const borderClass = isUnanswered ? 'border-amber-200' : 'border-red-100';
+
+          const div = document.createElement('div');
+          div.className = `bg-white border-2 ${borderClass} rounded-2xl p-5 shadow-sm text-sm`;
+          div.innerHTML = `
+            <div class="flex items-start mb-3">
+              <div class="mr-3 mt-0.5">${statusLabel}</div>
+              <p class="font-bold text-slate-800 text-base leading-relaxed"><span class="text-slate-500 mr-1">Câu ${q.number}:</span> ${q.questionText}</p>
+            </div>
+            <div class="pl-12 space-y-2 mt-2 bg-slate-50 p-3 rounded-xl">
+              <p class="${isUnanswered ? 'text-amber-600' : 'text-slate-500'} font-medium">
+                Bạn điền: <span class="${isUnanswered ? 'italic' : 'line-through decoration-red-400 decoration-2 font-semibold'}">${userText}</span>
+              </p>
+              <p class="text-slate-600">
+                Đáp án đúng: ${correctText}
+              </p>
+            </div>
+          `;
+          ui.result.reviewContainer.appendChild(div);
+        });
+      }
+    }
+
+    // Start
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
