@@ -192,8 +192,11 @@
             <span class="text-4xl text-custom-pink-300 mx-1">/</span>
             <span id="score-total" class="text-5xl text-custom-pink-400">0</span>
           </div>
-        </div>
-      </div>
+          <div class="mt-6 text-center animate-fade-in-up">
+            <p class="text-custom-pink-800/70 font-bold uppercase tracking-widest text-xs mb-2">Trình độ ước tính (CEFR / IELTS)</p>
+            <p id="result-level" class="text-xl md:text-2xl font-black text-custom-pink-700 bg-white inline-block px-6 py-3 rounded-2xl shadow-sm border border-custom-pink-200"></p>
+          </div>
+          </div>
 
       <div class="border-t border-slate-200 pt-6 mt-4">
         <button id="btn-toggle-review" class="w-full flex justify-between items-center text-left py-4 px-6 bg-slate-50 hover:bg-slate-100 rounded-xl transition-all font-bold text-slate-800 border border-slate-200 hover:border-slate-300">
@@ -259,6 +262,7 @@
         time: document.getElementById('result-time'),
         score: document.getElementById('score-correct'),
         total: document.getElementById('score-total'),
+        level: document.getElementById('result-level'),
         btnReview: document.getElementById('btn-toggle-review'),
         reviewContainer: document.getElementById('review-container'),
         arrow: document.getElementById('icon-review-arrow'),
@@ -514,6 +518,14 @@ function isAnswerCorrect(userAns, q) {
       return validAnswers.includes(normalizedUser);
     }
 
+    function getEstimatedLevel(score) {
+      // Logic based on the provided marking guidance table
+      if (score <= 10) return "Foundation (4.5+ / CEFR B1)"; 
+      if (score <= 16) return "Level 1 (5.0+ / CEFR B1)";
+      if (score <= 24) return "Level 2 (5.5+ / CEFR B2)";
+      return "Level 3 (6.5+ / CEFR C1)"; // For scores 25 and above
+    }
+
     function renderResults() {
       ui.result.name.textContent = state.name;
       ui.result.total.textContent = flatQuestions.length;
@@ -541,6 +553,8 @@ function isAnswerCorrect(userAns, q) {
       });
 
       ui.result.score.textContent = correct;
+      const levelText = getEstimatedLevel(correct);
+      ui.result.level.textContent = levelText;
       ui.result.reviewContainer.innerHTML = '';
 
       if (wrongs.length === 0) {
