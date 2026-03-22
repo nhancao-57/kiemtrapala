@@ -482,15 +482,35 @@
       }
     }
 
-    function isAnswerCorrect(userAns, q) {
+function isAnswerCorrect(userAns, q) {
       if (!userAns) return false;
-      const normalizedUser = userAns.trim().toLowerCase();
       
-      let validAnswers = [q.answer.toLowerCase()];
+      // Helper function to clean strings: removes outer spaces, collapses inner spaces, and removes trailing periods
+      const cleanString = (str) => str.trim().toLowerCase().replace(/\s+/g, ' ').replace(/\.$/, '');
+      
+      const normalizedUser = cleanString(userAns);
+
+      // Build array of all acceptable answers
+      let validAnswers = [cleanString(q.answer)];
       if (q.acceptableAnswers && Array.isArray(q.acceptableAnswers)) {
-        validAnswers = validAnswers.concat(q.acceptableAnswers.map(a => a.toLowerCase()));
+        validAnswers = validAnswers.concat(q.acceptableAnswers.map(a => cleanString(a)));
       }
-      
+
+      // FIX: Smart check for Multiple Choice where the answer is just a letter (e.g., "A") 
+      // but the option value includes the full text (e.g., "A there is insufficient evidence...")
+      if (q.type === 'multiple_choice') {
+         for (let validAns of validAnswers) {
+             // If the correct answer is a single letter and the user's answer starts with that letter
+             if (validAns.length === 1 && normalizedUser.startsWith(validAns)) {
+                 // Ensure it's exactly the letter, or followed by a space/dot (so "a" doesn't accidentally match "apple")
+                 if (normalizedUser === validAns || normalizedUser.charAt(1).match(/[\s.]/)) {
+                     return true; 
+                 }
+             }
+         }
+      }
+
+      // Normal check for short answers and exact matches
       return validAnswers.includes(normalizedUser);
     }
 
