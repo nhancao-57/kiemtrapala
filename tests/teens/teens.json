@@ -1,0 +1,437 @@
+{
+  "testTitle": "Kiểm tra đầu vào cấp độ Thiếu niên",
+  "parts": [
+    {
+      "partNumber": 1,
+      "title": "Placement Test Questions",
+      "context": "Choose the best answer for each question. Choose one answer only. Mark your answers on the answer sheet.",
+      "questionSets": [
+        {
+          "instructions": "Questions 1-60: Choose the best answer for each sentence.",
+          "questions": [
+            {
+              "number": 1,
+              "type": "multiple_choice",
+              "questionText": "What ______ you got in your bag today?",
+              "options": ["A has", "B have", "C does", "D do"],
+              "answer": "B have"
+            },
+            {
+              "number": 2,
+              "type": "multiple_choice",
+              "questionText": "We eat fresh fruit with some ______ for dessert.",
+              "options": ["A onion", "B salt", "C butter", "D cream"],
+              "answer": "D cream"
+            },
+            {
+              "number": 3,
+              "type": "multiple_choice",
+              "questionText": "Paul and Lisa ______ lunch at the moment.",
+              "options": ["A eat", "B eats", "C are eating", "D is eating"],
+              "answer": "C are eating"
+            },
+            {
+              "number": 4,
+              "type": "multiple_choice",
+              "questionText": "A ______ grows fruit and vegetables and looks after animals.",
+              "options": ["A customer", "B boss", "C farmer", "D mechanic"],
+              "answer": "C farmer"
+            },
+            {
+              "number": 5,
+              "type": "multiple_choice",
+              "questionText": "It ______ my birthday yesterday.",
+              "options": ["A is", "B was", "C are", "D were"],
+              "answer": "B was"
+            },
+            {
+              "number": 6,
+              "type": "multiple_choice",
+              "questionText": "Ivan usually wears a red ______ on his head.",
+              "options": ["A sock", "B jacket", "C jumper", "D cap"],
+              "answer": "D cap"
+            },
+            {
+              "number": 7,
+              "type": "multiple_choice",
+              "questionText": "Sarah ______ to school last week.",
+              "options": ["A didn't go", "B didn't went", "C doesn't go", "D doesn't went"],
+              "answer": "A didn't go"
+            },
+            {
+              "number": 8,
+              "type": "multiple_choice",
+              "questionText": "You can send a letter at the ______",
+              "options": ["A supermarket", "B post office", "C museum", "D library"],
+              "answer": "B post office"
+            },
+            {
+              "number": 9,
+              "type": "multiple_choice",
+              "questionText": "This is the ______ mobile phone in the shop.",
+              "options": ["A small", "B smaller", "C smallest", "D most small"],
+              "answer": "C smallest"
+            },
+            {
+              "number": 10,
+              "type": "multiple_choice",
+              "questionText": "Your ______ is your mother's sister.",
+              "options": ["A cousin", "B aunt", "C uncle", "D grandmother"],
+              "answer": "B aunt"
+            },
+            {
+              "number": 11,
+              "type": "multiple_choice",
+              "questionText": "Sasha ______ TV when her phone rang.",
+              "options": ["A watched", "B was watching", "C watches", "D is watching"],
+              "answer": "B was watching"
+            },
+            {
+              "number": 12,
+              "type": "multiple_choice",
+              "questionText": "My friend Tony is very ______ He always makes me laugh.",
+              "options": ["A funny", "B friendly", "C kind", "D popular"],
+              "answer": "A funny"
+            },
+            {
+              "number": 13,
+              "type": "multiple_choice",
+              "questionText": "Every home ______ a robot in the future.",
+              "options": ["A is having", "B has", "C will have", "D had"],
+              "answer": "C will have"
+            },
+            {
+              "number": 14,
+              "type": "multiple_choice",
+              "questionText": "We studied birds and fish in our ______ lesson today.",
+              "options": ["A chemistry", "B physics", "C biology", "D maths"],
+              "answer": "C biology"
+            },
+            {
+              "number": 15,
+              "type": "multiple_choice",
+              "questionText": "You ______ be late with your homework.",
+              "options": ["A must", "B mustn't", "C don't have to", "D have to"],
+              "answer": "B mustn't"
+            },
+            {
+              "number": 16,
+              "type": "multiple_choice",
+              "questionText": "It's easy to ______ this game from the internet to your smartphone.",
+              "options": ["A post", "B search", "C upload", "D download"],
+              "answer": "D download"
+            },
+            {
+              "number": 17,
+              "type": "multiple_choice",
+              "questionText": "I've played the guitar ______ three years.",
+              "options": ["A from", "B since", "C for", "D during"],
+              "answer": "C for"
+            },
+            {
+              "number": 18,
+              "type": "multiple_choice",
+              "questionText": "I need some more money to ______ this bill.",
+              "options": ["A order", "B make", "C do", "D pay"],
+              "answer": "D pay"
+            },
+            {
+              "number": 19,
+              "type": "multiple_choice",
+              "questionText": "Cheese ______ from milk.",
+              "options": ["A is made", "B is make", "C has made", "D makes"],
+              "answer": "A is made"
+            },
+            {
+              "number": 20,
+              "type": "multiple_choice",
+              "questionText": "Your ______ is between your head and your body.",
+              "options": ["A stomach", "B ear", "C heart", "D neck"],
+              "answer": "D neck"
+            },
+            {
+              "number": 21,
+              "type": "multiple_choice",
+              "questionText": "Australia isn't ______ Alaska.",
+              "options": ["A as cold", "B as cold as", "C as cold than", "D colder as"],
+              "answer": "B as cold as"
+            },
+            {
+              "number": 22,
+              "type": "multiple_choice",
+              "questionText": "In the UK, you can't ______ school before you are 16 years old.",
+              "options": ["A get", "B start", "C leave", "D go to"],
+              "answer": "C leave"
+            },
+            {
+              "number": 23,
+              "type": "multiple_choice",
+              "questionText": "There aren't ______ places to go skateboarding in my town.",
+              "options": ["A some", "B many", "C much", "D a few"],
+              "answer": "B many"
+            },
+            {
+              "number": 24,
+              "type": "multiple_choice",
+              "questionText": "Could you ______ me a favour?",
+              "options": ["A do", "B make", "C have", "D give"],
+              "answer": "A do"
+            },
+            {
+              "number": 25,
+              "type": "multiple_choice",
+              "questionText": "You look tired - I think you ______ go to bed now.",
+              "options": ["A should", "B shouldn't", "C must", "D mustn't"],
+              "answer": "A should"
+            },
+            {
+              "number": 26,
+              "type": "multiple_choice",
+              "questionText": "You can return these shoes to the shop if you keep the ______",
+              "options": ["A account", "B change", "C receipt", "D ticket"],
+              "answer": "C receipt"
+            },
+            {
+              "number": 27,
+              "type": "multiple_choice",
+              "questionText": "If I ______ too much coffee, I can't get to sleep at night.",
+              "options": ["A am drinking", "B will drink", "C drank", "D drink"],
+              "answer": "D drink"
+            },
+            {
+              "number": 28,
+              "type": "multiple_choice",
+              "questionText": "I went running this morning and now I'm ______",
+              "options": ["A exhausted", "B confused", "C stressed", "D disappointed"],
+              "answer": "A exhausted"
+            },
+            {
+              "number": 29,
+              "type": "multiple_choice",
+              "questionText": "This dress ______ by an Italian fashion company.",
+              "options": ["A designed", "B was design", "C was designed", "D has designed"],
+              "answer": "C was designed"
+            },
+            {
+              "number": 30,
+              "type": "multiple_choice",
+              "questionText": "This soup is very hot. Be careful not to ______ it on your hand.",
+              "options": ["A spread", "B pour", "C spill", "D put"],
+              "answer": "C spill"
+            },
+            {
+              "number": 31,
+              "type": "multiple_choice",
+              "questionText": "It's quite warm today - you ______ wear a jacket.",
+              "options": ["A should", "B mustn't", "C have to", "D don't have to"],
+              "answer": "D don't have to"
+            },
+            {
+              "number": 32,
+              "type": "multiple_choice",
+              "questionText": "We played really well and we easily ______ the other team.",
+              "options": ["A beat", "B won", "C passed", "D scored"],
+              "answer": "A beat"
+            },
+            {
+              "number": 33,
+              "type": "multiple_choice",
+              "questionText": "We arrived here on Monday and so far we ______ to the beach three times.",
+              "options": ["A went", "B have been", "C are going", "D were going"],
+              "answer": "B have been"
+            },
+            {
+              "number": 34,
+              "type": "multiple_choice",
+              "questionText": "The river level rose by three metres last year and there was a big ______",
+              "options": ["A snowstorm", "B forest fire", "C earthquake", "D flood"],
+              "answer": "D flood"
+            },
+            {
+              "number": 35,
+              "type": "multiple_choice",
+              "questionText": "I can't meet you tomorrow because I ______ the football match on TV.",
+              "options": ["A watch", "B will have watched", "C will watch", "D will be watching"],
+              "answer": "D will be watching"
+            },
+            {
+              "number": 36,
+              "type": "multiple_choice",
+              "questionText": "On our next holiday, we're going to go on a ______ around the Greek islands.",
+              "options": ["A bus", "B train", "C cruise", "D car"],
+              "answer": "C cruise"
+            },
+            {
+              "number": 37,
+              "type": "multiple_choice",
+              "questionText": "The café, ______ owner is originally from Mexico, is very popular with young people.",
+              "options": ["A who", "B which", "C what", "D whose"],
+              "answer": "D whose"
+            },
+            {
+              "number": 38,
+              "type": "multiple_choice",
+              "questionText": "I forgot Nina's birthday, so I sent her an email to ______",
+              "options": ["A apologise", "B complain", "C remind", "D remember"],
+              "answer": "A apologise"
+            },
+            {
+              "number": 39,
+              "type": "multiple_choice",
+              "questionText": "Robert usually goes to the hairdresser's once a month to ______",
+              "options": ["A have cut his hair", "B get cut his hair", "C have his hair cut", "D cut his hair"],
+              "answer": "C have his hair cut"
+            },
+            {
+              "number": 40,
+              "type": "multiple_choice",
+              "questionText": "When she was younger, my mum ______ of being a famous writer.",
+              "options": ["A imagined", "B dreamed", "C encouraged", "D admired"],
+              "answer": "B dreamed"
+            },
+            {
+              "number": 41,
+              "type": "multiple_choice",
+              "questionText": "We can't use the computers in the library because they ______ at the moment.",
+              "options": ["A are repaired", "B are repairing", "C are be repaired", "D are being repaired"],
+              "answer": "D are being repaired"
+            },
+            {
+              "number": 42,
+              "type": "multiple_choice",
+              "questionText": "Tina always puts ______ doing her homework until Sunday evening.",
+              "options": ["A away", "B on", "C off", "D up"],
+              "answer": "C off"
+            },
+            {
+              "number": 43,
+              "type": "multiple_choice",
+              "questionText": "If people ______ their cars less often, it would reduce pollution in the environment.",
+              "options": ["A used", "B would use", "C had used", "D use"],
+              "answer": "A used"
+            },
+            {
+              "number": 44,
+              "type": "multiple_choice",
+              "questionText": "A tidal wave is big enough to ______ trees.",
+              "options": ["A erupt", "B knock over", "C fall down", "D collapse"],
+              "answer": "B knock over"
+            },
+            {
+              "number": 45,
+              "type": "multiple_choice",
+              "questionText": "His passport is still here, so he ______ have left the country.",
+              "options": ["A might", "B must", "C can't", "D may"],
+              "answer": "C can't"
+            },
+            {
+              "number": 46,
+              "type": "multiple_choice",
+              "questionText": "The tour guide took us ______ the Old Town and told us about the local history.",
+              "options": ["A around", "B at", "C on", "D about"],
+              "answer": "A around"
+            },
+            {
+              "number": 47,
+              "type": "multiple_choice",
+              "questionText": "If you had left home earlier, you ______ missed the train.",
+              "options": ["A wouldn't", "B would have", "C wouldn't have", "D didn't"],
+              "answer": "C wouldn't have"
+            },
+            {
+              "number": 48,
+              "type": "multiple_choice",
+              "questionText": "Tonia encountered many problems on her expedition to the North Pole but she showed great ______ and refused to give up.",
+              "options": ["A definition", "B direction", "C decision", "D determination"],
+              "answer": "D determination"
+            },
+            {
+              "number": 49,
+              "type": "multiple_choice",
+              "questionText": "The competition, ______ of swimming, running and cycling events, is the hardest I've ever attempted.",
+              "options": ["A consist", "B consisted", "C consisting", "D consists"],
+              "answer": "C consisting"
+            },
+            {
+              "number": 50,
+              "type": "multiple_choice",
+              "questionText": "A neighbour who ______ the burglary called the police and the suspects were arrested.",
+              "options": ["A charged", "B witnessed", "C sentenced", "D committed"],
+              "answer": "B witnessed"
+            },
+            {
+              "number": 51,
+              "type": "multiple_choice",
+              "questionText": "I don't want to go to the party but I can't really get ______",
+              "options": ["A it out of", "B out it of", "C out of it", "D of it out"],
+              "answer": "C out of it"
+            },
+            {
+              "number": 52,
+              "type": "multiple_choice",
+              "questionText": "The judges were very impressed ______ her unique designs.",
+              "options": ["A about", "B of", "C at", "D by"],
+              "answer": "D by"
+            },
+            {
+              "number": 53,
+              "type": "multiple_choice",
+              "questionText": "At first, it was difficult, but now we ______ up early.",
+              "options": ["A used to get", "B used to getting", "C are used to get", "D are used to getting"],
+              "answer": "D are used to getting"
+            },
+            {
+              "number": 54,
+              "type": "multiple_choice",
+              "questionText": "My dream is to ______ a difference in the world.",
+              "options": ["A make", "B take", "C do", "D put"],
+              "answer": "A make"
+            },
+            {
+              "number": 55,
+              "type": "multiple_choice",
+              "questionText": "In fifty years, people ______ using oil and gas for energy.",
+              "options": ["A will be stopped", "B will have stopped", "C will have been stopping", "D will be stopping"],
+              "answer": "B will have stopped"
+            },
+            {
+              "number": 56,
+              "type": "multiple_choice",
+              "questionText": "Their concerts always sell out quickly. We should buy our tickets ______ advance.",
+              "options": ["A on", "B at", "C by", "D in"],
+              "answer": "D in"
+            },
+            {
+              "number": 57,
+              "type": "multiple_choice",
+              "questionText": "Julie wanted to meet the boy ______ sent her an email.",
+              "options": ["A that had", "B he had", "C which had", "D had"],
+              "answer": "A that had"
+            },
+            {
+              "number": 58,
+              "type": "multiple_choice",
+              "questionText": "Marie and Jackie haven't spoken since they fell ______ with each other last year.",
+              "options": ["A over", "B out", "C away", "D down"],
+              "answer": "B out"
+            },
+            {
+              "number": 59,
+              "type": "multiple_choice",
+              "questionText": "Abby ______ such a successful swimmer now if she hadn't practised so much as a child.",
+              "options": ["A won't be", "B wouldn't be", "C wouldn't have been", "D hadn't been"],
+              "answer": "B wouldn't be"
+            },
+            {
+              "number": 60,
+              "type": "multiple_choice",
+              "questionText": "Our English exam was so easy! It ______",
+              "options": ["A was a piece of cake", "B broke the ice", "C crossed my mind", "D was a pain"],
+              "answer": "A was a piece of cake"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
