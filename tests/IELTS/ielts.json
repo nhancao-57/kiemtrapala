@@ -52,15 +52,15 @@
               "number": 6,
               "type": "short_answer",
               "questionText": "Which two outdoor activities are provided at no extra cost at Mountain Lodge?",
-              "answer": "canoeing and open-air tennis",
-              "acceptableAnswers": ["canoeing, tennis", "canoeing and tennis", "canoeing, open-air tennis"]
+              "answer": "canoeing and open air tennis",
+              "acceptableAnswers": ["open-air tennis", "canoeing, open-air tennis"]
             },
             {
               "number": 7,
               "type": "short_answer",
               "questionText": "What is the fastest way to travel to Mountain Lodge?",
               "answer": "self-drive auto",
-              "acceptableAnswers": ["self-drive"]
+              "acceptableAnswers": ["self drive auto"]
             }
           ]
         },
@@ -113,21 +113,21 @@
               "number": 13,
               "type": "short_answer",
               "questionText": "Where do most employees collect their wages?",
-              "answer": "in their department",
-              "acceptableAnswers": ["department", "their department"]
+              "answer": "their department"
             },
             {
               "number": 14,
               "type": "short_answer",
               "questionText": "Who has to authorise any extra time an employee wishes to do?",
               "answer": "the supervisor",
-              "acceptableAnswers": ["supervisor"]
+              "acceptableAnswers": ["their supervisor"]
             },
             {
               "number": 15,
               "type": "short_answer",
               "questionText": "Where should employees go to have the parking charge taken off their salary?",
-              "answer": "Human Resources"
+              "answer": "Human Resources",
+              "acceptableAnswers": ["HR"]
             },
             {
               "number": 16,
