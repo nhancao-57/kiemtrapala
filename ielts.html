@@ -28,16 +28,6 @@
           animation: {
             'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
             'pulse-soft': 'pulseSoft 2s infinite',
-          },
-          keyframes: {
-            fadeInUp: {
-              '0%': { opacity: '0', transform: 'translateY(15px)' },
-              '100%': { opacity: '1', transform: 'translateY(0)' },
-            },
-            pulseSoft: {
-              '0%, 100%': { transform: 'scale(1)' },
-              '50%': { transform: 'scale(1.02)' },
-            }
           }
         }
       }
@@ -76,36 +66,85 @@
     }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-    /* Custom Scrollbar for Reading Passages */
-    .reading-pane::-webkit-scrollbar { width: 6px; }
-    .reading-pane::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 8px; }
-    .reading-pane::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
-    .reading-pane::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    /* Scrollbars for Panes */
+    .scroll-pane::-webkit-scrollbar { width: 8px; }
+    .scroll-pane::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 8px; }
+    .scroll-pane::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
+    .scroll-pane::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    /* Resizer */
+    .resizer {
+      width: 6px;
+      cursor: col-resize;
+      background-color: #e2e8f0;
+      transition: background-color 0.2s;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+    .resizer:hover, .resizer:active {
+      background-color: #db2777;
+    }
+
+    /* Highlight Styles */
+    ::selection { background: #fbcfe8; color: #831843; }
+    mark.ielts-highlight {
+      background-color: #fef08a; /* Yellow */
+      color: inherit;
+      padding: 0.1em 0.2em;
+      border-radius: 0.2em;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    mark.ielts-highlight:hover {
+      background-color: #fde047;
+    }
+    mark.ielts-highlight::after {
+      content: '✕';
+      font-size: 0.6em;
+      vertical-align: super;
+      margin-left: 4px;
+      color: #b45309;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    mark.ielts-highlight:hover::after {
+      opacity: 1;
+    }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-custom-pink-200 selection:text-custom-pink-900 relative">
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col relative overflow-x-hidden">
 
   <header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50 h-16 flex items-center justify-center">
-    <div class="container mx-auto px-4 flex justify-center items-center">
+    <div class="container mx-auto px-4 flex justify-between items-center max-w-7xl">
       <img src="images/PLC_Logo_FA_Horizontal_COLOUR.png" alt="Pala Language Centre Logo" class="h-10 md:h-12 w-auto object-contain transition-transform hover:scale-105" onerror="this.outerHTML='<span class=\'text-2xl font-black text-custom-pink-600 tracking-tight\'>PALA<span class=\'text-slate-800\'>CENTRE</span></span>'">
+      
+      <div id="header-progress" class="hidden items-center gap-4">
+        <p class="font-bold text-slate-800 text-sm hidden md:block"><span id="display-name"></span></p>
+        <div class="flex flex-col items-end">
+          <p class="font-black text-custom-pink-600 text-sm"><span id="progress-text">0</span><span class="text-slate-400">/<span id="total-text">0</span></span></p>
+          <div class="w-24 bg-slate-100 h-1.5 rounded-full overflow-hidden mt-1">
+            <div id="progress-bar-fill" class="bg-custom-pink-500 h-full rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
     </div>
   </header>
 
-  <main class="flex-grow container mx-auto px-4 py-8 max-w-4xl flex flex-col items-center justify-center">
+  <main class="flex-grow container mx-auto px-2 py-6 w-full max-w-7xl flex flex-col items-center justify-start">
 
     <div id="loading-screen" class="text-center py-20 w-full animate-fade-in-up">
       <div class="loader mx-auto mb-6"></div>
       <p class="text-slate-500 font-medium text-lg animate-pulse">Đang tải dữ liệu bài thi...</p>
     </div>
 
-    <div id="error-screen" class="hidden text-center py-20 w-full bg-white rounded-3xl shadow-lg border border-red-100 p-8 animate-fade-in-up">
+    <div id="error-screen" class="hidden text-center py-20 w-full max-w-4xl bg-white rounded-3xl shadow-lg border border-red-100 p-8 animate-fade-in-up">
       <div class="text-red-500 text-6xl mb-4">⚠️</div>
       <h2 class="text-2xl font-bold text-slate-800 mb-2">Không thể tải bài thi</h2>
       <p class="text-slate-600 mb-8" id="error-message">Vui lòng kiểm tra lại đường dẫn file JSON.</p>
       <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-900 text-white px-8 py-3 rounded-xl font-bold transition-colors shadow-md">Thử lại</button>
     </div>
 
-    <section id="start-screen" class="hidden w-full bg-white rounded-3xl shadow-xl border border-slate-100 p-6 md:p-10 animate-fade-in-up">
+    <section id="start-screen" class="hidden w-full max-w-4xl bg-white rounded-3xl shadow-xl border border-slate-100 p-6 md:p-10 animate-fade-in-up mx-auto">
       <div class="text-center mb-8">
         <h1 id="test-title" class="text-2xl md:text-4xl font-black text-custom-pink-600 mb-3 uppercase tracking-tight">IELTS Reading Test</h1>
         <p class="text-slate-500 font-bold tracking-widest uppercase text-sm" id="test-center">Pala Language Centre</p>
@@ -117,7 +156,9 @@
         </h2>
         <ul class="list-disc list-inside text-slate-700 space-y-2 font-medium">
           <li>Bài thi gồm <strong id="q-count" class="text-custom-pink-600 text-lg">0</strong> câu hỏi.</li>
-          <li>Đọc kỹ đoạn văn và trả lời các câu hỏi bên dưới.</li>
+          <li>Đọc kỹ đoạn văn bên trái và trả lời các câu hỏi bên phải.</li>
+          <li>Bạn có thể kéo thanh ở giữa để điều chỉnh kích thước hai bên.</li>
+          <li><strong>Bôi đen văn bản</strong> để sử dụng tính năng Highlight (đánh dấu).</li>
           <li>Điền tên Học viên trước khi làm bài.</li>
         </ul>
       </div>
@@ -128,7 +169,6 @@
           <input type="text" id="student-name" required placeholder="Ví dụ: Nguyễn Văn A..." 
                  class="w-full px-5 py-3 rounded-xl border-2 border-slate-200 focus:outline-none focus:border-custom-pink-500 focus:ring-4 focus:ring-custom-pink-100 transition-all text-slate-800 font-semibold text-lg">
         </div>
-
         <button type="submit" class="w-full bg-custom-pink-600 hover:bg-custom-pink-700 text-white font-black py-4 px-8 rounded-xl transition-all shadow-lg hover:shadow-custom-pink-500/30 text-lg uppercase tracking-wide">
           Bắt đầu làm bài
         </button>
@@ -143,35 +183,21 @@
       </div>
     </section>
 
-    <section id="test-screen" class="hidden w-full animate-fade-in-up">
-      <div class="bg-white/95 p-3 rounded-xl shadow-sm border border-slate-200 mb-8 sticky top-[76px] z-40 backdrop-blur-md">
-        <div class="flex justify-between items-center mb-2 px-1">
-          <div>
-            <p id="display-name" class="font-bold text-slate-800 truncate max-w-[150px] md:max-w-xs text-sm"></p>
-          </div>
-          <div class="text-right">
-            <p class="font-black text-custom-pink-600 text-sm"><span id="progress-text">0</span><span class="text-slate-400">/<span id="total-text">0</span></span></p>
-          </div>
-        </div>
-        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-          <div id="progress-bar-fill" class="bg-custom-pink-500 h-full rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
-        </div>
-      </div>
-
-      <div id="questions-container" class="space-y-12">
+    <section id="test-screen" class="hidden w-full h-full flex-grow flex flex-col animate-fade-in-up">
+      <div id="questions-container" class="flex-grow space-y-10">
         </div>
 
-      <div class="mt-12 mb-8 pt-6 border-t border-slate-200 text-center">
-        <button id="btn-submit-test" class="bg-custom-pink-500 hover:bg-slate-900 text-white bg-custom-pink-600 font-black py-4 px-12 rounded-xl transition-all shadow-lg text-lg w-full md:w-auto uppercase tracking-wide">
+      <div class="mt-8 pt-6 border-t border-slate-200 text-center pb-8">
+        <button id="btn-submit-test" class="bg-slate-800 hover:bg-slate-900 text-white font-black py-4 px-12 rounded-xl transition-all shadow-lg text-lg w-full md:w-auto uppercase tracking-wide">
           Nộp Bài
         </button>
         <p class="text-slate-500 text-sm mt-4 font-medium">Vui lòng kiểm tra kĩ các câu trả lời trước khi nộp bài.</p>
       </div>
     </section>
 
-    <section id="result-screen" class="hidden w-full bg-white rounded-3xl shadow-xl border border-slate-100 p-6 md:p-10 animate-fade-in-up">
+    <section id="result-screen" class="hidden w-full max-w-4xl mx-auto bg-white rounded-3xl shadow-xl border border-slate-100 p-6 md:p-10 animate-fade-in-up">
       <div class="text-center">
-        <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner animate-pulse-soft">
+        <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
           <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7" /></svg>
         </div>
         <h2 class="text-3xl md:text-4xl font-black text-slate-800 mb-4 tracking-tight">Hoàn Thành Bài Thi!</h2>
@@ -192,20 +218,18 @@
             <span class="text-4xl text-custom-pink-300 mx-1">/</span>
             <span id="score-total" class="text-5xl text-custom-pink-400">0</span>
           </div>
-          <div class="mt-6 text-center animate-fade-in-up">
+          <div class="mt-6 text-center">
             <p class="text-custom-pink-800/70 font-bold uppercase tracking-widest text-xs mb-2">Trình độ ước tính (CEFR / IELTS)</p>
             <p id="result-level" class="text-xl md:text-2xl font-black text-custom-pink-700 bg-white inline-block px-6 py-3 rounded-2xl shadow-sm border border-custom-pink-200"></p>
           </div>
-          </div>
+        </div>
 
       <div class="border-t border-slate-200 pt-6 mt-4">
-        <button id="btn-toggle-review" class="w-full flex justify-between items-center text-left py-4 px-6 bg-slate-50 hover:bg-slate-100 rounded-xl transition-all font-bold text-slate-800 border border-slate-200 hover:border-slate-300">
+        <button id="btn-toggle-review" class="w-full flex justify-between items-center text-left py-4 px-6 bg-slate-50 hover:bg-slate-100 rounded-xl transition-all font-bold text-slate-800 border border-slate-200">
           <span class="text-lg">Xem chi tiết bài làm</span>
           <svg id="icon-review-arrow" class="w-6 h-6 transition-transform text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
         </button>
-
-        <div id="review-container" class="hidden mt-6 space-y-4">
-          </div>
+        <div id="review-container" class="hidden mt-6 space-y-4"></div>
       </div>
 
       <div class="mt-12 text-center">
@@ -217,11 +241,16 @@
 
   </main>
 
-  <footer class="bg-white border-t border-slate-200 py-8 mt-auto">
+  <footer class="bg-white border-t border-slate-200 py-6 mt-auto">
     <div class="container mx-auto px-4 text-center">
       <p class="text-sm text-slate-400 font-semibold tracking-wide">© 2026 Trung tâm Ngoại ngữ Pala.</p>
     </div>
   </footer>
+
+  <button id="highlight-btn" class="hidden absolute z-[100] bg-slate-900 text-white hover:bg-custom-pink-600 px-4 py-2 rounded-lg shadow-lg text-sm font-bold flex items-center gap-2 transition-colors">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+    Highlight
+  </button>
 
   <script>
     // Configuration
@@ -250,6 +279,7 @@
         btnRestartClear: document.getElementById('btn-restart-clear')
       },
       test: {
+        headerProgress: document.getElementById('header-progress'),
         name: document.getElementById('display-name'),
         progress: document.getElementById('progress-text'),
         total: document.getElementById('total-text'),
@@ -276,18 +306,16 @@
         if (!response.ok) throw new Error('Không thể đọc file JSON');
         
         testData = await response.json();
-        
-        // Extract all questions across parts and sets
         flatQuestions = testData.parts.flatMap(part => 
           part.questionSets.flatMap(set => set.questions)
         );
 
-        // Populate Start Screen
         if(testData.testTitle) ui.start.title.textContent = testData.testTitle;
         ui.start.qCount.textContent = flatQuestions.length;
         ui.test.total.textContent = flatQuestions.length;
 
         loadState();
+        initHighlighting();
       } catch (error) {
         console.error(error);
         showScreen('error');
@@ -319,10 +347,18 @@
     function showScreen(screen) {
       Object.values(ui.screens).forEach(s => s.classList.add('hidden'));
       ui.screens[screen].classList.remove('hidden');
+      
+      if (screen === 'test') {
+        ui.test.headerProgress.classList.remove('hidden');
+        ui.test.headerProgress.classList.add('flex');
+      } else {
+        ui.test.headerProgress.classList.add('hidden');
+        ui.test.headerProgress.classList.remove('flex');
+      }
+      
       window.scrollTo(0, 0);
     }
 
-    // --- EVENT LISTENERS ---
     ui.start.form.addEventListener('submit', (e) => {
       e.preventDefault();
       state.name = ui.start.nameInput.value.trim();
@@ -343,14 +379,10 @@
     });
 
     ui.test.btnSubmit.addEventListener('click', () => {
-      // Calculate answered by checking if value is not empty string
       const answered = Object.values(state.answers).filter(val => val && val.trim() !== '').length;
       const total = flatQuestions.length;
-      
       let confirmMessage = 'Bạn có chắc chắn muốn nộp bài?';
-      if (answered < total) {
-        confirmMessage = `Bạn mới hoàn thành ${answered}/${total} câu. Bạn có chắc chắn muốn nộp bài khi chưa làm xong?`;
-      }
+      if (answered < total) confirmMessage = `Bạn mới hoàn thành ${answered}/${total} câu. Bạn có chắc chắn muốn nộp bài khi chưa làm xong?`;
 
       if (confirm(confirmMessage)) {
         state.isCompleted = true;
@@ -378,90 +410,185 @@
       }
     });
 
-    // --- BUILD TEST ---
+    // --- BUILD TEST UI ---
     function buildTestUI() {
       ui.test.name.textContent = state.name;
       ui.test.container.innerHTML = '';
 
       testData.parts.forEach(part => {
-        const partDiv = document.createElement('div');
-        partDiv.className = "animate-fade-in-up bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-200";
+        const partSection = document.createElement('div');
+        partSection.className = "mb-12";
         
-        // Parse the markdown context
+        const titleHtml = `<h3 class="text-2xl font-black text-slate-800 uppercase tracking-tight mb-4 px-2">${part.title}</h3>`;
+        
+        // Setup Split Screen Container
+        const splitContainer = document.createElement('div');
+        splitContainer.className = "flex flex-col lg:flex-row w-full h-[75vh] min-h-[600px] border-2 border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm split-container";
+        
         const parsedContext = marked.parse(part.context);
 
-        let html = `
-          <h3 class="text-2xl font-black text-slate-800 uppercase tracking-tight mb-4">${part.title}</h3>
-          
-          <div class="reading-pane bg-slate-50 border border-slate-200 rounded-2xl p-6 mb-8 max-h-[500px] overflow-y-auto prose prose-slate max-w-none prose-table:w-full prose-th:bg-slate-200 prose-td:border-b prose-td:border-slate-200 prose-a:text-custom-pink-600">
-            ${parsedContext}
-          </div>
-        `;
+        // Left Pane (Reading)
+        const leftPane = document.createElement('div');
+        leftPane.className = "w-full lg:w-1/2 h-1/2 lg:h-full overflow-y-auto p-6 lg:p-10 bg-slate-50 scroll-pane reading-pane relative";
+        leftPane.innerHTML = `<div class="prose prose-slate max-w-none prose-table:w-full prose-th:bg-slate-200 prose-td:border-b prose-td:border-slate-200 prose-a:text-custom-pink-600 prose-p:leading-loose text-lg">${parsedContext}</div>`;
 
+        // Resizer (Hidden on Mobile)
+        const resizer = document.createElement('div');
+        resizer.className = "resizer hidden lg:block";
+
+        // Right Pane (Questions)
+        const rightPane = document.createElement('div');
+        rightPane.className = "w-full lg:w-1/2 h-1/2 lg:h-full overflow-y-auto p-6 lg:p-10 scroll-pane bg-white";
+        
+        let questionsHtml = '';
         part.questionSets.forEach((set, setIdx) => {
-          html += `
-            <div class="mb-6 mt-8 p-4 bg-custom-pink-50/50 rounded-xl border border-custom-pink-100">
-              <p class="text-slate-700 font-bold text-base md:text-lg italic">${set.instructions}</p>
+          questionsHtml += `
+            <div class="mb-6 p-4 bg-custom-pink-50/50 rounded-xl border border-custom-pink-100 sticky top-0 z-10 backdrop-blur-sm">
+              <p class="text-slate-700 font-bold text-base italic">${set.instructions}</p>
             </div>
-            <div class="space-y-4" id="part-${part.partNumber}-set-${setIdx}"></div>
-          `;
-        });
-
-        partDiv.innerHTML = html;
-        ui.test.container.appendChild(partDiv);
-
-        part.questionSets.forEach((set, setIdx) => {
-          const qContainer = partDiv.querySelector(`#part-${part.partNumber}-set-${setIdx}`);
+            <div class="space-y-6 mb-10" id="part-${part.partNumber}-set-${setIdx}">`;
 
           set.questions.forEach(q => {
-            const qCard = document.createElement('div');
-            qCard.className = 'bg-white rounded-2xl p-5 md:p-6 border border-slate-200 shadow-sm transition-all hover:shadow-md';
-            
-            let inputHtml = '';
             const savedAnswer = state.answers[q.number] || '';
+            let inputHtml = '';
 
             if (q.type === 'multiple_choice') {
               let optionsHtml = '';
               q.options.forEach(opt => {
                 const isChecked = savedAnswer === opt ? 'checked' : '';
                 optionsHtml += `
-                  <label class="block relative cursor-pointer group mb-3 last:mb-0">
+                  <label class="block relative cursor-pointer group mb-2">
                     <input type="radio" name="q_${q.number}" value="${opt}" class="sr-only option-radio" ${isChecked} onchange="handleInput(${q.number}, this.value)">
-                    <div class="flex items-center p-4 border-2 border-slate-100 hover:border-custom-pink-200 rounded-xl transition-all bg-slate-50/50">
-                      <div class="w-6 h-6 rounded-full border-2 border-slate-300 mr-4 relative radio-circle flex-shrink-0 transition-colors"></div>
-                      <span class="text-slate-700 font-medium text-lg leading-relaxed">${opt}</span>
+                    <div class="flex items-center p-3 border-2 border-slate-100 hover:border-custom-pink-200 rounded-xl transition-all bg-slate-50/50">
+                      <div class="w-5 h-5 rounded-full border-2 border-slate-300 mr-3 relative radio-circle flex-shrink-0 transition-colors"></div>
+                      <span class="text-slate-700 font-medium text-base">${opt}</span>
                     </div>
-                  </label>
-                `;
+                  </label>`;
               });
-              inputHtml = `<div class="grid grid-cols-1 gap-2">${optionsHtml}</div>`;
+              inputHtml = `<div class="grid grid-cols-1 gap-1">${optionsHtml}</div>`;
             } else if (q.type === 'short_answer' || q.type === 'fill_in_the_blank') {
-              inputHtml = `
-                <input type="text" value="${savedAnswer}" placeholder="Nhập câu trả lời của bạn..." 
-                       oninput="handleInput(${q.number}, this.value)"
-                       class="w-full mt-2 px-5 py-3 rounded-xl border-2 border-slate-200 focus:outline-none focus:border-custom-pink-500 focus:ring-2 focus:ring-custom-pink-100 transition-all text-slate-800 font-medium text-lg">
-              `;
+              inputHtml = `<input type="text" value="${savedAnswer}" placeholder="Câu trả lời..." oninput="handleInput(${q.number}, this.value)" class="w-full mt-2 px-4 py-2.5 rounded-xl border-2 border-slate-200 focus:outline-none focus:border-custom-pink-500 focus:ring-2 focus:ring-custom-pink-100 transition-all text-slate-800 font-medium text-base">`;
             }
 
-            qCard.innerHTML = `
-              <div class="flex flex-col md:flex-row md:items-start gap-4">
-                <div class="flex-shrink-0 w-10 h-10 bg-slate-100 text-slate-500 font-black rounded-full flex items-center justify-center border border-slate-200 shadow-inner">${q.number}</div>
-                <div class="flex-grow w-full">
-                  <h4 class="text-lg font-bold text-slate-800 mb-4 leading-relaxed">${q.questionText}</h4>
-                  ${inputHtml}
+            questionsHtml += `
+              <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+                <div class="flex flex-col sm:flex-row sm:items-start gap-4">
+                  <div class="flex-shrink-0 w-8 h-8 bg-slate-100 text-slate-500 font-black rounded-full flex items-center justify-center border border-slate-200 text-sm">${q.number}</div>
+                  <div class="flex-grow w-full">
+                    <h4 class="text-base font-bold text-slate-800 mb-3">${q.questionText}</h4>
+                    ${inputHtml}
+                  </div>
                 </div>
-              </div>
-            `;
-            qContainer.appendChild(qCard);
+              </div>`;
           });
+          questionsHtml += `</div>`;
         });
+
+        rightPane.innerHTML = questionsHtml;
+
+        splitContainer.appendChild(leftPane);
+        splitContainer.appendChild(resizer);
+        splitContainer.appendChild(rightPane);
+
+        partSection.innerHTML = titleHtml;
+        partSection.appendChild(splitContainer);
+        
+        ui.test.container.appendChild(partSection);
       });
 
+      initResizers();
       updateProgress();
       showScreen('test');
     }
 
-    // Global handler for inputs and radios
+    // --- RESIZER LOGIC ---
+    function initResizers() {
+      const resizers = document.querySelectorAll('.resizer');
+      resizers.forEach(resizer => {
+        let isResizing = false;
+        const leftPane = resizer.previousElementSibling;
+        const rightPane = resizer.nextElementSibling;
+        const container = resizer.parentElement;
+
+        resizer.addEventListener('mousedown', (e) => {
+          isResizing = true;
+          document.body.style.cursor = 'col-resize';
+          leftPane.style.userSelect = 'none';
+          rightPane.style.userSelect = 'none';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+          if (!isResizing) return;
+          const containerRect = container.getBoundingClientRect();
+          let newLeftWidth = ((e.clientX - containerRect.left) / containerRect.width) * 100;
+          
+          // Constrain width between 20% and 80%
+          if (newLeftWidth > 20 && newLeftWidth < 80) {
+            leftPane.style.width = `${newLeftWidth}%`;
+            rightPane.style.width = `${100 - newLeftWidth}%`;
+          }
+        });
+
+        document.addEventListener('mouseup', () => {
+          if (isResizing) {
+            isResizing = false;
+            document.body.style.cursor = 'default';
+            leftPane.style.userSelect = 'auto';
+            rightPane.style.userSelect = 'auto';
+          }
+        });
+      });
+    }
+
+    // --- HIGHLIGHTING LOGIC ---
+    function initHighlighting() {
+      const highlightBtn = document.getElementById('highlight-btn');
+
+      document.addEventListener('mouseup', (e) => {
+        const selection = window.getSelection();
+        const selectedText = selection.toString().trim();
+        
+        // Show button if text selected inside a reading pane
+        if (selectedText.length > 0 && e.target.closest('.reading-pane')) {
+          const range = selection.getRangeAt(0);
+          const rect = range.getBoundingClientRect();
+          
+          highlightBtn.style.top = `${rect.top + window.scrollY - 45}px`;
+          highlightBtn.style.left = `${rect.left + window.scrollX + (rect.width / 2) - (highlightBtn.offsetWidth / 2)}px`;
+          highlightBtn.classList.remove('hidden');
+        } else if (e.target.id !== 'highlight-btn') {
+          highlightBtn.classList.add('hidden');
+        }
+      });
+
+      highlightBtn.addEventListener('click', () => {
+        const selection = window.getSelection();
+        if (!selection.rangeCount) return;
+
+        const range = selection.getRangeAt(0);
+        const mark = document.createElement('mark');
+        mark.className = 'ielts-highlight';
+        
+        // Remove highlight when clicked
+        mark.onclick = function() {
+          const parent = this.parentNode;
+          while(this.firstChild) {
+            parent.insertBefore(this.firstChild, this);
+          }
+          parent.removeChild(this);
+        };
+
+        try {
+          range.surroundContents(mark);
+        } catch(e) {
+          alert("Lỗi: Vui lòng bôi đen văn bản trong cùng một đoạn văn để Highlight.");
+        }
+
+        selection.removeAllRanges();
+        highlightBtn.classList.add('hidden');
+      });
+    }
+
     window.handleInput = function(qId, answer) {
       state.answers[qId] = answer;
       saveState();
@@ -471,9 +598,7 @@
     function updateProgress() {
       const answered = Object.values(state.answers).filter(val => val && val.trim() !== '').length;
       const total = flatQuestions.length;
-      
       ui.test.progress.textContent = answered;
-      
       const percentage = (answered / total) * 100;
       ui.test.progressBarFill.style.width = `${percentage}%`;
 
@@ -486,44 +611,31 @@
       }
     }
 
-function isAnswerCorrect(userAns, q) {
+    function isAnswerCorrect(userAns, q) {
       if (!userAns) return false;
-      
-      // Helper function to clean strings: removes outer spaces, collapses inner spaces, and removes trailing periods
       const cleanString = (str) => str.trim().toLowerCase().replace(/\s+/g, ' ').replace(/\.$/, '');
-      
       const normalizedUser = cleanString(userAns);
 
-      // Build array of all acceptable answers
       let validAnswers = [cleanString(q.answer)];
       if (q.acceptableAnswers && Array.isArray(q.acceptableAnswers)) {
         validAnswers = validAnswers.concat(q.acceptableAnswers.map(a => cleanString(a)));
       }
 
-      // FIX: Smart check for Multiple Choice where the answer is just a letter (e.g., "A") 
-      // but the option value includes the full text (e.g., "A there is insufficient evidence...")
       if (q.type === 'multiple_choice') {
          for (let validAns of validAnswers) {
-             // If the correct answer is a single letter and the user's answer starts with that letter
              if (validAns.length === 1 && normalizedUser.startsWith(validAns)) {
-                 // Ensure it's exactly the letter, or followed by a space/dot (so "a" doesn't accidentally match "apple")
-                 if (normalizedUser === validAns || normalizedUser.charAt(1).match(/[\s.]/)) {
-                     return true; 
-                 }
+                 if (normalizedUser === validAns || normalizedUser.charAt(1).match(/[\s.]/)) return true; 
              }
          }
       }
-
-      // Normal check for short answers and exact matches
       return validAnswers.includes(normalizedUser);
     }
 
     function getEstimatedLevel(score) {
-      // Logic based on the provided marking guidance table
       if (score <= 10) return "Foundation (4.5+ / CEFR B1)"; 
       if (score <= 16) return "Level 1 (5.0+ / CEFR B1)";
       if (score <= 24) return "Level 2 (5.5+ / CEFR B2)";
-      return "Level 3 (6.5+ / CEFR C1)"; // For scores 25 and above
+      return "Level 3 (6.5+ / CEFR C1)"; 
     }
 
     function renderResults() {
@@ -532,10 +644,7 @@ function isAnswerCorrect(userAns, q) {
       
       if (state.completionTime) {
           const dateObj = new Date(state.completionTime);
-          ui.result.time.textContent = dateObj.toLocaleDateString('vi-VN', { 
-            year: 'numeric', month: '2-digit', day: '2-digit', 
-            hour: '2-digit', minute: '2-digit' 
-          });
+          ui.result.time.textContent = dateObj.toLocaleDateString('vi-VN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
       } else {
           ui.result.time.textContent = "Không xác định";
       }
@@ -545,16 +654,12 @@ function isAnswerCorrect(userAns, q) {
 
       flatQuestions.forEach(q => {
         const ans = state.answers[q.number];
-        if (isAnswerCorrect(ans, q)) {
-          correct++;
-        } else {
-          wrongs.push({ q, userAns: ans || null });
-        }
+        if (isAnswerCorrect(ans, q)) correct++;
+        else wrongs.push({ q, userAns: ans || null });
       });
 
       ui.result.score.textContent = correct;
-      const levelText = getEstimatedLevel(correct);
-      ui.result.level.textContent = levelText;
+      ui.result.level.textContent = getEstimatedLevel(correct);
       ui.result.reviewContainer.innerHTML = '';
 
       if (wrongs.length === 0) {
@@ -563,18 +668,11 @@ function isAnswerCorrect(userAns, q) {
         wrongs.forEach(item => {
           const q = item.q;
           const isUnanswered = !item.userAns || item.userAns.trim() === '';
-          
-          let statusLabel = isUnanswered 
-            ? '<span class="px-2 py-1 bg-amber-100 text-amber-700 text-xs font-black rounded uppercase tracking-wider">Bỏ qua</span>'
-            : '<span class="px-2 py-1 bg-red-100 text-red-600 text-xs font-black rounded uppercase tracking-wider">Sai</span>';
-
+          let statusLabel = isUnanswered ? '<span class="px-2 py-1 bg-amber-100 text-amber-700 text-xs font-black rounded uppercase tracking-wider">Bỏ qua</span>' : '<span class="px-2 py-1 bg-red-100 text-red-600 text-xs font-black rounded uppercase tracking-wider">Sai</span>';
           const userText = isUnanswered ? 'Chưa trả lời' : item.userAns;
           
-          // Display main answer and acceptable answers if they exist
           let correctText = `<span class="text-green-600 font-bold">${q.answer}</span>`;
-          if (q.acceptableAnswers && q.acceptableAnswers.length > 0) {
-              correctText += ` <span class="text-green-500 text-sm font-medium">(Hoặc: ${q.acceptableAnswers.join(', ')})</span>`;
-          }
+          if (q.acceptableAnswers && q.acceptableAnswers.length > 0) correctText += ` <span class="text-green-500 text-sm font-medium">(Hoặc: ${q.acceptableAnswers.join(', ')})</span>`;
 
           const borderClass = isUnanswered ? 'border-amber-200' : 'border-red-100';
 
@@ -586,20 +684,14 @@ function isAnswerCorrect(userAns, q) {
               <p class="font-bold text-slate-800 text-base leading-relaxed"><span class="text-slate-500 mr-1">Câu ${q.number}:</span> ${q.questionText}</p>
             </div>
             <div class="pl-12 space-y-2 mt-2 bg-slate-50 p-3 rounded-xl">
-              <p class="${isUnanswered ? 'text-amber-600' : 'text-slate-500'} font-medium">
-                Bạn điền: <span class="${isUnanswered ? 'italic' : 'line-through decoration-red-400 decoration-2 font-semibold'}">${userText}</span>
-              </p>
-              <p class="text-slate-600">
-                Đáp án đúng: ${correctText}
-              </p>
-            </div>
-          `;
+              <p class="${isUnanswered ? 'text-amber-600' : 'text-slate-500'} font-medium">Bạn điền: <span class="${isUnanswered ? 'italic' : 'line-through decoration-red-400 decoration-2 font-semibold'}">${userText}</span></p>
+              <p class="text-slate-600">Đáp án đúng: ${correctText}</p>
+            </div>`;
           ui.result.reviewContainer.appendChild(div);
         });
       }
     }
 
-    // Start
     document.addEventListener('DOMContentLoaded', init);
   </script>
 </body>
