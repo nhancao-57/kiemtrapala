@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Final Test: Mindset Foundation - Pala Centre</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'custom-pink': {
+              50: '#fdf2f8', 100: '#fce7f3', 200: '#fbcfe8',
+              300: '#f9a8d4', 400: '#f472b6', 500: '#ec4899',
+              600: '#db2777', 700: '#be185d', 800: '#9d174d', 900: '#831843'
+            }
+          },
+          fontFamily: { sans: ['Inter', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Radio Buttons */
+    .option-radio:checked + div {
+      border-color: #db2777;
+      background-color: #fdf2f8;
+      box-shadow: 0 4px 6px -1px rgba(219, 39, 119, 0.1);
+    }
+    
+    /* Loading Spinner */
+    .loader {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #db2777;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-custom-pink-200 selection:text-custom-pink-900 relative">
+
+  <header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50 h-16 flex items-center justify-center">
+    <div class="container mx-auto px-4 flex justify-center items-center">
+      <span class="text-2xl font-black text-custom-pink-600 tracking-tight">PALA<span class="text-slate-800">CENTRE</span></span>
+    </div>
+  </header>
+
+  <main class="flex-grow container mx-auto px-4 py-8 max-w-4xl flex flex-col items-center justify-center">
+
+    <div id="loading-screen" class="text-center py-20 w-full transition-opacity">
+      <div class="loader mx-auto mb-6"></div>
+      <p class="text-slate-500 font-medium text-lg animate-pulse">Đang tải dữ liệu bài thi...</p>
+    </div>
+
+    <div id="error-screen" class="hidden text-center py-20 w-full bg-white rounded-3xl shadow-lg border border-red-100 p-8">
+      <div class="text-red-500 text-6xl mb-4">⚠️</div>
+      <h2 class="text-2xl font-bold text-slate-800 mb-2">Không thể tải bài thi</h2>
+      <p class="text-slate-600 mb-8" id="error-message">Vui lòng kiểm tra lại đường dẫn file JSON</p>
+      <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-900 text-white px-8 py-3 rounded-xl font-bold transition-colors shadow-md">Thử lại</button>
+    </div>
+
+    <section id="start-screen" class="hidden w-full bg-white rounded-3xl shadow-xl border border-slate-100 p-6 md:p-10">
+      <div class="text-center mb-8">
+        <h1 id="test-title" class="text-2xl md:text-4xl font-black text-custom-pink-600 mb-3 uppercase tracking-tight"></h1>
+        <p class="text-slate-500 font-bold tracking-widest text-sm" id="test-duration"></p>
+      </div>
+
+      <div class="bg-custom-pink-50/50 rounded-2xl p-6 mb-8 border border-custom-pink-100 text-sm md:text-base">
+        <h2 class="font-bold text-slate-800 mb-3 flex items-center">
+          <span class="text-2xl mr-2">📝</span> Hướng dẫn làm bài:
+        </h2>
+        <ul class="list-disc list-inside text-slate-700 space-y-2 font-medium">
+          <li>Bài thi gồm <strong id="q-count" class="text-custom-pink-600 text-lg">0</strong> câu hỏi.</li>
+          <li>Đảm bảo bạn có kết nối internet ổn định và loa/tai nghe để làm phần Nghe.</li>
+          <li>Điền tên Học viên trước khi làm bài.</li>
+        </ul>
+      </div>
+
+      <form id="start-form" class="space-y-6">
+        <div>
+          <label for="student-name" class="block font-bold text-slate-700 mb-2">Nhập họ và tên Học viên <span class="text-red-500">*</span></label>
+          <input type="text" id="student-name" required placeholder="Ví dụ: Nguyễn Văn A..." 
+                 class="w-full px-5 py-3 rounded-xl border-2 border-slate-200 focus:outline-none focus:border-custom-pink-500 focus:ring-4 focus:ring-custom-pink-100 transition-all text-slate-800 font-semibold text-lg">
+        </div>
+
+        <button type="submit" class="w-full bg-custom-pink-600 hover:bg-custom-pink-700 text-white font-black py-4 px-8 rounded-xl transition-all shadow-lg text-lg uppercase tracking-wide">
+          Bắt đầu làm bài
+        </button>
+      </form>
+      
+      <div id="resume-prompt" class="hidden mt-6 text-center p-6 bg-amber-50 rounded-2xl border border-amber-200">
+        <p class="mb-4 font-bold text-amber-800">Cảnh báo: Bạn có bài thi đang làm dở trước đó.</p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <button id="btn-resume" class="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl transition-colors shadow-md">Tiếp tục làm bài</button>
+          <button id="btn-restart-clear" class="px-6 py-3 bg-white border-2 border-slate-200 hover:bg-slate-50 text-slate-700 font-bold rounded-xl transition-all">Xóa & Làm lại từ đầu</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="test-screen" class="hidden w-full">
+      <div class="bg-white/95 p-3 rounded-xl shadow-sm border border-slate-200 mb-8 sticky top-[76px] z-40 backdrop-blur-md">
+        <div class="flex justify-between items-center mb-2 px-1">
+          <div><p id="display-name" class="font-bold text-slate-800 truncate max-w-[150px] md:max-w-xs text-sm"></p></div>
+          <div class="text-right"><p class="font-black text-custom-pink-600 text-sm">Tiến độ bài thi</p></div>
+        </div>
+      </div>
+
+      <div id="questions-container" class="space-y-12"></div>
+
+      <div class="mt-12 mb-8 pt-6 border-t border-slate-200 text-center">
+        <button id="btn-submit-test" class="bg-slate-800 hover:bg-slate-900 text-white font-black py-4 px-12 rounded-xl transition-all shadow-lg text-lg w-full md:w-auto uppercase tracking-wide">
+          Nộp Bài
+        </button>
+      </div>
+    </section>
+
+    <section id="result-screen" class="hidden w-full bg-white rounded-3xl shadow-xl border border-slate-100 p-6 md:p-10">
+      <div class="text-center">
+        <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
+          <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7" /></svg>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-black text-slate-800 mb-4 tracking-tight">Hoàn Thành Bài Thi!</h2>
+        
+        <div class="mb-8 flex flex-col md:flex-row gap-4 justify-center items-center">
+            <div class="bg-slate-50 border border-slate-100 p-4 rounded-2xl min-w-[250px] text-left">
+                <p class="text-slate-500 text-sm font-bold uppercase tracking-wider mb-1">Thông tin học viên</p>
+                <p class="text-xl text-slate-800 font-black truncate"><span id="result-name"></span></p>
+            </div>
+        </div>
+
+        <div class="bg-gradient-to-br from-custom-pink-50 to-custom-pink-100 rounded-3xl p-8 mb-8 w-full border border-custom-pink-200 shadow-sm">
+          <p class="text-custom-pink-800 font-black uppercase tracking-widest mb-2 text-sm">Điểm số của bạn</p>
+          <div class="text-7xl font-black text-custom-pink-600 drop-shadow-sm flex items-baseline justify-center">
+            <span id="score-correct">0</span>
+            <span class="text-4xl text-custom-pink-300 mx-1">/</span>
+            <span id="score-total" class="text-5xl text-custom-pink-400">0</span>
+          </div>
+        </div>
+      </div>
+      
+      <div id="review-container" class="mt-8 mb-8 border-t border-slate-200 pt-8">
+        </div>
+
+      <div class="mt-12 text-center">
+        <button id="btn-retake" class="text-slate-400 hover:text-custom-pink-600 font-bold transition-colors underline decoration-2 underline-offset-4 text-sm uppercase tracking-wider">
+          Làm lại bài kiểm tra
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const STORAGE_KEY = 'mindset_final_test_progress';
+    let testData = null;
+    let state = { name: '', answers: {}, isCompleted: false };
+    let questionDictionary = {}; 
+    let questionLabels = {}; // Maps ID to human-readable question text for the review screen
+    window.unscrambleData = {}; 
+
+    const ui = {
+      screens: { loading: document.getElementById('loading-screen'), error: document.getElementById('error-screen'), start: document.getElementById('start-screen'), test: document.getElementById('test-screen'), result: document.getElementById('result-screen') },
+      start: { title: document.getElementById('test-title'), duration: document.getElementById('test-duration'), qCount: document.getElementById('q-count'), form: document.getElementById('start-form'), nameInput: document.getElementById('student-name'), resumePrompt: document.getElementById('resume-prompt'), btnResume: document.getElementById('btn-resume'), btnRestartClear: document.getElementById('btn-restart-clear') },
+      test: { name: document.getElementById('display-name'), container: document.getElementById('questions-container'), btnSubmit: document.getElementById('btn-submit-test') },
+      result: { name: document.getElementById('result-name'), score: document.getElementById('score-correct'), total: document.getElementById('score-total'), btnRetake: document.getElementById('btn-retake'), reviewContainer: document.getElementById('review-container') }
+    };
+
+    async function init() {
+      try {
+        const response = await fetch('/tests/mindset_final_test/mindset_final_test.json');
+        if (!response.ok) throw new Error('Cannot load JSON');
+        
+        testData = await response.json();
+        
+        ui.start.title.textContent = testData.test_metadata.title;
+        ui.start.duration.textContent = `Thời gian làm bài: ${testData.test_metadata.duration_minutes} phút`;
+        ui.start.qCount.textContent = testData.test_metadata.total_questions;
+
+        buildQuestionDictionary();
+        loadState();
+      } catch (error) {
+        showScreen('error');
+      }
+    }
+
+    function buildQuestionDictionary() {
+      let totalPoints = 0;
+      testData.sections.forEach(sec => {
+        sec.parts.forEach(part => {
+          const ppi = part.points_per_item || 1;
+          const isCaseSensitive = part.case_sensitive !== false;
+          
+          if (part.type === 'true_false' || part.type === 'fill_in_the_blank' || part.type === 'unscramble' || part.type === 'drag_and_drop' || part.type === 'fill_in_the_blank_reading') {
+            part.questions.forEach(q => { 
+                const qId = `${sec.section_id}_${part.part_number}_${q.id}`;
+                questionDictionary[qId] = { answer: q.correct_answer, points: ppi, case_sensitive: isCaseSensitive }; 
+                questionLabels[qId] = `Part ${part.part_number}, Q${q.id}`;
+                totalPoints += ppi;
+            });
+          } else if (part.type === 'matching') {
+            part.prompts.forEach(p => { 
+                const qId = `${sec.section_id}_${part.part_number}_${p.id}`;
+                questionDictionary[qId] = { answer: p.correct_answer, points: ppi, case_sensitive: isCaseSensitive }; 
+                questionLabels[qId] = `Part ${part.part_number}, Q${p.id}`;
+                totalPoints += ppi;
+            });
+          } else if (part.type === 'inline_choice' && part.questions) {
+            part.questions.forEach(q => { 
+                const qId = `${sec.section_id}_${part.part_number}_${q.id}`;
+                questionDictionary[qId] = { answer: q.correct_answer, points: ppi, case_sensitive: isCaseSensitive }; 
+                questionLabels[qId] = `Part ${part.part_number}, Q${q.id}`;
+                totalPoints += ppi;
+            });
+          } else if (part.type === 'inline_choice' && part.text) {
+             Object.entries(part.answers).forEach(([key, val]) => { 
+                 const qId = `${sec.section_id}_${part.part_number}_${key}`;
+                 questionDictionary[qId] = { answer: val, points: ppi, case_sensitive: isCaseSensitive }; 
+                 questionLabels[qId] = `Part ${part.part_number}, Blank (${key})`;
+                 totalPoints += ppi;
+             });
+          } else if (part.type === 'fill_in_the_blank_box') {
+             Object.entries(part.answers).forEach(([key, val]) => { 
+                 const qId = `${sec.section_id}_${part.part_number}_${key}`;
+                 questionDictionary[qId] = { answer: val, points: ppi, case_sensitive: isCaseSensitive }; 
+                 questionLabels[qId] = `Part ${part.part_number}, Blank (${key})`;
+                 totalPoints += ppi;
+             });
+          }
+        });
+      });
+      window.testTotalPoints = totalPoints;
+    }
+
+    function loadState() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        state = JSON.parse(saved);
+        if (state.isCompleted) {
+          showScreen('result'); renderResults();
+        } else if (state.name) {
+          ui.start.resumePrompt.classList.remove('hidden'); showScreen('start');
+        } else { showScreen('start'); }
+      } else { showScreen('start'); }
+    }
+
+    function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+
+    function showScreen(screen) {
+      Object.values(ui.screens).forEach(s => s.classList.add('hidden'));
+      ui.screens[screen].classList.remove('hidden');
+      window.scrollTo(0, 0);
+    }
+
+    ui.start.form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      state.name = ui.start.nameInput.value.trim();
+      state.answers = {}; state.isCompleted = false; saveState(); buildTestUI();
+    });
+    ui.start.btnResume.addEventListener('click', buildTestUI);
+    ui.start.btnRestartClear.addEventListener('click', () => {
+      localStorage.removeItem(STORAGE_KEY); state = { name: '', answers: {}, isCompleted: false };
+      ui.start.resumePrompt.classList.add('hidden'); ui.start.nameInput.value = '';
+    });
+    ui.test.btnSubmit.addEventListener('click', () => {
+      if (confirm('Bạn có chắc chắn muốn nộp bài?')) {
+        state.isCompleted = true; saveState(); renderResults(); showScreen('result');
+      }
+    });
+    ui.result.btnRetake.addEventListener('click', () => {
+      if(confirm('Làm lại sẽ xóa điểm số hiện tại. Bạn đồng ý chứ?')) {
+        localStorage.removeItem(STORAGE_KEY); location.reload();
+      }
+    });
+
+    window.saveAnswer = function(qId, val, subIndex = null) {
+      if (subIndex !== null) {
+        if (!state.answers[qId]) state.answers[qId] = [];
+        state.answers[qId][subIndex] = val;
+      } else {
+        state.answers[qId] = val;
+      }
+      saveState();
+    };
+
+    // Drag and Drop Logic
+    window.handleDDAdd = function(qId, word) {
+        if (!state.answers[qId]) state.answers[qId] = [];
+        state.answers[qId].push(word);
+        saveState();
+        renderDragDrop(qId);
+    };
+
+    window.handleDDRemove = function(qId, idx) {
+        if (state.answers[qId] && state.answers[qId].length > 0) {
+            state.answers[qId].splice(idx, 1);
+            saveState();
+            renderDragDrop(qId);
+        }
+    };
+
+    function renderDragDrop(qId) {
+        const wrap = document.getElementById(`dd_wrap_${qId}`);
+        if (!wrap) return;
+        
+        const allWords = window.unscrambleData[qId].words;
+        const qNum = window.unscrambleData[qId].num;
+        const currentAnswer = state.answers[qId] || [];
+        
+        let remaining = [...allWords];
+        currentAnswer.forEach(w => {
+            const idx = remaining.indexOf(w);
+            if (idx > -1) remaining.splice(idx, 1);
+        });
+
+        wrap.innerHTML = `
+           <div class="text-sm text-slate-700 mb-2 font-bold">${qNum}. Nhấp vào các từ bên dưới để sắp xếp thành câu:</div>
+           
+           <div class="min-h-[56px] p-3 border-2 border-dashed border-custom-pink-300 bg-custom-pink-50 rounded-xl mb-3 flex flex-wrap gap-2 transition-all">
+               ${currentAnswer.map((w, i) => `<span class="px-3 py-1 bg-white border border-custom-pink-400 rounded-lg shadow-sm text-custom-pink-800 font-medium cursor-pointer hover:bg-custom-pink-100 transition-colors" onclick="handleDDRemove('${qId}', ${i})">${w}</span>`).join('')}
+               ${currentAnswer.length === 0 ? '<span class="text-custom-pink-300 italic text-sm py-1">Khu vực ghép câu (trống)</span>' : ''}
+           </div>
+           
+           <div class="p-3 border border-slate-200 bg-slate-100 rounded-xl flex flex-wrap gap-2">
+               ${remaining.map((w) => `<span class="px-3 py-1 bg-white border border-slate-300 hover:border-slate-400 rounded-lg shadow-sm text-slate-800 cursor-pointer hover:bg-slate-50 transition-colors" onclick="handleDDAdd('${qId}', '${w.replace(/'/g, "\\'")}')">${w}</span>`).join('')}
+               ${remaining.length === 0 ? '<span class="text-slate-400 italic text-sm py-1">Đã dùng hết từ</span>' : ''}
+           </div>
+        `;
+    }
+
+    function buildTestUI() {
+      ui.test.name.textContent = state.name;
+      ui.test.container.innerHTML = '';
+      let dragDropQueue = [];
+
+      testData.sections.forEach(section => {
+        const secDiv = document.createElement('div');
+        secDiv.innerHTML = `<h2 class="text-2xl font-black text-custom-pink-600 mb-6 border-b-2 border-custom-pink-200 pb-2">SECTION ${section.section_id}: ${section.title} (${section.total_points} pts)</h2>`;
+        
+        section.parts.forEach(part => {
+          const pDiv = document.createElement('div');
+          pDiv.className = "mb-10 bg-white p-6 rounded-2xl shadow-sm border border-slate-200";
+          
+          let instructionsHtml = `<h3 class="text-lg font-bold text-slate-800 mb-2">Part ${part.part_number} (${part.points} pts)</h3><p class="text-slate-600 mb-6 italic">${part.instructions}</p>`;
+          let audioHtml = part.audio_url ? `<audio controls class="w-full mb-6 outline-none"><source src="${part.audio_url}" type="audio/mpeg">Your browser does not support the audio element.</audio>` : '';
+          let imageHtml = part.image_url ? `<img src="${part.image_url}" alt="Part Illustration" class="max-w-full h-auto rounded-xl mb-6 shadow-sm border border-slate-200">` : '';
+          let passageHtml = part.reading_passage ? `<div class="bg-slate-50 p-4 rounded-xl border border-slate-200 mb-6 whitespace-pre-wrap leading-relaxed text-slate-700">${part.reading_passage}</div>` : '';
+          let wordBoxHtml = part.word_box ? `<div class="flex flex-wrap gap-2 mb-6 p-4 bg-blue-50 border border-blue-100 rounded-xl">${part.word_box.map(w => `<span class="px-3 py-1 bg-white border border-blue-200 rounded-lg text-blue-800 font-medium">${w}</span>`).join('')}</div>` : '';
+          
+          let contentHtml = '';
+          const pKey = `${section.section_id}_${part.part_number}`;
+
+          if (part.type === 'true_false') {
+            contentHtml = part.questions.map(q => `
+              <div class="flex flex-col sm:flex-row justify-between mb-4 pb-4 border-b border-slate-100 last:border-0">
+                <span class="font-medium text-slate-800 mb-2 sm:mb-0">${q.id}. ${q.text}</span>
+                <div class="flex gap-4">
+                  <label class="flex items-center cursor-pointer"><input type="radio" name="q_${pKey}_${q.id}" value="True" onchange="saveAnswer('${pKey}_${q.id}', 'True')" ${state.answers[`${pKey}_${q.id}`] === 'True' ? 'checked' : ''} class="mr-2"> True</label>
+                  <label class="flex items-center cursor-pointer"><input type="radio" name="q_${pKey}_${q.id}" value="False" onchange="saveAnswer('${pKey}_${q.id}', 'False')" ${state.answers[`${pKey}_${q.id}`] === 'False' ? 'checked' : ''} class="mr-2"> False</label>
+                </div>
+              </div>`).join('');
+          } 
+          else if (part.type === 'matching') {
+            const optionsHtml = part.options.map(o => `<option value="${o.replace(/"/g, '&quot;')}">${o}</option>`).join('');
+            contentHtml = part.prompts.map(p => `
+              <div class="flex flex-col mb-4">
+                <span class="font-medium text-slate-800 mb-2">${p.id}. ${p.text}</span>
+                <select class="w-full p-2 border border-slate-300 rounded-lg bg-slate-50 focus:outline-none focus:border-custom-pink-500" onchange="saveAnswer('${pKey}_${p.id}', this.value)">
+                  <option value="">-- Select matching part --</option>
+                  ${optionsHtml.replace(`value="${state.answers[`${pKey}_${p.id}`]}"`, `value="${state.answers[`${pKey}_${p.id}`]}" selected`)}
+                </select>
+              </div>`).join('');
+          }
+          else if (part.type === 'inline_choice' && part.questions) {
+            contentHtml = part.questions.map(q => {
+               let qText = q.text.replace(/\[([^\]]+)\]/g, (match, optionsString) => {
+                  const opts = optionsString.split(' / ').map(o => o.trim());
+                  const savedVal = state.answers[`${pKey}_${q.id}`];
+                  return `<select class="mx-1 px-2 py-1 border border-slate-300 rounded-md bg-slate-50" onchange="saveAnswer('${pKey}_${q.id}', this.value)">
+                            <option value="">-- Choose --</option>
+                            ${opts.map(o => `<option value="${o}" ${savedVal === o ? 'selected' : ''}>${o}</option>`).join('')}
+                          </select>`;
+               });
+               return `<div class="mb-4 leading-relaxed">${q.id}. ${qText}</div>`;
+            }).join('');
+          }
+          else if (part.type === 'inline_choice' && part.text) {
+             let qText = part.text.replace(/\((\d+)\)\s*\[([^\]]+)\]/g, (match, id, optionsString) => {
+                  const opts = optionsString.split(' / ').map(o => o.trim());
+                  const savedVal = state.answers[`${pKey}_${id}`];
+                  return `(${id}) <select class="mx-1 px-2 py-1 border border-slate-300 rounded-md bg-slate-50" onchange="saveAnswer('${pKey}_${id}', this.value)">
+                            <option value="">-- Choose --</option>
+                            ${opts.map(o => `<option value="${o}" ${savedVal === o ? 'selected' : ''}>${o}</option>`).join('')}
+                          </select>`;
+             });
+             contentHtml = `<div class="leading-relaxed text-slate-800">${qText}</div>`;
+          }
+          else if (part.type === 'fill_in_the_blank_box') {
+             let qText = part.text_with_gaps.replace(/\((\d+)\)\s*_______/g, (match, id) => {
+                  return `(${id}) <input type="text" class="w-32 border-b-2 border-slate-300 focus:border-custom-pink-500 outline-none text-center bg-transparent font-medium" value="${state.answers[`${pKey}_${id}`] || ''}" onchange="saveAnswer('${pKey}_${id}', this.value)">`;
+             });
+             contentHtml = `<div class="leading-relaxed text-slate-800">${qText}</div>`;
+          }
+          else if (part.type === 'fill_in_the_blank_reading' || part.type === 'fill_in_the_blank') {
+            contentHtml = part.questions.map(q => {
+               const formattedText = q.text.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-slate-900">$1</strong>');
+               const finalInputText = formattedText.replace('_______', `<input type="text" class="w-40 border-b-2 border-slate-300 focus:border-custom-pink-500 outline-none text-center bg-transparent font-medium" value="${state.answers[`${pKey}_${q.id}`] || ''}" onchange="saveAnswer('${pKey}_${q.id}', this.value)">`);
+               return `<div class="mb-4 flex flex-col"><span class="text-slate-800 mb-2">${q.id}. ${finalInputText}</span></div>`;
+            }).join('');
+          }
+          else if (part.type === 'drag_and_drop') {
+             contentHtml = part.questions.map(q => {
+               const qId = `${pKey}_${q.id}`;
+               window.unscrambleData[qId] = { words: q.words_to_unscramble, num: q.id };
+               dragDropQueue.push(qId);
+               return `<div id="dd_wrap_${qId}" class="mb-8"></div>`;
+            }).join('');
+          }
+
+          pDiv.innerHTML = instructionsHtml + audioHtml + imageHtml + passageHtml + wordBoxHtml + contentHtml;
+          secDiv.appendChild(pDiv);
+        });
+        ui.test.container.appendChild(secDiv);
+      });
+
+      dragDropQueue.forEach(qId => renderDragDrop(qId));
+      showScreen('test');
+    }
+
+    function renderResults() {
+      ui.result.name.textContent = state.name;
+      let score = 0;
+      let reviewHtmlBlocks = [];
+      
+      Object.keys(questionDictionary).forEach(key => {
+         const qData = questionDictionary[key];
+         const expected = qData.answer;
+         let actual = state.answers[key];
+         let isCorrect = false;
+
+         let displayActual = actual;
+         let displayExpected = expected;
+         
+         // Fix Drag and Drop array to string joining for display and logic
+         if (Array.isArray(actual) && !Array.isArray(expected)) {
+             actual = actual.join(' ');
+             displayActual = actual;
+         }
+
+         // Handle empty states gracefully
+         if (displayActual === undefined || displayActual === null || displayActual === '') {
+             displayActual = "<em class='text-slate-400'>Không trả lời</em>";
+         }
+         
+         // Array check for strict matching
+         if (Array.isArray(expected) && Array.isArray(actual)) {
+             if (JSON.stringify(expected) === JSON.stringify(actual)) isCorrect = true;
+         } else if (actual !== undefined && expected !== undefined) {
+             let actStr = actual.toString().trim();
+             let expStr = expected.toString().trim();
+             
+             // Normalize strings: remove punctuation and extra spaces for bulletproof comparison
+             let normAct = actStr.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").replace(/\s{2,}/g," ").trim();
+             let normExp = expStr.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").replace(/\s{2,}/g," ").trim();
+             
+             if (!qData.case_sensitive) {
+                 normAct = normAct.toLowerCase();
+                 normExp = normExp.toLowerCase();
+             }
+             
+             if (normAct === normExp) {
+                 isCorrect = true;
+             }
+         }
+         
+         if (isCorrect) {
+             score += qData.points;
+         } else {
+             // Generate incorrect review card
+             reviewHtmlBlocks.push(`
+                <div class="mb-4 bg-white p-5 rounded-2xl border-l-4 border-l-red-500 shadow-sm">
+                   <p class="font-bold text-slate-800 text-sm mb-2 pb-2 border-b border-slate-100">${questionLabels[key]}</p>
+                   <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2 text-sm">
+                      <div class="bg-red-50/50 p-3 rounded-lg border border-red-100">
+                         <span class="block text-red-800 font-bold mb-1 text-xs uppercase tracking-wider">Your Answer</span>
+                         <span class="text-red-600 font-medium">${displayActual}</span>
+                      </div>
+                      <div class="bg-green-50/50 p-3 rounded-lg border border-green-100">
+                         <span class="block text-green-800 font-bold mb-1 text-xs uppercase tracking-wider">Correct Answer</span>
+                         <span class="text-green-700 font-medium">${displayExpected}</span>
+                      </div>
+                   </div>
+                </div>
+             `);
+         }
+      });
+      
+      ui.result.score.textContent = score;
+      ui.result.total.textContent = window.testTotalPoints;
+
+      // Populate Review UI
+      if (reviewHtmlBlocks.length > 0) {
+          ui.result.reviewContainer.innerHTML = `<h3 class="text-xl font-black text-slate-800 mb-6 text-center">Các câu trả lời chưa chính xác</h3>` + reviewHtmlBlocks.join('');
+      } else {
+          ui.result.reviewContainer.innerHTML = `<div class="bg-green-50 p-6 rounded-2xl border border-green-200 text-center"><p class="text-green-700 font-black text-xl mb-1">Tuyệt vời!</p><p class="text-green-600 font-medium">Bạn đã trả lời đúng tất cả các câu hỏi.</p></div>`;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

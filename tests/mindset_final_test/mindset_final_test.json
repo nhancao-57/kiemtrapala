@@ -1,0 +1,259 @@
+{
+  "test_metadata": {
+    "title": "Final Test: Mindset Foundation",
+    "total_questions": 80,
+    "duration_minutes": 90,
+    "requirements": ["device with internet access", "headphones/speakers for audio"]
+  },
+  "sections": [
+    {
+      "section_id": "A",
+      "title": "LISTENING",
+      "total_points": 20,
+      "parts": [
+        {
+          "part_number": 1,
+          "points": 7,
+          "points_per_item": 1,
+          "instructions": "Listen to a phone conversation between Ben and Mona. Choose True or False.",
+          "audio_url": "/tests/mindset_final_test/p1.mp3",
+          "type": "true_false",
+          "questions": [
+            { "id": 1, "text": "Ben's at the airport.", "correct_answer": "False" },
+            { "id": 2, "text": "He's catching a plane today.", "correct_answer": "True" },
+            { "id": 3, "text": "The sun's shining in Málaga.", "correct_answer": "True" },
+            { "id": 4, "text": "It isn't raining in Bristol.", "correct_answer": "False" },
+            { "id": 5, "text": "Mona's wearing warm clothes.", "correct_answer": "True" },
+            { "id": 6, "text": "She's using her umbrella.", "correct_answer": "False" },
+            { "id": 7, "text": "Ben's staying in a hotel near the sea.", "correct_answer": "True" }
+          ]
+        },
+        {
+          "part_number": 2,
+          "points": 6,
+          "points_per_item": 1,
+          "instructions": "Listen to the conversation and match the two parts of the sentences.",
+          "audio_url": "/tests/mindset_final_test/p2.mp3",
+          "type": "matching",
+          "prompts": [
+            { "id": 8, "text": "David's going to take a Spanish exam", "correct_answer": "tomorrow." },
+            { "id": 9, "text": "David's going to visit his uncle", "correct_answer": "later today." },
+            { "id": 10, "text": "Sara's going to meet her friend", "correct_answer": "this afternoon after class." },
+            { "id": 11, "text": "Sara's going to study for her German exam", "correct_answer": "next summer." },
+            { "id": 12, "text": "Sara's going to study Italian", "correct_answer": "at the weekend." },
+            { "id": 13, "text": "David's going to work in his parents' shop", "correct_answer": "on Friday." }
+          ],
+          "options": [
+            "tomorrow.",
+            "later today.",
+            "this afternoon after class.",
+            "next summer.",
+            "at the weekend.",
+            "on Friday."
+          ]
+        },
+        {
+          "part_number": 3,
+          "points": 3,
+          "points_per_item": 0.5,
+          "instructions": "Listen to Susan talking about the Park Health Centre. Choose 'have to' or 'dont have to' to complete the sentences.",
+          "audio_url": "/tests/mindset_final_test/p3.mp3",
+          "type": "inline_choice",
+          "questions": [
+            { "id": 14, "text": "You [have to / dont have to] feel ill or sick to visit the center.", "correct_answer": "dont have to" },
+            { "id": 15, "text": "You [have to / dont have to] be a member to visit the center.", "correct_answer": "dont have to" },
+            { "id": 16, "text": "Members [have to / dont have to] live in the local area.", "correct_answer": "dont have to" },
+            { "id": 17, "text": "You [have to / dont have to] be looking for advice for a health problem to join the center.", "correct_answer": "dont have to" },
+            { "id": 18, "text": "If you want to join yoga or Pilates classes, you [have to / dont have to] have some experience.", "correct_answer": "dont have to" },
+            { "id": 19, "text": "You [have to / dont have to] be a great cook to do the healthy eating classes.", "correct_answer": "dont have to" }
+          ]
+        },
+        {
+          "part_number": 4,
+          "points": 4,
+          "points_per_item": 0.5,
+          "instructions": "Listen to John talking about what he could do when he was a boy and what he can do now. Complete the paragraphs with the words from the box.",
+          "audio_url": "/tests/mindset_final_test/p4.mp3",
+          "type": "fill_in_the_blank_box",
+          "word_box": ["IT", "classes", "languages", "races", "read", "speak", "won", "wrote"],
+          "text_with_gaps": "When I was a young child, I wasnt very good at sports. I couldnt football and I couldnt swim, but I could very fast – faster than most of other children of my age. I remember we had lots of (20) _______ at school and I always (21) _______. I learnt to read early and by the age of six or seven I could read all the books for children in the school library. I also (22) _______ my own stories. I am studying (23) _______ at university now. My main language is English and I can also (24) _______ French and Spanish quite well and I can (25) _______ Italian news online. I still enjoy writing and I write lots of articles for university magazines. I also work on the magazine, because students can help others to write better. I am also good at speaking and enjoy giving my opinion in (26) _______. I always use my laptop to write presentations which have photos, drawings or video and so I have good (27) _______ skills as well. I am still interested in running and I take part in lots of university races.",
+          "answers": {
+            "20": "races",
+            "21": "won",
+            "22": "wrote",
+            "23": "languages",
+            "24": "speak",
+            "25": "read",
+            "26": "classes",
+            "27": "IT"
+          }
+        }
+      ]
+    },
+    {
+      "section_id": "B",
+      "title": "READING AND WRITING",
+      "total_points": 50,
+      "parts": [
+        {
+          "part_number": 1,
+          "points": 5,
+          "points_per_item": 0.5,
+          "instructions": "Match the activities with the places.",
+          "type": "matching",
+          "prompts": [
+            { "id": 1, "text": "send a parcel", "correct_answer": "f. post office" },
+            { "id": 2, "text": "stay for a few days", "correct_answer": "g. hotel" },
+            { "id": 3, "text": "speak to a policeman", "correct_answer": "e. police station" },
+            { "id": 4, "text": "exercise", "correct_answer": "b. sports center" },
+            { "id": 5, "text": "have a meal", "correct_answer": "h. restaurant" },
+            { "id": 6, "text": "do some food shopping", "correct_answer": "j. supermarket" },
+            { "id": 7, "text": "catch a bus or a train", "correct_answer": "a. station" },
+            { "id": 8, "text": "relax on the grass", "correct_answer": "d. park" },
+            { "id": 9, "text": "borrow a book", "correct_answer": "c. library" },
+            { "id": 10, "text": "look at things from the past", "correct_answer": "i. museum" }
+          ],
+          "options": [
+            "a. station",
+            "b. sports center",
+            "c. library",
+            "d. park",
+            "e. police station",
+            "f. post office",
+            "g. hotel",
+            "h. restaurant",
+            "i. museum",
+            "j. supermarket"
+          ]
+        },
+        {
+          "part_number": 2,
+          "points": 9,
+          "points_per_item": 1,
+          "instructions": "Match the sentence halves.",
+          "type": "matching",
+          "prompts": [
+            { "id": 1, "text": "John works a lot of hours, but he doesnt mind because he", "correct_answer": "can finish early on Fridays." },
+            { "id": 2, "text": "Julia learnt Spanish very quickly this year. I think its because she", "correct_answer": "could already speak two other languages." },
+            { "id": 3, "text": "Ive improved a lot. I got top marks for my essay, but just a year ago, I", "correct_answer": "couldnt even write very well." },
+            { "id": 4, "text": "Jims results are already impressive and he didnt even study that much. He", "correct_answer": "can just do very well in exams." },
+            { "id": 5, "text": "In the job interview, its important that you dont forget anything. Can", "correct_answer": "you remember a lot of information?" },
+            { "id": 6, "text": "Sandra is very popular and has so many friends. Its difficult to believe that she", "correct_answer": "couldnt even talk to new people easily a few months ago." },
+            { "id": 7, "text": "I know its simple but I need to use my calculator because I", "correct_answer": "cant understand maths very easily." },
+            { "id": 8, "text": "Joseph is really good at football, tennis and basketball. Could", "correct_answer": "he play sport well when he was a child, too?" },
+            { "id": 9, "text": "Lucys late. I think shes lost. She", "correct_answer": "cant read maps very well." }
+          ],
+          "options": [
+            "can finish early on Fridays.",
+            "can just do very well in exams.",
+            "cant read maps very well.",
+            "cant understand maths very easily.",
+            "could already speak two other languages.",
+            "couldnt even talk to new people easily a few months ago.",
+            "couldnt even write very well.",
+            "he play sport well when he was a child, too?",
+            "you remember a lot of information?"
+          ]
+        },
+        {
+          "part_number": 3,
+          "points": 6,
+          "points_per_item": 1,
+          "instructions": "Read Luke's email to his friend, Andrew. Then choose True or False.",
+          "type": "true_false",
+          "reading_passage": "Dear Andrew,\nHappy New Year! I hope that you enjoyed the party you told me about in your last email. Do you have any good plans for the new year?\nI have decided that I am going to be much healthier this year. Last year, I had a lot of exams, so I didnt do very much exercise, and I ate too much chocolate and too many biscuits.\nThis year, I want to follow a healthy diet and to do more exercise. I joined a gym last week. Its in a nice new sports center, which has a swimming pool and different rooms with a variety of exercise classes. I tried the yoga class last week and I really enjoyed it. I am going to go to a class once a week, and to the gym twice a week. I think that this will help me to get fit very quickly.\nI have also started to walk to college instead of taking the bus. When I go to the library, I go by bike because it is quite far. I feel much better and less tired if I walk or cycle.\nI have started to cook more meals at home. I have found some good healthy recipes on the internet. Last night, I cooked baked fish with steamed vegetables. It was delicious, and I didnt feel hungry at all afterwards.\nI have also decided not to eat junk food like chocolate and crisps for one month. I take dried fruit and nuts to college with me as a snack, and I eat fruit or yoghurt in the afternoon instead of biscuits or cake. The next time I see you, I promise to cook you something healthy.\nLook forward to hearing from you soon!\nBest wishes,\nLuke",
+          "questions": [
+            { "id": 1, "text": "Luke did not follow a healthy diet last year.", "correct_answer": "True" },
+            { "id": 2, "text": "He want to join a gym soon.", "correct_answer": "False" },
+            { "id": 3, "text": "He tried an exercise class last week.", "correct_answer": "True" },
+            { "id": 4, "text": "He wants to go to gym once a week.", "correct_answer": "False" },
+            { "id": 5, "text": "He walks to library.", "correct_answer": "False" },
+            { "id": 6, "text": "He doesn’t eat biscuits or cake in the afternoons.", "correct_answer": "True" }
+          ]
+        },
+        {
+          "part_number": 4,
+          "points": 5,
+          "points_per_item": 1,
+          "instructions": "Read an advertisement for a language exchange partner. Write one word from the text in each gap.",
+          "type": "fill_in_the_blank_reading",
+          "reading_passage": "Wanted: Italian language exchange partner!\nHello, my name is John Armstrong. I am a second-year student studying Law and Italian here in London. Next year, I am going to study at university in Rome for one year. I am looking for an Italian student who would like to meet me for a language exchange to help me improve my Italian.\nI have been to Italy many times with my family on holiday, so I know quite a lot of Italian, but I would like to practise speaking with an Italian person. Also, I think that I am going to make a lot of mistakes in Italian when I study abroad, so I would like somebody to help me to study Italian grammar. I am also not good at writing in Italian, so I would like somebody to look at my essays.\nAt the moment I take Italian classes on Thursday evenings. I am going to download an app for learning Italian, but I think that I need some more help. I am free on Monday or Wednesday afternoons. We could either meet at my house, or in the caf next to the library.\nIf you would like to meet me, please send me an email.\nThank you,\nJohn",
+          "questions": [
+            { "id": 1, "text": "He thinks that he is going make a lot of mistakes with Italian _______ .", "correct_answer": "grammar" },
+            { "id": 2, "text": "He wants somebody to help him to write better _______ .", "correct_answer": "essays" },
+            { "id": 3, "text": "He is taking classes and is going to use an _______ to help him study Italian.", "correct_answer": "app" },
+            { "id": 4, "text": "He can meet his language exchange partner in the _______ on Monday or Wednesday.", "correct_answer": "afternoons" },
+            { "id": 5, "text": "He wants to meet his language exchange partner at a _______ or at his house.", "correct_answer": "caf" }
+          ]
+        },
+        {
+          "part_number": 5,
+          "points": 3,
+          "points_per_item": 0.5,
+          "instructions": "Underline the correct words.",
+          "type": "inline_choice",
+          "questions": [
+            { "id": 1, "text": "My friends and [I / us / we] are students and [our / us / we] all have interesting hobbies.", "correct_answer": ["I", "we"] },
+            { "id": 2, "text": "Lara plays the piano and [her / it / she] also sings in a university group. [It / Its / They] is very popular.", "correct_answer": ["she", "It"] },
+            { "id": 3, "text": "Tom is a very good chess player. [He / His / They] friends often watch [he / him / his] play after classes.", "correct_answer": ["His", "him"] },
+            { "id": 4, "text": "There is a new sports center opening near [our / us / we] college. [He / It / They] has six indoor tennis courts.", "correct_answer": ["our", "It"] },
+            { "id": 5, "text": "[I / Me / My] brother really enjoys acting. Next week, [our / us / we] parents are going to the theatre to see his new play.", "correct_answer": ["My", "our"] },
+            { "id": 6, "text": "Susan collects stamps. [Their / Them / They] are from many different countries and Susan keeps [their / them / they] in a big book.", "correct_answer": ["They", "them"] }
+          ]
+        },
+        {
+          "part_number": 6,
+          "points": 9,
+          "points_per_item": 1,
+          "image_url": "/tests/mindset_final_test/chart.jpg",
+          "instructions": "Read the paragraph describing the chart. Choose the correct form of the verbs to complete the sentences.",
+          "type": "inline_choice",
+          "text": "The chart (1) [shows / is going to show / will show] the changing ways that adults will get news between 2015 and 2030. The results are for radio, newspapers, television and the internet. The way that people get their news (2) [are going to / going to / is going to] change a lot in the future. In 2015, most adults (3) [prefer / preferred / will prefer] watching the news on television and reading newspapers. However, we can see from the chart that these ways of getting the news are going to (4) [become / becoming / became] less popular in the future. Furthermore, the chart suggests that the number of adults who listen to the news on the radio (5) [falling / fell / will fall] between now and 2030. By 2030, listening to the radio (6) [will be / being / is] the least popular way for adults to get the news. The biggest change that we can see in the chart is online news becoming a lot more popular in the future. Firstly, we can see that in 2015, online news (7) [is / was / will be] less popular than radio, newspapers and television. We can also see that only 50% of adults (8) [uses / used / will use] the internet for their news at that time. However, the number of adults who read the news online (9) [increase / increased / is going to increase] a lot between now and 2030. By 2030, 90% of adults will get their news online and this will be the most popular way for adults to get their news.",
+          "answers": {
+            "1": "shows",
+            "2": "is going to",
+            "3": "preferred",
+            "4": "become",
+            "5": "will fall",
+            "6": "will be",
+            "7": "was",
+            "8": "used",
+            "9": "is going to increase"
+          }
+        },
+        {
+          "part_number": 7,
+          "points": 8,
+          "points_per_item": 1,
+          "case_sensitive": false,
+          "instructions": "Complete the sentences with the comparative forms of the **bolded** adjectives.",
+          "type": "fill_in_the_blank",
+          "questions": [
+            { "id": 1, "text": "My bike was **expensive** but my brothers was _______.", "correct_answer": "more expensive" },
+            { "id": 2, "text": "Art galleries are **interesting** but museums are _______.", "correct_answer": "more interesting" },
+            { "id": 3, "text": "Madrid is **hot** but Kuwait is _______.", "correct_answer": "hotter" },
+            { "id": 4, "text": "This garden is **pretty** but the one we saw yesterday was _______.", "correct_answer": "prettier" },
+            { "id": 5, "text": "This restaurant is **good** but the Italian one is _______.", "correct_answer": "better" },
+            { "id": 6, "text": "I was **excited** about the trip but my friend was _______.", "correct_answer": "more excited" },
+            { "id": 7, "text": "Cars are **noisy** but motorbikes are _______.", "correct_answer": "noisier" },
+            { "id": 8, "text": "Im **bad** at maths but my friend is _______.", "correct_answer": "worse" }
+          ]
+        },
+        {
+          "part_number": 8,
+          "points": 5,
+          "points_per_item": 1,
+          "instructions": "Put the words in the correct order to make sentences.",
+          "type": "drag_and_drop",
+          "questions": [
+            { "id": 1, "words_to_unscramble": ["2000", "used", "2015", "the devices", "that teenagers", "for entertainment", "and", "shows", "The chart", "between"], "correct_answer": "The chart shows the devices that teenagers used for entertainment between 2000 and 2015." },
+            { "id": 2, "words_to_unscramble": ["the use of", "biggest", "change is", "The", "going", "mobile phones", "to be"], "correct_answer": "The biggest change is going to be the use of mobile phones." },
+            { "id": 3, "words_to_unscramble": ["prefer", "Today,", "the news", "watching", "most people", "online"], "correct_answer": "Today, most people prefer watching the news online." },
+            { "id": 4, "words_to_unscramble": ["will", "the internet", "using", "an increase", "there", "people", "in", "be", "In the future,"], "correct_answer": "In the future, there will be an increase in people using the internet." },
+            { "id": 5, "words_to_unscramble": ["of adults", "TV", "the number", "fell", "watching", "the chart", "that", "suggests", "Furthermore,"], "correct_answer": "Furthermore, the chart suggests that the number of adults watching TV fell." }
+          ]
+        }
+      ]
+    }
+  ]
+}
