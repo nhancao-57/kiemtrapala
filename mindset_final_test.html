@@ -175,12 +175,16 @@
       <div id="review-container" class="mt-8 mb-8 border-t border-slate-200 pt-8">
         </div>
 
-      <div class="mt-12 text-center">
+      <div class="mt-12 flex flex-col items-center gap-4">
+        <button id="btn-download-audit" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2 px-6 rounded-lg transition-colors border border-slate-300 text-sm shadow-sm flex items-center justify-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+          Tải Kết quả
+        </button>
+        
         <button id="btn-retake" class="text-slate-400 hover:text-custom-pink-600 font-bold transition-colors underline decoration-2 underline-offset-4 text-sm uppercase tracking-wider">
           Làm lại bài kiểm tra
         </button>
       </div>
-    </section>
 
   </main>
 
@@ -202,7 +206,7 @@
       screens: { loading: document.getElementById('loading-screen'), error: document.getElementById('error-screen'), start: document.getElementById('start-screen'), test: document.getElementById('test-screen'), result: document.getElementById('result-screen') },
       start: { title: document.getElementById('test-title'), duration: document.getElementById('test-duration'), qCount: document.getElementById('q-count'), form: document.getElementById('start-form'), nameInput: document.getElementById('student-name'), resumePrompt: document.getElementById('resume-prompt'), btnResume: document.getElementById('btn-resume'), btnRestartClear: document.getElementById('btn-restart-clear') },
       test: { name: document.getElementById('display-name'), container: document.getElementById('questions-container'), btnSubmit: document.getElementById('btn-submit-test'), navTimer: document.getElementById('nav-timer-container'), navTimerText: document.getElementById('nav-timer-display'), progressBar: document.getElementById('progress-bar'), progressText: document.getElementById('progress-text') },
-      result: { name: document.getElementById('result-name'), score: document.getElementById('score-correct'), total: document.getElementById('score-total'), btnRetake: document.getElementById('btn-retake'), reviewContainer: document.getElementById('review-container') }
+      result: { name: document.getElementById('result-name'), score: document.getElementById('score-correct'), total: document.getElementById('score-total'), btnRetake: document.getElementById('btn-retake'), reviewContainer: document.getElementById('review-container'), btnAudit: document.getElementById('btn-download-audit') }
     };
 
     async function init() {
@@ -608,6 +612,32 @@
             });
         });
     }
+
+    // --- AUDIT DOWNLOAD LOGIC ---
+    function downloadAuditFile() {
+        const auditData = {
+            testTitle: testData.test_metadata.title,
+            studentName: state.name,
+            completionTime: new Date().toLocaleString('vi-VN'),
+            score: `${ui.result.score.textContent} / ${ui.result.total.textContent}`,
+            rawAnswers: state.answers
+        };
+
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(auditData, null, 2));
+        const downloadAnchorNode = document.createElement('a');
+        downloadAnchorNode.setAttribute("href", dataStr);
+        
+        const safeName = state.name.replace(/[^a-z0-9]/gi, '_').toLowerCase() || 'student';
+        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+        downloadAnchorNode.setAttribute("download", `audit_${safeName}_${timestamp}.json`);
+        
+        document.body.appendChild(downloadAnchorNode); 
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+    }
+
+    // Attach the function to the new button
+    ui.result.btnAudit.addEventListener('click', downloadAuditFile);
 
     function renderResults() {
       ui.result.name.textContent = state.name;
