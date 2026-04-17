@@ -50,11 +50,22 @@
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-custom-pink-200 selection:text-custom-pink-900 relative">
 
-  <header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50 h-16 flex items-center justify-center">
-    <div class="container mx-auto px-4 flex justify-center items-center">
-      <span class="text-2xl font-black text-custom-pink-600 tracking-tight">PALA<span class="text-slate-800">CENTRE</span></span>
+<header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50 h-16 flex items-center justify-between px-4 lg:px-8">
+    
+    <div class="w-1/3 flex justify-start"></div>
+    
+    <div class="w-1/3 flex justify-center items-center">
+      <img src="images/PLC_Logo_FA_Horizontal_COLOUR.png" alt="Pala Language Centre Logo" class="h-10 md:h-12 w-auto object-contain transition-transform hover:scale-105" onerror="this.outerHTML='<span class=\'text-2xl font-black text-custom-pink-600 tracking-tight\'>PALA<span class=\'text-slate-800\'>CENTRE</span></span>'">
     </div>
-  </header>
+    
+    <div class="w-1/3 flex justify-end items-center">
+      <div id="nav-timer-container" class="hidden flex items-center bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-lg shadow-inner">
+        <svg class="w-4 h-4 text-slate-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <span id="nav-timer-display" class="font-mono text-lg font-black text-slate-800 tracking-tight">00:00</span>
+      </div>
+    </div>
+    
+</header>
 
   <main class="flex-grow container mx-auto px-4 py-8 max-w-4xl flex flex-col items-center justify-center">
 
@@ -82,8 +93,12 @@
         </h2>
         <ul class="list-disc list-inside text-slate-700 space-y-2 font-medium">
           <li>Bài thi gồm <strong id="q-count" class="text-custom-pink-600 text-lg">0</strong> câu hỏi.</li>
+          <li>Bạn có <strong class="text-custom-pink-600">90 phút</strong> để làm bài. Đồng hồ ở góc phải sẽ đếm ngược sau khi bấm "Bắt đầu làm bài".</li>
+          <li>Tổng điểm của bài thi là <strong class="text-custom-pink-600">70 điểm.</strong></li>
           <li>Đảm bảo bạn có kết nối internet ổn định và loa/tai nghe để làm phần Nghe.</li>
-          <li>Điền tên Học viên trước khi làm bài.</li>
+          <li>Lưu ý: <strong class="text-custom-pink-600">Bạn chỉ được nghe mỗi phần Nghe tối đa 2 lần.</strong></li>
+          <li>Hệ thống sẽ tự động nộp bài khi hết thời gian.</li>
+          <li>Vui lòng sử dụng máy tính (laptop/desktop) hoặc máy tính bảng (tablet) để có trải nghiệm ổn định nhất</li>
         </ul>
       </div>
 
@@ -109,10 +124,18 @@
     </section>
 
     <section id="test-screen" class="hidden w-full">
-      <div class="bg-white/95 p-3 rounded-xl shadow-sm border border-slate-200 mb-8 sticky top-[76px] z-40 backdrop-blur-md">
-        <div class="flex justify-between items-center mb-2 px-1">
-          <div><p id="display-name" class="font-bold text-slate-800 truncate max-w-[150px] md:max-w-xs text-sm"></p></div>
-          <div class="text-right"><p class="font-black text-custom-pink-600 text-sm">Tiến độ bài thi</p></div>
+      <div class="bg-white/95 p-4 rounded-xl shadow-sm border border-slate-200 mb-8 sticky top-[76px] z-40 backdrop-blur-md">
+        <div class="flex justify-between items-end mb-3 px-1">
+          <div>
+              <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Học viên</p>
+              <p id="display-name" class="font-bold text-slate-800 truncate max-w-[150px] md:max-w-xs text-sm"></p>
+          </div>
+          <div class="text-right">
+              <p class="font-black text-custom-pink-600 text-sm mb-1">Tiến độ: <span id="progress-text" class="text-slate-800">0/0</span></p>
+          </div>
+        </div>
+        <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+            <div id="progress-bar" class="bg-custom-pink-500 h-2.5 rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
         </div>
       </div>
 
@@ -162,17 +185,23 @@
   </main>
 
   <script>
+    // --- CONFIGURATION ---
+    // Change this to 'false' if you want to allow unlimited audio plays.
+    const ENABLE_AUDIO_LIMIT = true; 
+    // ---------------------
+
     const STORAGE_KEY = 'mindset_final_test_progress';
     let testData = null;
-    let state = { name: '', answers: {}, isCompleted: false };
+    let state = { name: '', answers: {}, audioPlays: {}, isCompleted: false, endTime: null };
     let questionDictionary = {}; 
-    let questionLabels = {}; // Maps ID to human-readable question text for the review screen
+    let questionLabels = {}; 
     window.unscrambleData = {}; 
+    let testTimerInterval;
 
     const ui = {
       screens: { loading: document.getElementById('loading-screen'), error: document.getElementById('error-screen'), start: document.getElementById('start-screen'), test: document.getElementById('test-screen'), result: document.getElementById('result-screen') },
       start: { title: document.getElementById('test-title'), duration: document.getElementById('test-duration'), qCount: document.getElementById('q-count'), form: document.getElementById('start-form'), nameInput: document.getElementById('student-name'), resumePrompt: document.getElementById('resume-prompt'), btnResume: document.getElementById('btn-resume'), btnRestartClear: document.getElementById('btn-restart-clear') },
-      test: { name: document.getElementById('display-name'), container: document.getElementById('questions-container'), btnSubmit: document.getElementById('btn-submit-test') },
+      test: { name: document.getElementById('display-name'), container: document.getElementById('questions-container'), btnSubmit: document.getElementById('btn-submit-test'), navTimer: document.getElementById('nav-timer-container'), navTimerText: document.getElementById('nav-timer-display'), progressBar: document.getElementById('progress-bar'), progressText: document.getElementById('progress-text') },
       result: { name: document.getElementById('result-name'), score: document.getElementById('score-correct'), total: document.getElementById('score-total'), btnRetake: document.getElementById('btn-retake'), reviewContainer: document.getElementById('review-container') }
     };
 
@@ -184,7 +213,7 @@
         testData = await response.json();
         
         ui.start.title.textContent = testData.test_metadata.title;
-        ui.start.duration.textContent = `Thời gian làm bài: ${testData.test_metadata.duration_minutes} phút`;
+        ui.start.duration.textContent = `Trung tâm Ngoại ngữ Pala`;
         ui.start.qCount.textContent = testData.test_metadata.total_questions;
 
         buildQuestionDictionary();
@@ -262,21 +291,102 @@
       window.scrollTo(0, 0);
     }
 
+    // --- TIMER LOGIC ---
+    function startTimer() {
+        if (!state.endTime) {
+            // Calculate end time based on JSON duration metadata
+            const durationMs = testData.test_metadata.duration_minutes * 60 * 1000;
+            state.endTime = Date.now() + durationMs;
+            saveState();
+        }
+        
+        ui.test.navTimer.classList.remove('hidden');
+        updateTimerDisplay();
+        testTimerInterval = setInterval(updateTimerDisplay, 1000);
+    }
+
+    function updateTimerDisplay() {
+        const now = Date.now();
+        const remaining = state.endTime - now;
+
+        if (remaining <= 0) {
+            clearInterval(testTimerInterval);
+            ui.test.navTimerText.textContent = "00:00";
+            ui.test.navTimerText.classList.add('text-red-500');
+            forceSubmitTest();
+        } else {
+            const minutes = Math.floor(remaining / 60000);
+            const seconds = Math.floor((remaining % 60000) / 1000);
+            ui.test.navTimerText.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Add red warning color if less than 5 minutes
+            if (minutes < 5) {
+                ui.test.navTimerText.classList.add('text-red-500');
+            }
+        }
+    }
+
+    function forceSubmitTest() {
+        alert("Hết thời gian làm bài! Hệ thống sẽ tự động nộp bài.");
+        completeTest();
+    }
+    // -------------------
+
+    // --- PROGRESS LOGIC ---
+    function updateProgressUI() {
+        const totalItems = Object.keys(questionDictionary).length;
+        let answeredItems = 0;
+
+        Object.keys(questionDictionary).forEach(key => {
+            const val = state.answers[key];
+            if (Array.isArray(val)) {
+                if (val.length > 0) answeredItems++;
+            } else if (val !== undefined && val !== null && val.toString().trim() !== '') {
+                answeredItems++;
+            }
+        });
+
+        const percentage = totalItems === 0 ? 0 : Math.round((answeredItems / totalItems) * 100);
+        ui.test.progressBar.style.width = `${percentage}%`;
+        ui.test.progressText.textContent = `${answeredItems}/${totalItems}`;
+    }
+    // ----------------------
+
     ui.start.form.addEventListener('submit', (e) => {
       e.preventDefault();
       state.name = ui.start.nameInput.value.trim();
-      state.answers = {}; state.isCompleted = false; saveState(); buildTestUI();
+      state.answers = {}; 
+      state.audioPlays = {}; 
+      state.isCompleted = false; 
+      state.endTime = null; // Reset timer for fresh start
+      saveState(); 
+      buildTestUI();
     });
+    
     ui.start.btnResume.addEventListener('click', buildTestUI);
+    
     ui.start.btnRestartClear.addEventListener('click', () => {
-      localStorage.removeItem(STORAGE_KEY); state = { name: '', answers: {}, isCompleted: false };
-      ui.start.resumePrompt.classList.add('hidden'); ui.start.nameInput.value = '';
+      localStorage.removeItem(STORAGE_KEY); 
+      state = { name: '', answers: {}, audioPlays: {}, isCompleted: false, endTime: null };
+      ui.start.resumePrompt.classList.add('hidden'); 
+      ui.start.nameInput.value = '';
     });
+    
     ui.test.btnSubmit.addEventListener('click', () => {
       if (confirm('Bạn có chắc chắn muốn nộp bài?')) {
-        state.isCompleted = true; saveState(); renderResults(); showScreen('result');
+        completeTest();
       }
     });
+
+    function completeTest() {
+        clearInterval(testTimerInterval);
+        ui.test.navTimer.classList.add('hidden');
+        state.isCompleted = true; 
+        saveState(); 
+        renderResults(); 
+        showScreen('result');
+    }
+
     ui.result.btnRetake.addEventListener('click', () => {
       if(confirm('Làm lại sẽ xóa điểm số hiện tại. Bạn đồng ý chứ?')) {
         localStorage.removeItem(STORAGE_KEY); location.reload();
@@ -291,14 +401,15 @@
         state.answers[qId] = val;
       }
       saveState();
+      updateProgressUI();
     };
 
-    // Drag and Drop Logic
     window.handleDDAdd = function(qId, word) {
         if (!state.answers[qId]) state.answers[qId] = [];
         state.answers[qId].push(word);
         saveState();
         renderDragDrop(qId);
+        updateProgressUI();
     };
 
     window.handleDDRemove = function(qId, idx) {
@@ -306,6 +417,7 @@
             state.answers[qId].splice(idx, 1);
             saveState();
             renderDragDrop(qId);
+            updateProgressUI();
         }
     };
 
@@ -325,12 +437,10 @@
 
         wrap.innerHTML = `
            <div class="text-sm text-slate-700 mb-2 font-bold">${qNum}. Nhấp vào các từ bên dưới để sắp xếp thành câu:</div>
-           
            <div class="min-h-[56px] p-3 border-2 border-dashed border-custom-pink-300 bg-custom-pink-50 rounded-xl mb-3 flex flex-wrap gap-2 transition-all">
                ${currentAnswer.map((w, i) => `<span class="px-3 py-1 bg-white border border-custom-pink-400 rounded-lg shadow-sm text-custom-pink-800 font-medium cursor-pointer hover:bg-custom-pink-100 transition-colors" onclick="handleDDRemove('${qId}', ${i})">${w}</span>`).join('')}
                ${currentAnswer.length === 0 ? '<span class="text-custom-pink-300 italic text-sm py-1">Khu vực ghép câu (trống)</span>' : ''}
            </div>
-           
            <div class="p-3 border border-slate-200 bg-slate-100 rounded-xl flex flex-wrap gap-2">
                ${remaining.map((w) => `<span class="px-3 py-1 bg-white border border-slate-300 hover:border-slate-400 rounded-lg shadow-sm text-slate-800 cursor-pointer hover:bg-slate-50 transition-colors" onclick="handleDDAdd('${qId}', '${w.replace(/'/g, "\\'")}')">${w}</span>`).join('')}
                ${remaining.length === 0 ? '<span class="text-slate-400 italic text-sm py-1">Đã dùng hết từ</span>' : ''}
@@ -350,15 +460,30 @@
         section.parts.forEach(part => {
           const pDiv = document.createElement('div');
           pDiv.className = "mb-10 bg-white p-6 rounded-2xl shadow-sm border border-slate-200";
+          const pKey = `${section.section_id}_${part.part_number}`;
           
           let instructionsHtml = `<h3 class="text-lg font-bold text-slate-800 mb-2">Part ${part.part_number} (${part.points} pts)</h3><p class="text-slate-600 mb-6 italic">${part.instructions}</p>`;
-          let audioHtml = part.audio_url ? `<audio controls class="w-full mb-6 outline-none"><source src="${part.audio_url}" type="audio/mpeg">Your browser does not support the audio element.</audio>` : '';
+          
+          let audioHtml = '';
+          if (part.audio_url) {
+             const limitDisplayClass = ENABLE_AUDIO_LIMIT ? '' : 'hidden';
+             audioHtml = `
+                <div class="mb-6 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                   <div class="flex justify-between items-center mb-2">
+                       <span class="text-sm font-bold text-slate-600 flex items-center"><svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>Audio Track</span>
+                       <span id="audio-status-${pKey}" class="${limitDisplayClass} text-xs font-bold px-2 py-1 bg-custom-pink-100 text-custom-pink-700 rounded-md">Lượt nghe: 0/2</span>
+                   </div>
+                   <audio id="audio-${pKey}" controls class="w-full outline-none audio-element" data-key="${pKey}">
+                       <source src="${part.audio_url}" type="audio/mpeg">
+                   </audio>
+                </div>`;
+          }
+
           let imageHtml = part.image_url ? `<img src="${part.image_url}" alt="Part Illustration" class="max-w-full h-auto rounded-xl mb-6 shadow-sm border border-slate-200">` : '';
           let passageHtml = part.reading_passage ? `<div class="bg-slate-50 p-4 rounded-xl border border-slate-200 mb-6 whitespace-pre-wrap leading-relaxed text-slate-700">${part.reading_passage}</div>` : '';
           let wordBoxHtml = part.word_box ? `<div class="flex flex-wrap gap-2 mb-6 p-4 bg-blue-50 border border-blue-100 rounded-xl">${part.word_box.map(w => `<span class="px-3 py-1 bg-white border border-blue-200 rounded-lg text-blue-800 font-medium">${w}</span>`).join('')}</div>` : '';
           
           let contentHtml = '';
-          const pKey = `${section.section_id}_${part.part_number}`;
 
           if (part.type === 'true_false') {
             contentHtml = part.questions.map(q => `
@@ -433,8 +558,55 @@
         ui.test.container.appendChild(secDiv);
       });
 
+      // Initialize UI features
       dragDropQueue.forEach(qId => renderDragDrop(qId));
+      updateProgressUI();
+      startTimer();
+      bindAudioLogic();
+      
       showScreen('test');
+    }
+
+    function bindAudioLogic() {
+        if (!ENABLE_AUDIO_LIMIT) return;
+        
+        document.querySelectorAll('.audio-element').forEach(audio => {
+            const key = audio.dataset.key;
+            state.audioPlays = state.audioPlays || {};
+            let playCount = state.audioPlays[key] || 0;
+            const statusBadge = document.getElementById(`audio-status-${key}`);
+            
+            let hasStartedCurrentSession = false;
+
+            function updateAudioBadge() {
+                if (playCount >= 2) {
+                    audio.removeAttribute('controls');
+                    statusBadge.textContent = "Hết lượt nghe";
+                    statusBadge.classList.replace('bg-custom-pink-100', 'bg-red-100');
+                    statusBadge.classList.replace('text-custom-pink-700', 'text-red-700');
+                } else {
+                    statusBadge.textContent = `Lượt nghe: ${playCount}/2`;
+                }
+            }
+
+            // Set initial state
+            updateAudioBadge();
+
+            audio.addEventListener('play', () => {
+                if (!hasStartedCurrentSession && playCount < 2) {
+                    playCount++;
+                    state.audioPlays[key] = playCount;
+                    saveState();
+                    updateAudioBadge();
+                    hasStartedCurrentSession = true;
+                }
+            });
+
+            audio.addEventListener('ended', () => {
+                hasStartedCurrentSession = false; // Reset so the next play counts as the 2nd attempt
+                updateAudioBadge();
+            });
+        });
     }
 
     function renderResults() {
@@ -451,25 +623,21 @@
          let displayActual = actual;
          let displayExpected = expected;
          
-         // Fix Drag and Drop array to string joining for display and logic
          if (Array.isArray(actual) && !Array.isArray(expected)) {
              actual = actual.join(' ');
              displayActual = actual;
          }
 
-         // Handle empty states gracefully
          if (displayActual === undefined || displayActual === null || displayActual === '') {
              displayActual = "<em class='text-slate-400'>Không trả lời</em>";
          }
          
-         // Array check for strict matching
          if (Array.isArray(expected) && Array.isArray(actual)) {
              if (JSON.stringify(expected) === JSON.stringify(actual)) isCorrect = true;
          } else if (actual !== undefined && expected !== undefined) {
              let actStr = actual.toString().trim();
              let expStr = expected.toString().trim();
              
-             // Normalize strings: remove punctuation and extra spaces for bulletproof comparison
              let normAct = actStr.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").replace(/\s{2,}/g," ").trim();
              let normExp = expStr.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").replace(/\s{2,}/g," ").trim();
              
@@ -486,7 +654,6 @@
          if (isCorrect) {
              score += qData.points;
          } else {
-             // Generate incorrect review card
              reviewHtmlBlocks.push(`
                 <div class="mb-4 bg-white p-5 rounded-2xl border-l-4 border-l-red-500 shadow-sm">
                    <p class="font-bold text-slate-800 text-sm mb-2 pb-2 border-b border-slate-100">${questionLabels[key]}</p>
@@ -508,7 +675,6 @@
       ui.result.score.textContent = score;
       ui.result.total.textContent = window.testTotalPoints;
 
-      // Populate Review UI
       if (reviewHtmlBlocks.length > 0) {
           ui.result.reviewContainer.innerHTML = `<h3 class="text-xl font-black text-slate-800 mb-6 text-center">Các câu trả lời chưa chính xác</h3>` + reviewHtmlBlocks.join('');
       } else {
