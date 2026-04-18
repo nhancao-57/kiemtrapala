@@ -11,6 +11,8 @@ export default async (request, context) => {
   // Fetch expected credentials
   const expectedUser = Netlify.env.get("SITE_USERNAME")
   const expectedPass = Netlify.env.get("SITE_PASSWORD")
+  // Added the new secondary password variable here
+  const secondaryPass = Netlify.env.get("SECONDARY_SITE_PASSWORD")
 
   // 2. Handle the form submission from login.html
   if (url.pathname === '/login' && request.method === 'POST') {
@@ -19,7 +21,8 @@ export default async (request, context) => {
     const user = formData.get('username');
     const pass = formData.get('password');
 
-    if (user === expectedUser && pass === expectedPass) {
+    // Updated logic: Check if username matches AND (password matches primary OR secondary)
+    if (user === expectedUser && (pass === expectedPass || pass === secondaryPass)) {
       // SUCCESS: Set a secure cookie valid for 1 day (86400 seconds)
       // and redirect them to the homepage (index.html)
       return new Response(null, {
