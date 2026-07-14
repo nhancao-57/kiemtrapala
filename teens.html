@@ -257,18 +257,15 @@
 
     async function init() {
       try {
-        // Updated path for the Prepare test JSON
         const response = await fetch('/tests/teens/teens.json');
         if (!response.ok) throw new Error('Không thể đọc file JSON');
         
         testData = await response.json();
         
-        // Extract all questions based on new schema
         flatQuestions = testData.parts.flatMap(part => 
           part.questionSets.flatMap(qs => qs.questions)
         );
 
-        // Populate Start Screen
         ui.start.title.textContent = testData.testTitle;
         ui.start.qCount.textContent = flatQuestions.length;
         ui.test.total.textContent = flatQuestions.length;
@@ -308,7 +305,6 @@
       window.scrollTo(0, 0);
     }
 
-    // --- EVENT LISTENERS ---
     ui.start.form.addEventListener('submit', (e) => {
       e.preventDefault();
       state.name = ui.start.nameInput.value.trim();
@@ -363,7 +359,6 @@
       }
     });
 
-    // --- BUILD TEST ---
     function buildTestUI() {
       ui.test.name.textContent = state.name;
       ui.test.container.innerHTML = '';
@@ -372,7 +367,6 @@
         const partDiv = document.createElement('div');
         partDiv.className = "animate-fade-in-up mb-10";
         
-        // Add part header and context
         partDiv.innerHTML = `
           <div class="mb-6 bg-slate-100/70 p-5 md:p-6 rounded-2xl border border-slate-200 shadow-sm">
             <h3 class="text-xl md:text-2xl font-black text-slate-800 tracking-tight">${part.title}</h3>
@@ -384,7 +378,6 @@
 
         const partContainer = partDiv.querySelector(`#part-${part.partNumber}`);
 
-        // Loop through Question Sets inside this part
         part.questionSets.forEach((qs, qsIndex) => {
           const qsDiv = document.createElement('div');
           qsDiv.className = "space-y-4";
@@ -393,20 +386,17 @@
              qsDiv.innerHTML = `<p class="text-custom-pink-700 font-bold bg-custom-pink-50 px-4 py-2 rounded-lg inline-block text-sm border border-custom-pink-100">${qs.instructions}</p>`;
           }
 
-          // Responsive grid: 1 column on mobile, 2 columns on medium screens and up
           const qContainer = document.createElement('div');
           qContainer.className = "grid grid-cols-1 md:grid-cols-2 gap-4 mt-4";
           qsDiv.appendChild(qContainer);
           partContainer.appendChild(qsDiv);
 
-          // Loop through individual Questions
           qs.questions.forEach(q => {
             const qCard = document.createElement('div');
             qCard.className = 'bg-white rounded-2xl p-5 border border-slate-200 shadow-sm transition-all hover:shadow-md';
             
             let optionsHtml = '';
             q.options.forEach(opt => {
-              // Extract the letter (e.g., "A") and the actual option text (e.g., "has")
               const optLetter = opt.split(' ')[0]; 
               const optText = opt.substring(opt.indexOf(' ') + 1); 
               const isChecked = state.answers[q.number] === opt ? 'checked' : '';
@@ -468,7 +458,6 @@
 
     function renderResults() {
       ui.result.name.textContent = state.name;
-      ui.result.total.textContent = flatQuestions.length;
       
       if (state.completionTime) {
           const dateObj = new Date(state.completionTime);
@@ -480,10 +469,26 @@
           ui.result.time.textContent = "Không xác định";
       }
 
+      // --- NEW LOGIC: Evaluate the first 30 questions ---
+      const first30Questions = flatQuestions.slice(0, 30);
+      let correctFirst30 = 0;
+      first30Questions.forEach(q => {
+        if (state.answers[q.number] === q.answer) {
+          correctFirst30++;
+        }
+      });
+
+      // Determine which subset of questions to evaluate against
+      const evaluateAll = correctFirst30 >= 25 || flatQuestions.length <= 30;
+      const questionsToEvaluate = evaluateAll ? flatQuestions : first30Questions;
+
+      ui.result.total.textContent = questionsToEvaluate.length;
+
+      // Evaluate the chosen subset
       let correct = 0;
       let wrongs = [];
 
-      flatQuestions.forEach(q => {
+      questionsToEvaluate.forEach(q => {
         const ans = state.answers[q.number];
         if (ans === q.answer) {
           correct++;
@@ -496,7 +501,7 @@
       ui.result.reviewContainer.innerHTML = '';
 
       if (wrongs.length === 0) {
-        ui.result.reviewContainer.innerHTML = '<div class="p-6 bg-green-50 text-green-700 font-bold text-center rounded-2xl border border-green-100 text-lg">Tuyệt vời! Bạn đã làm đúng tất cả các câu hỏi. 🎉</div>';
+        ui.result.reviewContainer.innerHTML = '<div class="p-6 bg-green-50 text-green-700 font-bold text-center rounded-2xl border border-green-100 text-lg">Tuyệt vời! Bạn đã làm đúng tất cả các câu hỏi được đánh giá. 🎉</div>';
       } else {
         wrongs.forEach(item => {
           const q = item.q;
