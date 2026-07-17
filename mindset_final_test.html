@@ -188,6 +188,8 @@
 
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <script>
     // --- CONFIGURATION ---
     // Change this to 'false' if you want to allow unlimited audio plays.
@@ -201,6 +203,10 @@
     let questionLabels = {}; 
     window.unscrambleData = {}; 
     let testTimerInterval;
+
+    const SUPABASE_URL = 'https://qkxjrytqidbnrmizwmmz.supabase.co';
+    const SUPABASE_ANON_KEY = 'YOUR_LONG_ANON_KEY'; // Paste your key here
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     const ui = {
       screens: { loading: document.getElementById('loading-screen'), error: document.getElementById('error-screen'), start: document.getElementById('start-screen'), test: document.getElementById('test-screen'), result: document.getElementById('result-screen') },
@@ -382,11 +388,75 @@
       }
     });
 
-    function completeTest() {
+    async function completeTest() {
         clearInterval(testTimerInterval);
         ui.test.navTimer.classList.add('hidden');
+        
+        // Show loading state
+        ui.test.btnSubmit.innerText = "Đang nộp bài...";
+        ui.test.btnSubmit.disabled = true;
+
         state.isCompleted = true; 
+        state.completionTime = new Date().toISOString();
         saveState(); 
+
+        // --- Calculate score for the backend ---
+        let finalScore = 0;
+        Object.keys(questionDictionary).forEach(key => {
+           const qData = questionDictionary[key];
+           const expected = qData.answer;
+           let actual = state.answers[key];
+           let isCorrect = false;
+
+           if (Array.isArray(actual) && !Array.isArray(expected)) {
+               actual = actual.join(' ');
+           }
+
+           if (Array.isArray(expected) && Array.isArray(actual)) {
+               if (JSON.stringify(expected) === JSON.stringify(actual)) isCorrect = true;
+           } else if (actual !== undefined && expected !== undefined) {
+               let actStr = actual.toString().trim();
+               let expStr = expected.toString().trim();
+               
+               let normAct = actStr.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").replace(/\s{2,}/g," ").trim();
+               let normExp = expStr.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").replace(/\s{2,}/g," ").trim();
+               
+               if (!qData.case_sensitive) {
+                   normAct = normAct.toLowerCase();
+                   normExp = normExp.toLowerCase();
+               }
+               
+               if (normAct === normExp) {
+                   isCorrect = true;
+               }
+           }
+           
+           if (isCorrect) finalScore += qData.points;
+        });
+        // ---------------------------------------
+
+        // Send data to Supabase
+        try {
+          const { error } = await supabaseClient
+            .from('test_results')
+            .insert([
+              {
+                student_name: state.name,
+                test_title: testData.test_metadata.title,
+                score_correct: finalScore,
+                score_total: window.testTotalPoints,
+                answers: state.answers
+              }
+            ]);
+
+          if (error) throw error;
+          console.log("Nộp bài lên server thành công!");
+
+        } catch (err) {
+          console.error("Lỗi khi nộp bài:", err);
+          alert("Lỗi kết nối máy chủ! Kết quả của bạn vẫn được lưu trên máy này. Hãy dùng nút 'Tải Kết quả' để lưu file dự phòng.");
+        }
+
         renderResults(); 
         showScreen('result');
     }
