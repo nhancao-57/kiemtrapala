@@ -2,77 +2,175 @@
 <html lang="vi" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Pala Results Service</title>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EYZEE006PK"></script>
   <meta name="robots" content="noindex, nofollow">
-  <title>Quản Lý Kết Quả - Pala Centre</title>
-  
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+
+  <!-- Scripts -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <!-- Custom Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'custom-pink': {
+              50: '#fdf2f8', 100: '#fce7f3', 200: '#fbcfe8',
+              300: '#f9a8d4', 400: '#f472b6', 500: '#ec4899',
+              600: '#db2777', 700: '#be185d', 800: '#9d174d', 900: '#831843'
+            }
+          },
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          animation: {
+            'fade-in-up': 'fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+          },
+          keyframes: {
+            fadeInUp: {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans min-h-screen p-4 md:p-8">
+<body class="bg-slate-50 text-slate-800 font-sans min-h-[100dvh] flex flex-col selection:bg-custom-pink-200 selection:text-custom-pink-900 relative overflow-x-hidden">
 
-  <!-- LOGIN SCREEN -->
-  <div id="login-section" class="max-w-md mx-auto mt-20 bg-white p-8 rounded-3xl shadow-lg border border-slate-100">
-    <div class="text-center mb-8">
-      <h1 class="text-2xl font-black text-slate-800 uppercase tracking-tight">Pala Portal</h1>
-      <p class="text-slate-500 font-medium mt-1">Đăng nhập dành cho Giáo viên</p>
+  <!-- Background Decorative Elements -->
+  <div class="fixed top-[-10%] left-[-10%] w-96 h-96 bg-custom-pink-200 rounded-full mix-blend-multiply filter blur-[128px] opacity-40 pointer-events-none z-0"></div>
+  <div class="fixed bottom-[-10%] right-[-10%] w-96 h-96 bg-custom-pink-300 rounded-full mix-blend-multiply filter blur-[128px] opacity-20 pointer-events-none z-0"></div>
+
+  <!-- Header -->
+  <header class="bg-white/80 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-50 h-16 flex items-center justify-center shrink-0 transition-all">
+    <div class="container mx-auto px-4 flex justify-center items-center">
+      <img src="images/PLC_Logo_FA_Horizontal_COLOUR.png" alt="Pala Language Centre Logo" class="h-10 md:h-12 w-auto object-contain transition-transform hover:scale-105" onerror="this.outerHTML='<span class=\'text-2xl font-black text-custom-pink-600 tracking-tight\'>PALA<span class=\'text-slate-800\'>CENTRE</span></span>'">
     </div>
+  </header>
+
+  <main class="flex-1 w-full flex items-center justify-center px-4 py-8 z-10 relative">
     
-    <form id="login-form" class="space-y-4">
-      <div>
-        <label class="block font-bold text-slate-700 mb-2">Email</label>
-        <input type="email" id="email" required class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-pink-500 focus:outline-none transition-all">
+    <!-- LOGIN SCREEN -->
+    <div id="login-section" class="bg-white/95 backdrop-blur-xl rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white p-6 sm:p-10 w-full max-w-md animate-fade-in-up transition-all duration-300 ring-1 ring-slate-100 hover:shadow-[0_8px_30px_rgba(236,72,153,0.08)]">
+      
+      <div class="w-16 h-16 bg-gradient-to-br from-custom-pink-50 to-custom-pink-100 text-custom-pink-500 rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-inner">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+        </svg>
       </div>
-      <div>
-        <label class="block font-bold text-slate-700 mb-2">Mật khẩu</label>
-        <input type="password" id="password" required class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-pink-500 focus:outline-none transition-all">
-      </div>
-      <div id="login-error" class="text-red-500 text-sm font-bold hidden">Email hoặc mật khẩu không đúng!</div>
-      <button type="submit" class="w-full bg-pink-600 hover:bg-pink-700 text-white font-black py-3 rounded-xl transition-all shadow-md mt-4">
-        Đăng Nhập
-      </button>
-    </form>
-  </div>
 
-  <!-- DASHBOARD SCREEN (Hidden by default) -->
-  <div id="dashboard-section" class="max-w-6xl mx-auto hidden">
-    <div class="flex justify-between items-center mb-8 bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-      <div>
-        <h1 class="text-2xl font-black text-slate-800">Kết Quả Bài Kiểm Tra</h1>
-        <p class="text-slate-500">Xem và quản lý điểm số của học viên.</p>
+      <div class="text-center mb-8">
+        <h1 class="text-2xl sm:text-[1.75rem] leading-tight font-black text-slate-800 mb-3 tracking-tight">Pala <span class="text-custom-pink-600">Results Service</span></h1>
+        <p class="text-slate-500 font-medium text-sm sm:text-base leading-relaxed">Đăng nhập dành cho Giáo viên</p>
       </div>
-      <button id="btn-logout" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2 px-6 rounded-lg transition-colors">
-        Đăng Xuất
-      </button>
+
+      <form id="login-form" class="space-y-5">
+        <div class="space-y-1.5">
+          <label for="email" class="block text-sm font-bold text-slate-700 ml-1">Email</label>
+          <div class="relative group">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-custom-pink-500 transition-colors">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+            </div>
+            <input type="email" id="email" required 
+              class="w-full pl-11 pr-4 py-3.5 rounded-xl border-2 border-slate-100 bg-slate-50/50 focus:bg-white focus:border-custom-pink-400 focus:ring-4 focus:ring-custom-pink-100/50 transition-all outline-none text-slate-800 font-medium placeholder:text-slate-400 placeholder:font-normal" 
+              placeholder="nhap@email.com...">
+          </div>
+        </div>
+        
+        <div class="space-y-1.5">
+          <label for="password" class="block text-sm font-bold text-slate-700 ml-1">Mật khẩu</label>
+          <div class="relative group">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-custom-pink-500 transition-colors">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+            </div>
+            <input type="password" id="password" required 
+              class="w-full pl-11 pr-12 py-3.5 rounded-xl border-2 border-slate-100 bg-slate-50/50 focus:bg-white focus:border-custom-pink-400 focus:ring-4 focus:ring-custom-pink-100/50 transition-all outline-none text-slate-800 font-medium placeholder:text-slate-400 placeholder:font-normal tracking-wide" 
+              placeholder="••••••••">
+            <button type="button" id="toggle-password" class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-custom-pink-600 transition-colors focus:outline-none">
+              <svg id="eye-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div id="login-error" class="hidden bg-red-50 text-red-600 text-sm font-semibold py-3.5 px-4 rounded-xl flex items-center justify-center gap-2 border border-red-100 shadow-sm animate-fade-in-up">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          Email hoặc mật khẩu không đúng!
+        </div>
+
+        <button type="submit" class="w-full bg-custom-pink-600 hover:bg-custom-pink-700 active:bg-custom-pink-800 text-white font-bold py-3.5 px-6 rounded-xl flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg mt-4 uppercase tracking-wider focus:ring-4 focus:ring-custom-pink-200 outline-none">
+          <span>Đăng Nhập</span>
+          <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+        </button>
+      </form>
     </div>
 
-    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-      <div class="overflow-x-auto">
-        <table class="w-full text-left border-collapse">
-          <thead>
-            <tr class="bg-slate-800 text-white">
-              <th class="p-4 font-bold text-sm uppercase tracking-wider">Học Viên</th>
-              <th class="p-4 font-bold text-sm uppercase tracking-wider">Bài Thi</th>
-              <th class="p-4 font-bold text-sm uppercase tracking-wider">Điểm Số</th>
-              <th class="p-4 font-bold text-sm uppercase tracking-wider">Thời Gian Nộp</th>
-            </tr>
-          </thead>
-          <tbody id="results-table-body">
-            <tr>
-              <td colspan="4" class="p-8 text-center text-slate-500 font-medium">Đang tải dữ liệu...</td>
-            </tr>
-          </tbody>
-        </table>
+    <!-- DASHBOARD SCREEN (Hidden by default) -->
+    <div id="dashboard-section" class="w-full max-w-6xl mx-auto hidden animate-fade-in-up self-start">
+      
+      <!-- Dashboard Header -->
+      <div class="bg-white/95 backdrop-blur-xl rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white p-6 sm:p-8 mb-8 flex flex-col sm:flex-row justify-between items-center ring-1 ring-slate-100">
+        <div class="text-center sm:text-left mb-4 sm:mb-0">
+          <h1 class="text-2xl sm:text-3xl font-black text-slate-800 tracking-tight">Kết Quả <span class="text-custom-pink-600">Bài Kiểm Tra</span></h1>
+          <p class="text-slate-500 font-medium mt-1">Xem và quản lý điểm số của học viên.</p>
+        </div>
+        <button id="btn-logout" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 px-6 rounded-xl transition-all shadow-sm flex items-center gap-2 focus:ring-4 focus:ring-slate-200 outline-none">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+          Đăng Xuất
+        </button>
+      </div>
+
+      <!-- Dashboard Table -->
+      <div class="bg-white/95 backdrop-blur-xl rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white ring-1 ring-slate-100 overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-50/80 border-b border-slate-200/60">
+                <th class="p-5 font-bold text-sm text-slate-500 uppercase tracking-wider">Học Viên</th>
+                <th class="p-5 font-bold text-sm text-slate-500 uppercase tracking-wider">Bài Thi</th>
+                <th class="p-5 font-bold text-sm text-slate-500 uppercase tracking-wider">Điểm Số</th>
+                <th class="p-5 font-bold text-sm text-slate-500 uppercase tracking-wider">Thời Gian Nộp</th>
+              </tr>
+            </thead>
+            <tbody id="results-table-body" class="divide-y divide-slate-100">
+              <tr>
+                <td colspan="4" class="p-10 text-center">
+                  <div class="inline-flex items-center justify-center gap-2 text-slate-500 font-medium">
+                    <svg class="w-5 h-5 animate-spin text-custom-pink-500" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    Đang tải dữ liệu...
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-  </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-transparent py-6 shrink-0 z-10 relative">
+    <div class="container mx-auto px-4 text-center">
+      <p class="text-sm text-slate-500 font-medium tracking-wide">© 2026 Trung tâm Ngoại ngữ Pala.</p>
+    </div>
+  </footer>
 
   <script>
-    // --- INSERT YOUR SUPABASE CREDENTIALS HERE ---
+    // --- SUPABASE CREDENTIALS ---
     const SUPABASE_URL = 'https://qkxjrytqidbnrmizwmmz.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFreGpyeXRxaWRibnJtaXp3bW16Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyNjgyNzAsImV4cCI6MjA5OTg0NDI3MH0.XGGuTUsC-1i6BK5qkyurBxiCGvfx8Gg-PcIlNvbJc04';
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    // ---------------------------------------------
 
     const ui = {
       loginSection: document.getElementById('login-section'),
@@ -85,7 +183,22 @@
       tableBody: document.getElementById('results-table-body')
     };
 
-    // Check if user is already logged in on page load
+    // Password Toggle UI Logic
+    const togglePasswordBtn = document.getElementById('toggle-password');
+    const eyeIcon = document.getElementById('eye-icon');
+
+    togglePasswordBtn.addEventListener('click', () => {
+      const type = ui.passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      ui.passwordInput.setAttribute('type', type);
+      
+      if (type === 'text') {
+        eyeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />`;
+      } else {
+        eyeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>`;
+      }
+    });
+
+    // Check Auth Status
     async function checkAuth() {
       const { data: { session } } = await supabaseClient.auth.getSession();
       if (session) {
@@ -93,7 +206,7 @@
       }
     }
 
-    // Handle Login
+    // Handle Login Submit
     ui.loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       ui.loginError.classList.add('hidden');
@@ -118,28 +231,28 @@
       ui.loginForm.reset();
     });
 
-    // Show Dashboard and Fetch Data
+    // Display Dashboard
     function showDashboard() {
       ui.loginSection.classList.add('hidden');
       ui.dashboardSection.classList.remove('hidden');
       fetchResults();
     }
 
-    // Fetch and display test results
+    // Fetch and Display Test Results
     async function fetchResults() {
       const { data, error } = await supabaseClient
         .from('test_results')
         .select('*')
-        .order('created_at', { ascending: false }); // Newest first
+        .order('created_at', { ascending: false });
 
       if (error) {
         console.error(error);
-        ui.tableBody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-red-500">Lỗi tải dữ liệu.</td></tr>`;
+        ui.tableBody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-red-500 font-bold">Lỗi tải dữ liệu.</td></tr>`;
         return;
       }
 
       if (data.length === 0) {
-        ui.tableBody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-slate-500">Chưa có kết quả nào.</td></tr>`;
+        ui.tableBody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-slate-500 font-medium">Chưa có kết quả nào.</td></tr>`;
         return;
       }
 
@@ -151,16 +264,22 @@
         });
 
         const percentage = Math.round((row.score_correct / row.score_total) * 100);
-        let scoreColor = 'text-green-600';
-        if (percentage < 50) scoreColor = 'text-red-500';
-        else if (percentage < 75) scoreColor = 'text-amber-500';
+        let scoreColor = 'text-green-600 bg-green-50';
+        if (percentage < 50) scoreColor = 'text-red-600 bg-red-50';
+        else if (percentage < 75) scoreColor = 'text-amber-600 bg-amber-50';
 
         return `
-          <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-            <td class="p-4 font-black text-slate-800">${row.student_name}</td>
-            <td class="p-4 text-slate-600 font-medium">${row.test_title}</td>
-            <td class="p-4 font-black ${scoreColor} text-lg">${row.score_correct} <span class="text-sm text-slate-400">/ ${row.score_total}</span></td>
-            <td class="p-4 text-slate-500 text-sm font-medium">${formattedDate}</td>
+          <tr class="hover:bg-slate-50/50 transition-colors group">
+            <td class="p-5">
+              <div class="font-bold text-slate-800">${row.student_name}</div>
+            </td>
+            <td class="p-5 text-slate-600 font-medium">${row.test_title}</td>
+            <td class="p-5">
+              <span class="inline-flex items-center px-3 py-1 rounded-full font-black text-sm ${scoreColor} ring-1 ring-inset ring-current/10">
+                ${row.score_correct} / ${row.score_total}
+              </span>
+            </td>
+            <td class="p-5 text-slate-500 text-sm font-medium">${formattedDate}</td>
           </tr>
         `;
       }).join('');
