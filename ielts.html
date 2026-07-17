@@ -254,6 +254,8 @@
     Highlight
   </button>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <script>
     // Configuration
     const JSON_PATH = '/tests/IELTS/ielts.json'; // CHANGE THIS TO YOUR JSON PATH
@@ -262,6 +264,10 @@
     let testData = null;
     let flatQuestions = [];
     let state = { name: '', answers: {}, isCompleted: false, completionTime: null };
+
+    const SUPABASE_URL = 'https://qkxjrytqidbnrmizwmmz.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFreGpyeXRxaWRibnJtaXp3bW16Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyNjgyNzAsImV4cCI6MjA5OTg0NDI3MH0.XGGuTUsC-1i6BK5qkyurBxiCGvfx8Gg-PcIlNvbJc04'; // Paste your key here
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     const ui = {
       screens: {
@@ -380,16 +386,55 @@
       ui.start.nameInput.value = '';
     });
 
-    ui.test.btnSubmit.addEventListener('click', () => {
+  ui.test.btnSubmit.addEventListener('click', async () => {
       const answered = Object.values(state.answers).filter(val => val && val.trim() !== '').length;
       const total = flatQuestions.length;
       let confirmMessage = 'Bạn có chắc chắn muốn nộp bài?';
       if (answered < total) confirmMessage = `Bạn mới hoàn thành ${answered}/${total} câu. Bạn có chắc chắn muốn nộp bài khi chưa làm xong?`;
 
       if (confirm(confirmMessage)) {
+        // Show loading state
+        ui.test.btnSubmit.innerText = "Đang nộp bài...";
+        ui.test.btnSubmit.disabled = true;
+
         state.isCompleted = true;
         state.completionTime = new Date().toISOString();
         saveState();
+
+        // --- Calculate final score and CEFR level for the backend ---
+        let correct = 0;
+        flatQuestions.forEach(q => {
+          const ans = state.answers[q.number];
+          if (isAnswerCorrect(ans, q)) correct++;
+        });
+
+        const cefrLevel = getEstimatedLevel(correct);
+        const titleText = testData.testTitle ? testData.testTitle : 'IELTS Reading Test';
+        // -------------------------------------------------------------
+
+        // Send data to Supabase
+        try {
+          const { error } = await supabaseClient
+            .from('test_results')
+            .insert([
+              {
+                student_name: state.name,
+                // Append the CEFR rating to the title for the admin dashboard
+                test_title: `${titleText} - ${cefrLevel}`, 
+                score_correct: correct,
+                score_total: total,
+                answers: state.answers
+              }
+            ]);
+
+          if (error) throw error;
+          console.log("Nộp bài lên server thành công!");
+
+        } catch (err) {
+          console.error("Lỗi khi nộp bài:", err);
+          alert("Lỗi kết nối máy chủ! Kết quả của bạn vẫn được lưu trên máy này. Hãy chụp màn hình lại để đề phòng nhé.");
+        }
+
         renderResults();
         showScreen('result');
       }
