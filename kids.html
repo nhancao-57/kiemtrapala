@@ -214,11 +214,17 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <script>
     const STORAGE_KEY = 'pala_yle_test_progress';
     let testData = null;
     let flatQuestions = [];
     let state = { name: '', answers: {}, isCompleted: false, completionTime: null };
+
+    const SUPABASE_URL = 'https://qkxjrytqidbnrmizwmmz.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFreGpyeXRxaWRibnJtaXp3bW16Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyNjgyNzAsImV4cCI6MjA5OTg0NDI3MH0.XGGuTUsC-1i6BK5qkyurBxiCGvfx8Gg-PcIlNvbJc04'; // Replace with your actual anon key!
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     const ui = {
       screens: {
@@ -329,7 +335,7 @@
       ui.start.nameInput.value = '';
     });
 
-    ui.test.btnSubmit.addEventListener('click', () => {
+  ui.test.btnSubmit.addEventListener('click', async () => {
       const answered = Object.keys(state.answers).length;
       const total = flatQuestions.length;
       
@@ -339,9 +345,42 @@
       }
 
       if (confirm(confirmMessage)) {
+        // Optional: Change button text so they know it's working
+        ui.test.btnSubmit.innerText = "Đang nộp bài...";
+        ui.test.btnSubmit.disabled = true;
+
         state.isCompleted = true;
         state.completionTime = new Date().toISOString();
         saveState();
+
+        // Calculate correct answers for the database
+        let correct = 0;
+        flatQuestions.forEach(q => {
+          if (state.answers[q.id] === q.correctAnswer) correct++;
+        });
+
+        // Send data to Supabase
+        try {
+          const { error } = await supabase
+            .from('test_results')
+            .insert([
+              {
+                student_name: state.name,
+                test_title: testData.testInformation.title,
+                score_correct: correct,
+                score_total: total,
+                answers: state.answers
+              }
+            ]);
+
+          if (error) throw error;
+          console.log("Nộp bài lên server thành công!");
+
+        } catch (err) {
+          console.error("Lỗi khi nộp bài:", err);
+          alert("Lỗi kết nối máy chủ! Kết quả của bạn vẫn được lưu trên máy này. Hãy chụp màn hình lại để đề phòng nhé.");
+        }
+
         renderResults();
         showScreen('result');
       }
