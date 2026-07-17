@@ -2,8 +2,9 @@ export default async (request, context) => {
   const url = new URL(request.url);
 
   // 1. Define public paths that NEVER require a password
-  // We must let them see the login page and the logo image!
-  const publicPaths = ['/login.html', '/images/'];
+  // We must let them see the login page, the logo image, AND the admin portal!
+  const publicPaths = ['/login.html', '/images/', '/admin.html', '/admin'];
+  
   if (publicPaths.some(path => url.pathname.startsWith(path))) {
     return context.next();
   }
