@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@theme {
+  /* Custom Pink Color Palette */
+  --color-custom-pink-50: #fdf2f8;
+  --color-custom-pink-100: #fce7f3;
+  --color-custom-pink-200: #fbcfe8;
+  --color-custom-pink-300: #f9a8d4;
+  --color-custom-pink-400: #f472b6;
+  --color-custom-pink-500: #ec4899;
+  --color-custom-pink-600: #db2777;
+  --color-custom-pink-700: #be185d;
+  --color-custom-pink-800: #9d174d;
+  --color-custom-pink-900: #831843;
+
+  /* Font Family Override */
+  --font-sans: "Inter", sans-serif;
+
+  /* Custom Animation */
+  --animate-fade-in-up: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Custom Keyframes */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
