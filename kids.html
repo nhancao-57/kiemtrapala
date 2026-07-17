@@ -224,7 +224,7 @@
 
     const SUPABASE_URL = 'https://qkxjrytqidbnrmizwmmz.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFreGpyeXRxaWRibnJtaXp3bW16Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyNjgyNzAsImV4cCI6MjA5OTg0NDI3MH0.XGGuTUsC-1i6BK5qkyurBxiCGvfx8Gg-PcIlNvbJc04'; // Replace with your actual anon key!
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     const ui = {
       screens: {
@@ -361,7 +361,7 @@
 
         // Send data to Supabase
         try {
-          const { error } = await supabase
+          const { error } = await supabaseClient
             .from('test_results')
             .insert([
               {
