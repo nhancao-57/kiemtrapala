@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Quản Lý Kết Quả - Pala Centre</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen p-4 md:p-8">
+
+  <!-- LOGIN SCREEN -->
+  <div id="login-section" class="max-w-md mx-auto mt-20 bg-white p-8 rounded-3xl shadow-lg border border-slate-100">
+    <div class="text-center mb-8">
+      <h1 class="text-2xl font-black text-slate-800 uppercase tracking-tight">Pala Portal</h1>
+      <p class="text-slate-500 font-medium mt-1">Đăng nhập dành cho Giáo viên</p>
+    </div>
+    
+    <form id="login-form" class="space-y-4">
+      <div>
+        <label class="block font-bold text-slate-700 mb-2">Email</label>
+        <input type="email" id="email" required class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-pink-500 focus:outline-none transition-all">
+      </div>
+      <div>
+        <label class="block font-bold text-slate-700 mb-2">Mật khẩu</label>
+        <input type="password" id="password" required class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-pink-500 focus:outline-none transition-all">
+      </div>
+      <div id="login-error" class="text-red-500 text-sm font-bold hidden">Email hoặc mật khẩu không đúng!</div>
+      <button type="submit" class="w-full bg-pink-600 hover:bg-pink-700 text-white font-black py-3 rounded-xl transition-all shadow-md mt-4">
+        Đăng Nhập
+      </button>
+    </form>
+  </div>
+
+  <!-- DASHBOARD SCREEN (Hidden by default) -->
+  <div id="dashboard-section" class="max-w-6xl mx-auto hidden">
+    <div class="flex justify-between items-center mb-8 bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+      <div>
+        <h1 class="text-2xl font-black text-slate-800">Kết Quả Bài Kiểm Tra</h1>
+        <p class="text-slate-500">Xem và quản lý điểm số của học viên.</p>
+      </div>
+      <button id="btn-logout" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2 px-6 rounded-lg transition-colors">
+        Đăng Xuất
+      </button>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-slate-800 text-white">
+              <th class="p-4 font-bold text-sm uppercase tracking-wider">Học Viên</th>
+              <th class="p-4 font-bold text-sm uppercase tracking-wider">Bài Thi</th>
+              <th class="p-4 font-bold text-sm uppercase tracking-wider">Điểm Số</th>
+              <th class="p-4 font-bold text-sm uppercase tracking-wider">Thời Gian Nộp</th>
+            </tr>
+          </thead>
+          <tbody id="results-table-body">
+            <tr>
+              <td colspan="4" class="p-8 text-center text-slate-500 font-medium">Đang tải dữ liệu...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- INSERT YOUR SUPABASE CREDENTIALS HERE ---
+    const SUPABASE_URL = 'https://qkxjrytqidbnrmizwmmz.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFreGpyeXRxaWRibnJtaXp3bW16Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyNjgyNzAsImV4cCI6MjA5OTg0NDI3MH0.XGGuTUsC-1i6BK5qkyurBxiCGvfx8Gg-PcIlNvbJc04';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    // ---------------------------------------------
+
+    const ui = {
+      loginSection: document.getElementById('login-section'),
+      dashboardSection: document.getElementById('dashboard-section'),
+      loginForm: document.getElementById('login-form'),
+      loginError: document.getElementById('login-error'),
+      emailInput: document.getElementById('email'),
+      passwordInput: document.getElementById('password'),
+      logoutBtn: document.getElementById('btn-logout'),
+      tableBody: document.getElementById('results-table-body')
+    };
+
+    // Check if user is already logged in on page load
+    async function checkAuth() {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if (session) {
+        showDashboard();
+      }
+    }
+
+    // Handle Login
+    ui.loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      ui.loginError.classList.add('hidden');
+      
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email: ui.emailInput.value,
+        password: ui.passwordInput.value,
+      });
+
+      if (error) {
+        ui.loginError.classList.remove('hidden');
+      } else {
+        showDashboard();
+      }
+    });
+
+    // Handle Logout
+    ui.logoutBtn.addEventListener('click', async () => {
+      await supabaseClient.auth.signOut();
+      ui.dashboardSection.classList.add('hidden');
+      ui.loginSection.classList.remove('hidden');
+      ui.loginForm.reset();
+    });
+
+    // Show Dashboard and Fetch Data
+    function showDashboard() {
+      ui.loginSection.classList.add('hidden');
+      ui.dashboardSection.classList.remove('hidden');
+      fetchResults();
+    }
+
+    // Fetch and display test results
+    async function fetchResults() {
+      const { data, error } = await supabaseClient
+        .from('test_results')
+        .select('*')
+        .order('created_at', { ascending: false }); // Newest first
+
+      if (error) {
+        console.error(error);
+        ui.tableBody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-red-500">Lỗi tải dữ liệu.</td></tr>`;
+        return;
+      }
+
+      if (data.length === 0) {
+        ui.tableBody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-slate-500">Chưa có kết quả nào.</td></tr>`;
+        return;
+      }
+
+      ui.tableBody.innerHTML = data.map(row => {
+        const dateObj = new Date(row.created_at);
+        const formattedDate = dateObj.toLocaleDateString('vi-VN', { 
+          year: 'numeric', month: '2-digit', day: '2-digit', 
+          hour: '2-digit', minute: '2-digit' 
+        });
+
+        const percentage = Math.round((row.score_correct / row.score_total) * 100);
+        let scoreColor = 'text-green-600';
+        if (percentage < 50) scoreColor = 'text-red-500';
+        else if (percentage < 75) scoreColor = 'text-amber-500';
+
+        return `
+          <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+            <td class="p-4 font-black text-slate-800">${row.student_name}</td>
+            <td class="p-4 text-slate-600 font-medium">${row.test_title}</td>
+            <td class="p-4 font-black ${scoreColor} text-lg">${row.score_correct} <span class="text-sm text-slate-400">/ ${row.score_total}</span></td>
+            <td class="p-4 text-slate-500 text-sm font-medium">${formattedDate}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Run on startup
+    checkAuth();
+  </script>
+</body>
+</html>
