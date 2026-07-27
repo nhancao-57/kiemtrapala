@@ -1,0 +1,18 @@
+# Dependency directories
+node_modules/
+
+# Optional npm cache directory
+.npm
+
+# Output directory for production builds
+dist/
+build/
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables (contain secrets)
+.env
+.env.local

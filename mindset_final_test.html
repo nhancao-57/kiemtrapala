@@ -11,43 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="/images/Pala_logo.png">
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'custom-pink': {
-              50: '#fdf2f8', 100: '#fce7f3', 200: '#fbcfe8',
-              300: '#f9a8d4', 400: '#f472b6', 500: '#ec4899',
-              600: '#db2777', 700: '#be185d', 800: '#9d174d', 900: '#831843'
-            }
-          },
-          fontFamily: { sans: ['Inter', 'sans-serif'] }
-        }
-      }
-    }
-  </script>
-
-  <style>
-    /* Custom Radio Buttons */
-    .option-radio:checked + div {
-      border-color: #db2777;
-      background-color: #fdf2f8;
-      box-shadow: 0 4px 6px -1px rgba(219, 39, 119, 0.1);
-    }
-    
-    /* Loading Spinner */
-    .loader {
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid #db2777;
-      border-radius: 50%;
-      width: 48px;
-      height: 48px;
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-  </style>
+  <link rel="stylesheet" href="/src/output.css">
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-custom-pink-200 selection:text-custom-pink-900 relative">
 

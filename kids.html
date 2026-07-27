@@ -12,71 +12,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="/images/Pala_logo.png">
+  <link rel="stylesheet" href="/src/output.css">
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'custom-pink': {
-              50: '#fdf2f8', 100: '#fce7f3', 200: '#fbcfe8',
-              300: '#f9a8d4', 400: '#f472b6', 500: '#ec4899',
-              600: '#db2777', 700: '#be185d', 800: '#9d174d', 900: '#831843'
-            }
-          },
-          fontFamily: { sans: ['Inter', 'sans-serif'] },
-          animation: {
-            'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
-            'pulse-soft': 'pulseSoft 2s infinite',
-          },
-          keyframes: {
-            fadeInUp: {
-              '0%': { opacity: '0', transform: 'translateY(15px)' },
-              '100%': { opacity: '1', transform: 'translateY(0)' },
-            },
-            pulseSoft: {
-              '0%, 100%': { transform: 'scale(1)' },
-              '50%': { transform: 'scale(1.02)' },
-            }
-          }
-        }
-      }
-    }
-  </script>
-
-  <style>
-    /* Custom Radio Buttons for mobile tap targets */
-    .option-radio:checked + div {
-      border-color: #db2777;
-      background-color: #fdf2f8;
-      box-shadow: 0 4px 6px -1px rgba(219, 39, 119, 0.1);
-    }
-    .option-radio:checked + div .radio-circle {
-      border-color: #db2777;
-      background-color: #db2777;
-    }
-    .option-radio:checked + div .radio-circle::after {
-      content: '';
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: white;
-    }
-    
-    /* Loading Spinner */
-    .loader {
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid #db2777;
-      border-radius: 50%;
-      width: 48px;
-      height: 48px;
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-  </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-custom-pink-200 selection:text-custom-pink-900 relative">
 
