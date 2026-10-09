@@ -1,0 +1,926 @@
+{
+  "testTitle": "IELTS Mindset 1.1 Final Test",
+  "testCenter": "Pala Language Centre",
+  "durationMinutes": 80,
+  "totalQuestions": 61,
+  "autoScoredQuestions": 60,
+  "notes": [
+    "Writing Task 1 is included as question 61 but requires teacher marking and is excluded from automatic scoring.",
+    "Speaking is listed on the printed score sheet but does not have a question section in the supplied test document; assess it separately.",
+    "The printed vocabulary word bank appears to say “consume”; the answer key gives “consumers”. The JSON uses “consumers” so the sentence and answer key agree."
+  ],
+  "parts": [
+    {
+      "partNumber": 1,
+      "title": "A. LISTENING — PART 1",
+      "context": "Listen to the conversation between Anne and Tom about Maui dolphins and choose the correct option (A, B, or C).",
+      "questionSets": [
+        {
+          "instructions": "Choose the correct option (A, B, or C).",
+          "questions": [
+            {
+              "number": 1,
+              "displayNumber": 1,
+              "sectionLabel": "Listening — Part 1",
+              "questionText": "Anne has asked Tom to help her with her dolphin project because…",
+              "type": "multiple_choice",
+              "answer": "C. he once did a similar project to Anne.",
+              "autoGrade": true,
+              "options": [
+                "A. he is in the same class as Anne.",
+                "B. he is an expert on dolphins.",
+                "C. he once did a similar project to Anne."
+              ]
+            },
+            {
+              "number": 2,
+              "displayNumber": 2,
+              "sectionLabel": "Listening — Part 1",
+              "questionText": "How long is an adult male Maui dolphin?",
+              "type": "multiple_choice",
+              "answer": "A. 1.5 metres",
+              "autoGrade": true,
+              "options": [
+                "A. 1.5 metres",
+                "B. 1 metre",
+                "C. 1.7 metres"
+              ]
+            },
+            {
+              "number": 3,
+              "displayNumber": 3,
+              "sectionLabel": "Listening — Part 1",
+              "questionText": "Where are Maui dolphins found in New Zealand?",
+              "type": "multiple_choice",
+              "answer": "B. around the west coast of the North Island",
+              "autoGrade": true,
+              "options": [
+                "A. around most of the coast of the North Island",
+                "B. around the west coast of the North Island",
+                "C. around the whole coast of the South Island"
+              ]
+            },
+            {
+              "number": 4,
+              "displayNumber": 4,
+              "sectionLabel": "Listening — Part 1",
+              "questionText": "The population of Maui dolphins is now likely to be…",
+              "type": "multiple_choice",
+              "answer": "C. less than 50",
+              "autoGrade": true,
+              "options": [
+                "A. around 100",
+                "B. well over 500",
+                "C. less than 50"
+              ]
+            },
+            {
+              "number": 5,
+              "displayNumber": 5,
+              "sectionLabel": "Listening — Part 1",
+              "questionText": "How far along the coastline do Maui dolphins swim?",
+              "type": "multiple_choice",
+              "answer": "C. 30 kilometres",
+              "autoGrade": true,
+              "options": [
+                "A. 40 kilometres",
+                "B. 50 kilometres",
+                "C. 30 kilometres"
+              ]
+            }
+          ]
+        }
+      ],
+      "audioUrl": "/audio/IELTS/ielts_mindset_part1.mp3"
+    },
+    {
+      "partNumber": 2,
+      "title": "A. LISTENING — PART 2",
+      "context": "Listen to the conversation and answer the questions.",
+      "questionSets": [
+        {
+          "instructions": "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
+          "questions": [
+            {
+              "number": 6,
+              "displayNumber": 6,
+              "sectionLabel": "Listening — Part 2",
+              "questionText": "What is the surname of the writer that Sarah likes?",
+              "type": "short_answer",
+              "answer": "Mackenzie",
+              "autoGrade": true
+            },
+            {
+              "number": 7,
+              "displayNumber": 7,
+              "sectionLabel": "Listening — Part 2",
+              "questionText": "What is the password for the university library website?",
+              "type": "short_answer",
+              "answer": "OTALIB2016",
+              "autoGrade": true
+            },
+            {
+              "number": 8,
+              "displayNumber": 8,
+              "sectionLabel": "Listening — Part 2",
+              "questionText": "Which drink does Joe say people should stop drinking?",
+              "type": "short_answer",
+              "answer": "fruit juice",
+              "autoGrade": true
+            },
+            {
+              "number": 9,
+              "displayNumber": 9,
+              "sectionLabel": "Listening — Part 2",
+              "questionText": "What problem does Sarah say is increasing because of unhealthy eating?",
+              "type": "short_answer",
+              "answer": "heart disease",
+              "autoGrade": true
+            },
+            {
+              "number": 10,
+              "displayNumber": 10,
+              "sectionLabel": "Listening — Part 2",
+              "questionText": "In which street is the sushi café?",
+              "type": "short_answer",
+              "answer": "Wellesley",
+              "autoGrade": true
+            }
+          ]
+        }
+      ],
+      "audioUrl": "/audio/IELTS/ielts_mindset_part2.mp3"
+    },
+    {
+      "partNumber": 3,
+      "title": "A. LISTENING — PART 3",
+      "context": "Listen to the recording about the history of money and tools.",
+      "questionSets": [
+        {
+          "instructions": "Complete the sentences. Write ONE WORD ONLY for each answer.",
+          "questions": [
+            {
+              "number": 11,
+              "displayNumber": 11,
+              "sectionLabel": "Listening — Part 3",
+              "questionText": "People often exchanged vegetables for ______ in prehistoric times.",
+              "type": "fill_in_the_blank",
+              "answer": "salt",
+              "autoGrade": true
+            },
+            {
+              "number": 12,
+              "displayNumber": 12,
+              "sectionLabel": "Listening — Part 3",
+              "questionText": "In Ancient European cultures, tools that were used for ______ were most important.",
+              "type": "fill_in_the_blank",
+              "answer": "hunting",
+              "autoGrade": true
+            },
+            {
+              "number": 13,
+              "displayNumber": 13,
+              "sectionLabel": "Listening — Part 3",
+              "questionText": "Around 3,000 years ago, the Chinese began to make tiny ______ of tools from bronze.",
+              "type": "fill_in_the_blank",
+              "answer": "models",
+              "autoGrade": true
+            },
+            {
+              "number": 14,
+              "displayNumber": 14,
+              "sectionLabel": "Listening — Part 3",
+              "questionText": "China introduced coins that were round with a ______ hole in the middle 2,800 years ago.",
+              "type": "fill_in_the_blank",
+              "answer": "square",
+              "autoGrade": true
+            },
+            {
+              "number": 15,
+              "displayNumber": 15,
+              "sectionLabel": "Listening — Part 3",
+              "questionText": "Coins were made mostly from ______ in western Turkey.",
+              "type": "fill_in_the_blank",
+              "answer": "silver",
+              "autoGrade": true
+            }
+          ]
+        }
+      ],
+      "audioUrl": "/audio/IELTS/ielts_mindset_part3.mp3"
+    },
+    {
+      "partNumber": 4,
+      "title": "A. LISTENING — PART 4",
+      "context": "Options:\n\nA. do an interview\n\nB. watch a short film\n\nC. do a quiz / worksheet\n\nD. listen to a recording\n\nE. learn to use some equipment\n\nListen to the instructions about a visit to the Museum of Transport.",
+      "questionSets": [
+        {
+          "instructions": "Which activity (A–E) do the students need to complete at each location? Write the correct letter (A, B, C, D, or E).",
+          "questions": [
+            {
+              "number": 16,
+              "displayNumber": 16,
+              "sectionLabel": "Listening — Part 4",
+              "questionText": "Space Travel building",
+              "type": "multiple_choice",
+              "answer": "C",
+              "autoGrade": true,
+              "options": [
+                "A",
+                "B",
+                "C",
+                "D",
+                "E"
+              ]
+            },
+            {
+              "number": 17,
+              "displayNumber": 17,
+              "sectionLabel": "Listening — Part 4",
+              "questionText": "Trains and Travel room",
+              "type": "multiple_choice",
+              "answer": "A",
+              "autoGrade": true,
+              "options": [
+                "A",
+                "B",
+                "C",
+                "D",
+                "E"
+              ]
+            },
+            {
+              "number": 18,
+              "displayNumber": 18,
+              "sectionLabel": "Listening — Part 4",
+              "questionText": "Central Hall",
+              "type": "multiple_choice",
+              "answer": "B",
+              "autoGrade": true,
+              "options": [
+                "A",
+                "B",
+                "C",
+                "D",
+                "E"
+              ]
+            },
+            {
+              "number": 19,
+              "displayNumber": 19,
+              "sectionLabel": "Listening — Part 4",
+              "questionText": "“Going Second Class” room",
+              "type": "multiple_choice",
+              "answer": "D",
+              "autoGrade": true,
+              "options": [
+                "A",
+                "B",
+                "C",
+                "D",
+                "E"
+              ]
+            },
+            {
+              "number": 20,
+              "displayNumber": 20,
+              "sectionLabel": "Listening — Part 4",
+              "questionText": "Information Centre",
+              "type": "multiple_choice",
+              "answer": "E",
+              "autoGrade": true,
+              "options": [
+                "A",
+                "B",
+                "C",
+                "D",
+                "E"
+              ]
+            }
+          ]
+        }
+      ],
+      "audioUrl": "/audio/IELTS/ielts_mindset_part4.mp3"
+    },
+    {
+      "partNumber": 5,
+      "title": "B. VOCABULARY & GRAMMAR — PART 1",
+      "context": "Read the descriptions and choose the correct answer A, B, C, or D.",
+      "questionSets": [
+        {
+          "instructions": "Choose the correct answer (A, B, C, or D).",
+          "questions": [
+            {
+              "number": 21,
+              "displayNumber": 1,
+              "sectionLabel": "Vocabulary & Grammar — Part 1",
+              "questionText": "My sister’s husband is my ________.",
+              "type": "multiple_choice",
+              "answer": "B. brother-in-law",
+              "autoGrade": true,
+              "options": [
+                "A. nephew",
+                "B. brother-in-law",
+                "C. cousin",
+                "D. father-in-law"
+              ]
+            },
+            {
+              "number": 22,
+              "displayNumber": 2,
+              "sectionLabel": "Vocabulary & Grammar — Part 1",
+              "questionText": "My grandparents live with us in an ________ family with three generations under one roof.",
+              "type": "multiple_choice",
+              "answer": "A. extended",
+              "autoGrade": true,
+              "options": [
+                "A. extended",
+                "B. small",
+                "C. empty",
+                "D. outdated"
+              ]
+            },
+            {
+              "number": 23,
+              "displayNumber": 3,
+              "sectionLabel": "Vocabulary & Grammar — Part 1",
+              "questionText": "The city centre is always busy and ________ during the weekends with thousands of shoppers.",
+              "type": "multiple_choice",
+              "answer": "C. crowded",
+              "autoGrade": true,
+              "options": [
+                "A. leafy",
+                "B. remote",
+                "C. crowded",
+                "D. uncomfortable"
+              ]
+            },
+            {
+              "number": 24,
+              "displayNumber": 4,
+              "sectionLabel": "Vocabulary & Grammar — Part 1",
+              "questionText": "Old buildings were ________ to make space for a new high-rise shopping mall.",
+              "type": "multiple_choice",
+              "answer": "B. demolished",
+              "autoGrade": true,
+              "options": [
+                "A. constructed",
+                "B. demolished",
+                "C. relocated",
+                "D. expanded"
+              ]
+            },
+            {
+              "number": 25,
+              "displayNumber": 5,
+              "sectionLabel": "Vocabulary & Grammar — Part 1",
+              "questionText": "Working 12 hours a day without a break is extremely ________.",
+              "type": "multiple_choice",
+              "answer": "C. tiring",
+              "autoGrade": true,
+              "options": [
+                "A. tired",
+                "B. challenge",
+                "C. tiring",
+                "D. amazed"
+              ]
+            },
+            {
+              "number": 26,
+              "displayNumber": 6,
+              "sectionLabel": "Vocabulary & Grammar — Part 1",
+              "questionText": "He received a professional ________ after completing his three-year course at university.",
+              "type": "multiple_choice",
+              "answer": "A. qualification",
+              "autoGrade": true,
+              "options": [
+                "A. qualification",
+                "B. literacy",
+                "C. ingredient",
+                "D. process"
+              ]
+            },
+            {
+              "number": 27,
+              "displayNumber": 7,
+              "sectionLabel": "Vocabulary & Grammar — Part 1",
+              "questionText": "Fresh vegetables, meat, and herbs are essential ________ for this traditional recipe.",
+              "type": "multiple_choice",
+              "answer": "C. ingredients",
+              "autoGrade": true,
+              "options": [
+                "A. utensils",
+                "B. equipment",
+                "C. ingredients",
+                "D. features"
+              ]
+            },
+            {
+              "number": 28,
+              "displayNumber": 8,
+              "sectionLabel": "Vocabulary & Grammar — Part 1",
+              "questionText": "Indian curry is known for being very ________ because it contains a lot of chilli and pepper.",
+              "type": "multiple_choice",
+              "answer": "D. spicy",
+              "autoGrade": true,
+              "options": [
+                "A. bland",
+                "B. sweet",
+                "C. raw",
+                "D. spicy"
+              ]
+            },
+            {
+              "number": 29,
+              "displayNumber": 9,
+              "sectionLabel": "Vocabulary & Grammar — Part 1",
+              "questionText": "You should use a ________ to fry eggs or meat in hot oil.",
+              "type": "multiple_choice",
+              "answer": "C. frying pan",
+              "autoGrade": true,
+              "options": [
+                "A. blender",
+                "B. kettle",
+                "C. frying pan",
+                "D. tin opener"
+              ]
+            },
+            {
+              "number": 30,
+              "displayNumber": 10,
+              "sectionLabel": "Vocabulary & Grammar — Part 1",
+              "questionText": "Scientists are trying to ________ ancient animal bones found in ice.",
+              "type": "multiple_choice",
+              "answer": "B. preserve",
+              "autoGrade": true,
+              "options": [
+                "A. hunt",
+                "B. preserve",
+                "C. decrease",
+                "D. disrupt"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "partNumber": 6,
+      "title": "B. VOCABULARY & GRAMMAR — PART 2",
+      "context": "Complete the sentences using the correct words from the box.\n\n**Word box:** globalization · literacy rate · obesity · consumers · eco-friendly",
+      "questionSets": [
+        {
+          "instructions": "Complete each sentence using the correct word or phrase from the box.",
+          "questions": [
+            {
+              "number": 31,
+              "displayNumber": 1,
+              "sectionLabel": "Vocabulary & Grammar — Part 2",
+              "questionText": "__________ has made it easier for people to trade and communicate across different countries.",
+              "type": "fill_in_the_blank",
+              "answer": "globalization",
+              "autoGrade": true,
+              "options": [
+                "globalisation"
+              ]
+            },
+            {
+              "number": 32,
+              "displayNumber": 2,
+              "sectionLabel": "Vocabulary & Grammar — Part 2",
+              "questionText": "The government is trying to increase the __________ in rural areas so more people can read and write.",
+              "type": "fill_in_the_blank",
+              "answer": "literacy rate",
+              "autoGrade": true
+            },
+            {
+              "number": 33,
+              "displayNumber": 3,
+              "sectionLabel": "Vocabulary & Grammar — Part 2",
+              "questionText": "Eating too much fast food and sugary drinks can lead to severe __________ and heart problems.",
+              "type": "fill_in_the_blank",
+              "answer": "obesity",
+              "autoGrade": true
+            },
+            {
+              "number": 34,
+              "displayNumber": 4,
+              "sectionLabel": "Vocabulary & Grammar — Part 2",
+              "questionText": "Teenagers are the greatest __________ of sugary soft drinks today.",
+              "type": "fill_in_the_blank",
+              "answer": "consumers",
+              "autoGrade": true
+            },
+            {
+              "number": 35,
+              "displayNumber": 5,
+              "sectionLabel": "Vocabulary & Grammar — Part 2",
+              "questionText": "Building houses with recycled materials is an __________ way to protect our environment.",
+              "type": "fill_in_the_blank",
+              "answer": "eco-friendly",
+              "autoGrade": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "partNumber": 7,
+      "title": "B. VOCABULARY & GRAMMAR — PART 3",
+      "context": "Choose the correct word or phrase in brackets to complete each sentence.",
+      "questionSets": [
+        {
+          "instructions": "Choose the correct option.",
+          "questions": [
+            {
+              "number": 36,
+              "displayNumber": 1,
+              "sectionLabel": "Vocabulary & Grammar — Part 3",
+              "questionText": "In my hometown, dry rice ________ into fine flour to make noodles.",
+              "type": "multiple_choice",
+              "answer": "is ground",
+              "autoGrade": true,
+              "options": [
+                "is ground",
+                "ground",
+                "grinding"
+              ]
+            },
+            {
+              "number": 37,
+              "displayNumber": 2,
+              "sectionLabel": "Vocabulary & Grammar — Part 3",
+              "questionText": "Ten years ago, my family ________ in a small village by the sea.",
+              "type": "multiple_choice",
+              "answer": "used to live",
+              "autoGrade": true,
+              "options": [
+                "lives",
+                "used to live",
+                "has lived"
+              ]
+            },
+            {
+              "number": 38,
+              "displayNumber": 3,
+              "sectionLabel": "Vocabulary & Grammar — Part 3",
+              "questionText": "China has ________ land than Russia, but a much larger population.",
+              "type": "multiple_choice",
+              "answer": "less",
+              "autoGrade": true,
+              "options": [
+                "fewer",
+                "less",
+                "more"
+              ]
+            },
+            {
+              "number": 39,
+              "displayNumber": 4,
+              "sectionLabel": "Vocabulary & Grammar — Part 3",
+              "questionText": "The percentage of unemployed graduates increased ________ 5% last year.",
+              "type": "multiple_choice",
+              "answer": "by",
+              "autoGrade": true,
+              "options": [
+                "from",
+                "by",
+                "at"
+              ]
+            },
+            {
+              "number": 40,
+              "displayNumber": 5,
+              "sectionLabel": "Vocabulary & Grammar — Part 3",
+              "questionText": "I haven’t finished my university assignment ________.",
+              "type": "multiple_choice",
+              "answer": "yet",
+              "autoGrade": true,
+              "options": [
+                "already",
+                "just",
+                "yet"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "partNumber": 8,
+      "title": "C. READING — PASSAGE 1",
+      "context": "## Passage 1: How our sweet tooth is hurting us\n\nOver the last three centuries, the amount of sugar in the Western diet has continued to rise. Back at the start of the 18th century, a typical English family consumed less than 2 kg of sugar per year. By the end of that century, that amount had risen 400%. Compare that to the 40 kg that people now consume annually in the USA. In Germany, the second-most sugar-loving nation in the world, people eat roughly 103 grams on average per day. In the Netherlands, the country with the third-biggest sweet tooth, people eat 102.5 grams. Of course, there are some countries in the world where sweet food is less popular: in India, people eat only about 5 grams per day on average; in Indonesia, it’s 14.5 grams; and in China, it’s just under 16 grams. If you’re not sure what 40 kg looks like, it means that the average person in the USA now eats approximately 22 teaspoons of sugar a day. The recommended limit, suggested by researchers from the World Health Organisation, is no more than 8 if you want to stay healthy, but just one can of soda contains around 10.\n\nIt is common knowledge that many drinks, in bottles or canned, contain a lot of sugar. Although advertisements say that they are ‘energy-giving’, professional athletes usually stay away from them. It is teenagers that are their greatest consumers. And – although advertisers promise that these drinks will make people feel energetic and active – because of the type of chemicals they have, once a person has drunk all the soda, they simply feel hungry instead. However, sugar is also in products that many shoppers find surprising, for example, cereal, which actually has a lot. Because they believe it is a healthy kind of food, parents buy it for their children’s breakfast.\n\nA large part of the problem, according to nutritionists, is that people find it hard to understand the labels on the back of food products. Nutritionists think this should be a lot easier for them. But at the moment, manufacturers don’t have to write ‘sugar’ on them, but can use words like ‘corn syrup’ or ‘dextran’, which can result in confusion for consumers.",
+      "questionSets": [
+        {
+          "instructions": "Answer the questions below. Choose ONE WORD AND/OR A NUMBER from the passage for each answer.",
+          "questions": [
+            {
+              "number": 41,
+              "displayNumber": 1,
+              "sectionLabel": "Reading — Passage 1, Part 1",
+              "questionText": "Which country’s citizens consume the smallest amount of sugar per day on average?",
+              "type": "short_answer",
+              "answer": "India",
+              "autoGrade": true
+            },
+            {
+              "number": 42,
+              "displayNumber": 2,
+              "sectionLabel": "Reading — Passage 1, Part 1",
+              "questionText": "What is the maximum number of teaspoons of sugar recommended per day by health researchers?",
+              "type": "short_answer",
+              "answer": "8",
+              "autoGrade": true
+            },
+            {
+              "number": 43,
+              "displayNumber": 3,
+              "sectionLabel": "Reading — Passage 1, Part 1",
+              "questionText": "Which age group buys and consumes more sugary drinks than any other?",
+              "type": "short_answer",
+              "answer": "teenagers",
+              "autoGrade": true
+            },
+            {
+              "number": 44,
+              "displayNumber": 4,
+              "sectionLabel": "Reading — Passage 1, Part 1",
+              "questionText": "How do consumers actually feel after drinking a can of soda?",
+              "type": "short_answer",
+              "answer": "hungry",
+              "autoGrade": true
+            },
+            {
+              "number": 45,
+              "displayNumber": 5,
+              "sectionLabel": "Reading — Passage 1, Part 1",
+              "questionText": "Which common breakfast food contains an unexpectedly high amount of sugar?",
+              "type": "short_answer",
+              "answer": "cereal",
+              "autoGrade": true
+            },
+            {
+              "number": 46,
+              "displayNumber": 6,
+              "sectionLabel": "Reading — Passage 1, Part 1",
+              "questionText": "What part of food packaging do consumers struggle to read and comprehend?",
+              "type": "short_answer",
+              "answer": "labels",
+              "autoGrade": true
+            },
+            {
+              "number": 47,
+              "displayNumber": 7,
+              "sectionLabel": "Reading — Passage 1, Part 1",
+              "questionText": "What ingredient name, other than dextran, might manufacturers use on labels instead of “sugar”?",
+              "type": "short_answer",
+              "answer": "syrup",
+              "autoGrade": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "partNumber": 9,
+      "title": "C. READING — PASSAGE 2",
+      "context": "## Passage 2: Cities of the Future\n\n**Paragraph A:** Researchers recently gave 1,000 people a questionnaire about ‘Cities of The Future’. To answer the questions, the people had to imagine and describe what they thought our cities might look like in the year 2050. Interestingly, a large number of people were anxious that they would become ‘dark, dangerous places’, which had endless traffic jams and very few green spaces. This group also predicted an increase in the level of pollution and thought people would always need to wear facemasks in order to breathe. They also believed that it would be less safe to walk on the street as there would be more criminal behaviour. A smaller number thought cities might become a lot cleaner, and might be built from more interesting materials.\n\n**Paragraph B:** So many Hollywood films show cities of the future as frightening places. Online newspapers are also responsible for spreading this same belief. Headlines such as ‘Global population rises – cities become crowded’ are becoming more frequent. Journalists rarely discuss how future cities might be a good place to live.\n\n**Paragraph C:** Architects have a big role to play in our future cities. In many countries around the world, people are choosing to have smaller families or to wait longer before they start a family. For this reason, not everyone needs a large house. Smaller and cheaper houses are what they need. Western architects could perhaps look at some of the architecture in Japanese cities, where very stylish houses are built on small pieces of unused land.\n\n**Paragraph D:** Engineering companies have produced some interesting new products, for example, wood-like material made from recycled newspapers or old drink cartons. One engineering team is even working on a project that uses mushrooms to create a hard building material. These new materials may seem strange, but we should remember that plastic was only invented in 1907 – at the time people thought that this was an unusual product, but now it is something we cannot manage without.",
+      "questionSets": [
+        {
+          "instructions": "Read Passage 2 and choose the right answer.",
+          "questions": [
+            {
+              "number": 48,
+              "displayNumber": 1,
+              "sectionLabel": "Reading — Passage 2, Part 2",
+              "questionText": "According to Paragraph A, what was the main reaction of most respondents to the questionnaire?",
+              "type": "multiple_choice",
+              "answer": "b. They felt worried about dark, polluted, and dangerous cities.",
+              "autoGrade": true,
+              "options": [
+                "a. They were excited about flying cars and new technology.",
+                "b. They felt worried about dark, polluted, and dangerous cities.",
+                "c. They believed houses would become much larger.",
+                "d. They thought public transport would disappear."
+              ]
+            },
+            {
+              "number": 49,
+              "displayNumber": 2,
+              "sectionLabel": "Reading — Passage 2, Part 2",
+              "questionText": "What point does the writer make in Paragraph B?",
+              "type": "multiple_choice",
+              "answer": "b. Movies and media create a negative image of future cities.",
+              "autoGrade": true,
+              "options": [
+                "a. Journalists focus too much on positive city news.",
+                "b. Movies and media create a negative image of future cities.",
+                "c. Population growth will stop in the near future.",
+                "d. Hollywood films give an accurate prediction of 2050."
+              ]
+            },
+            {
+              "number": 50,
+              "displayNumber": 3,
+              "sectionLabel": "Reading — Passage 2, Part 2",
+              "questionText": "In Paragraph C, what type of housing does the writer suggest people need now?",
+              "type": "multiple_choice",
+              "answer": "c. Smaller and more affordable homes.",
+              "autoGrade": true,
+              "options": [
+                "a. Large houses with big private gardens.",
+                "b. Traditional high-rise flats in countryside villages.",
+                "c. Smaller and more affordable homes.",
+                "d. Houses designed only for big families."
+              ]
+            },
+            {
+              "number": 51,
+              "displayNumber": 4,
+              "sectionLabel": "Reading — Passage 2, Part 2",
+              "questionText": "Why does the author mention “plastic” in Paragraph D?",
+              "type": "multiple_choice",
+              "answer": "c. To show that unfamiliar building materials can become essential over time.",
+              "autoGrade": true,
+              "options": [
+                "a. To explain why plastic will be banned in 2050.",
+                "b. To prove that mushrooms are stronger than plastic.",
+                "c. To show that unfamiliar building materials can become essential over time.",
+                "d. To criticize engineering companies for using old cartons."
+              ]
+            }
+          ]
+        },
+        {
+          "instructions": "Which paragraph (A–D) contains the following information? Write the correct letter A–D.",
+          "questions": [
+            {
+              "number": 52,
+              "displayNumber": 1,
+              "sectionLabel": "Reading — Passage 2, Part 3",
+              "questionText": "Examples of unusual and eco-friendly building materials.",
+              "type": "multiple_choice",
+              "answer": "D",
+              "autoGrade": true,
+              "options": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ]
+            },
+            {
+              "number": 53,
+              "displayNumber": 2,
+              "sectionLabel": "Reading — Passage 2, Part 3",
+              "questionText": "The negative influence of media and films on public opinion.",
+              "type": "multiple_choice",
+              "answer": "B",
+              "autoGrade": true,
+              "options": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ]
+            },
+            {
+              "number": 54,
+              "displayNumber": 3,
+              "sectionLabel": "Reading — Passage 2, Part 3",
+              "questionText": "A survey result showing people’s fears about crime and pollution.",
+              "type": "multiple_choice",
+              "answer": "A",
+              "autoGrade": true,
+              "options": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ]
+            },
+            {
+              "number": 55,
+              "displayNumber": 4,
+              "sectionLabel": "Reading — Passage 2, Part 3",
+              "questionText": "A reference to stylish housing designs on small land in Japan.",
+              "type": "multiple_choice",
+              "answer": "C",
+              "autoGrade": true,
+              "options": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "partNumber": 10,
+      "title": "C. READING — PART 4",
+      "context": "Just 20 years ago, making social plans required meeting face-to-face or using a landline telephone. Today, over a billion people use social media platforms monthly to build and maintain relationships. Recent studies show that 79% of teenagers keep their smartphones near their pillows at night so they don’t miss any digital updates. However, excessive email use in offices has caused increased anxiety among employees who feel forced to reply immediately.",
+      "questionSets": [
+        {
+          "instructions": "Are these sentences True, False, or Not Given based on the text above?",
+          "questions": [
+            {
+              "number": 56,
+              "displayNumber": 1,
+              "sectionLabel": "Reading — Passage 3, Part 4",
+              "questionText": "Twenty years ago, people could easily send text messages on smartphones to arrange cinema trips.",
+              "type": "multiple_choice",
+              "answer": "FALSE",
+              "autoGrade": true,
+              "options": [
+                "TRUE",
+                "FALSE",
+                "NOT GIVEN"
+              ]
+            },
+            {
+              "number": 57,
+              "displayNumber": 2,
+              "sectionLabel": "Reading — Passage 3, Part 4",
+              "questionText": "Over one billion people use popular social networks every month.",
+              "type": "multiple_choice",
+              "answer": "TRUE",
+              "autoGrade": true,
+              "options": [
+                "TRUE",
+                "FALSE",
+                "NOT GIVEN"
+              ]
+            },
+            {
+              "number": 58,
+              "displayNumber": 3,
+              "sectionLabel": "Reading — Passage 3, Part 4",
+              "questionText": "Most teenagers turn off their phones before going to sleep at night.",
+              "type": "multiple_choice",
+              "answer": "FALSE",
+              "autoGrade": true,
+              "options": [
+                "TRUE",
+                "FALSE",
+                "NOT GIVEN"
+              ]
+            },
+            {
+              "number": 59,
+              "displayNumber": 4,
+              "sectionLabel": "Reading — Passage 3, Part 4",
+              "questionText": "British teenagers spend more time on Facebook than American teenagers.",
+              "type": "multiple_choice",
+              "answer": "NOT GIVEN",
+              "autoGrade": true,
+              "options": [
+                "TRUE",
+                "FALSE",
+                "NOT GIVEN"
+              ]
+            },
+            {
+              "number": 60,
+              "displayNumber": 5,
+              "sectionLabel": "Reading — Passage 3, Part 4",
+              "questionText": "Constant email notifications can increase stress levels for office workers.",
+              "type": "multiple_choice",
+              "answer": "TRUE",
+              "autoGrade": true,
+              "options": [
+                "TRUE",
+                "FALSE",
+                "NOT GIVEN"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "partNumber": 11,
+      "title": "D. WRITING — TASK 1",
+      "context": "The diagram shows the process of growing bananas for selling in supermarkets. Summarise the information by selecting and reporting the main features and make comparisons where relevant.\n\n**Write at least 150 words.**",
+      "questionSets": [
+        {
+          "instructions": "Write your response in the text area. This task requires teacher marking and is not included in the automatic score.",
+          "questions": [
+            {
+              "number": 61,
+              "displayNumber": 1,
+              "sectionLabel": "Writing — Task 1",
+              "questionText": "Write your Task 1 response (at least 150 words).",
+              "type": "essay",
+              "answer": "",
+              "autoGrade": false
+            }
+          ]
+        }
+      ],
+      "imageUrl": "/tests/IELTS/banana-growing-process.png"
+    }
+  ]
+}

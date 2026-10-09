@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>IELTS Mindset 1.1 Final Test - Pala Language Centre</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/images/Pala_logo.png">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EYZEE006PK"></script>
+
+  <link rel="stylesheet" href="/src/output.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col relative overflow-x-hidden">
+
+  <header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50 h-16 flex items-center justify-center">
+    <div class="container mx-auto px-4 flex justify-between items-center max-w-7xl">
+      <img src="images/PLC_Logo_FA_Horizontal_COLOUR.png" alt="Pala Language Centre Logo" class="h-10 md:h-12 w-auto object-contain transition-transform hover:scale-105" onerror="this.outerHTML='<span class=\'text-2xl font-black text-custom-pink-600 tracking-tight\'>PALA<span class=\'text-slate-800\'>CENTRE</span></span>'">
+      
+      <div id="header-progress" class="hidden items-center gap-4">
+        <p class="font-bold text-slate-800 text-sm hidden md:block"><span id="display-name"></span></p>
+        <div class="flex flex-col items-end">
+          <p class="font-black text-custom-pink-600 text-sm"><span id="progress-text">0</span><span class="text-slate-400">/<span id="total-text">0</span></span></p>
+          <div class="w-24 bg-slate-100 h-1.5 rounded-full overflow-hidden mt-1">
+            <div id="progress-bar-fill" class="bg-custom-pink-500 h-full rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow container mx-auto px-2 py-6 w-full max-w-7xl flex flex-col items-center justify-start">
+
+    <div id="loading-screen" class="text-center py-20 w-full animate-fade-in-up">
+      <div class="loader mx-auto mb-6"></div>
+      <p class="text-slate-500 font-medium text-lg animate-pulse">Đang tải dữ liệu bài thi...</p>
+    </div>
+
+    <div id="error-screen" class="hidden text-center py-20 w-full max-w-4xl bg-white rounded-3xl shadow-lg border border-red-100 p-8 animate-fade-in-up">
+      <div class="text-red-500 text-6xl mb-4">⚠️</div>
+      <h2 class="text-2xl font-bold text-slate-800 mb-2">Không thể tải bài thi</h2>
+      <p class="text-slate-600 mb-8" id="error-message">Vui lòng kiểm tra lại đường dẫn file JSON.</p>
+      <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-900 text-white px-8 py-3 rounded-xl font-bold transition-colors shadow-md">Thử lại</button>
+    </div>
+
+    <section id="start-screen" class="hidden w-full max-w-4xl bg-white rounded-3xl shadow-xl border border-slate-100 p-6 md:p-10 animate-fade-in-up mx-auto">
+      <div class="text-center mb-8">
+        <h1 id="test-title" class="text-2xl md:text-4xl font-black text-custom-pink-600 mb-3 uppercase tracking-tight">IELTS Mindset 1.1 Final Test</h1>
+        <p class="text-slate-500 font-bold tracking-widest uppercase text-sm" id="test-center">Pala Language Centre</p>
+      </div>
+
+      <div class="bg-custom-pink-50/50 rounded-2xl p-6 mb-8 border border-custom-pink-100 text-sm md:text-base">
+        <h2 class="font-bold text-slate-800 mb-3 flex items-center">
+          <span class="text-2xl mr-2">📝</span> Hướng dẫn làm bài:
+        </h2>
+        <ul class="list-disc list-inside text-slate-700 space-y-2 font-medium">
+          <li>Bài thi gồm <strong id="q-count" class="text-custom-pink-600 text-lg">0</strong> câu hỏi.</li>
+          <li>Đọc/nghe nội dung được cung cấp và trả lời câu hỏi. Một số phần có thể bao gồm hình ảnh hoặc bài viết dài.</li>
+          <li>Trên máy tính, bạn có thể kéo thanh ở giữa để điều chỉnh kích thước hai bên.</li>
+          <li><strong>Bôi đen văn bản</strong> để sử dụng tính năng Highlight (đánh dấu).</li>
+          <li>Điền tên học viên trước khi bắt đầu. Câu trả lời được lưu trên thiết bị này.</li>
+        </ul>
+      </div>
+
+      <form id="start-form" class="space-y-6">
+        <div>
+          <label for="student-name" class="block font-bold text-slate-700 mb-2">Nhập họ và tên Học viên <span class="text-red-500">*</span></label>
+          <input type="text" id="student-name" required placeholder="Ví dụ: Nguyễn Văn A..." 
+                 class="w-full px-5 py-3 rounded-xl border-2 border-slate-200 focus:outline-none focus:border-custom-pink-500 focus:ring-4 focus:ring-custom-pink-100 transition-all text-slate-800 font-semibold text-lg">
+        </div>
+        <button type="submit" class="w-full bg-custom-pink-600 hover:bg-custom-pink-700 text-white font-black py-4 px-8 rounded-xl transition-all shadow-lg hover:shadow-custom-pink-500/30 text-lg uppercase tracking-wide">
+          Bắt đầu làm bài
+        </button>
+      </form>
+      
+      <div id="resume-prompt" class="hidden mt-6 text-center p-6 bg-amber-50 rounded-2xl border border-amber-200">
+        <p class="mb-4 font-bold text-amber-800">Cảnh báo: Bạn có bài thi đang làm dở trước đó.</p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <button id="btn-resume" class="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl transition-colors shadow-md">Tiếp tục làm bài</button>
+          <button id="btn-restart-clear" class="px-6 py-3 bg-white border-2 border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-700 font-bold rounded-xl transition-all">Xóa & Làm lại từ đầu</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="test-screen" class="hidden w-full h-full flex-grow flex flex-col animate-fade-in-up">
+      <div id="questions-container" class="flex-grow space-y-10">
+        </div>
+
+      <div class="mt-8 pt-6 border-t border-slate-200 text-center pb-8">
+        <button id="btn-submit-test" class="bg-slate-800 hover:bg-slate-900 text-white font-black py-4 px-12 rounded-xl transition-all shadow-lg text-lg w-full md:w-auto uppercase tracking-wide">
+          Nộp Bài
+        </button>
+        <p class="text-slate-500 text-sm mt-4 font-medium">Vui lòng kiểm tra kĩ các câu trả lời trước khi nộp bài.</p>
+      </div>
+    </section>
+
+    <section id="result-screen" class="hidden w-full max-w-4xl mx-auto bg-white rounded-3xl shadow-xl border border-slate-100 p-6 md:p-10 animate-fade-in-up">
+      <div class="text-center">
+        <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
+          <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7" /></svg>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-black text-slate-800 mb-4 tracking-tight">Hoàn Thành Bài Thi!</h2>
+        
+        <div class="mb-8 inline-block text-left bg-slate-50 border border-slate-100 p-4 rounded-2xl min-w-[250px]">
+            <p class="text-slate-500 text-sm font-bold uppercase tracking-wider mb-1">Thông tin học viên</p>
+            <p class="text-xl text-slate-800 font-black truncate"><span id="result-name"></span></p>
+            <div class="flex items-center text-slate-500 mt-2 text-sm font-medium">
+                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span id="result-time"></span>
+            </div>
+        </div>
+
+        <div class="bg-gradient-to-br from-custom-pink-50 to-custom-pink-100 rounded-3xl p-8 mb-8 w-full border border-custom-pink-200 shadow-sm">
+          <p class="text-custom-pink-800 font-black uppercase tracking-widest mb-2 text-sm">Điểm số của bạn</p>
+          <div class="text-7xl font-black text-custom-pink-600 drop-shadow-sm flex items-baseline justify-center">
+            <span id="score-correct">0</span>
+            <span class="text-4xl text-custom-pink-300 mx-1">/</span>
+            <span id="score-total" class="text-5xl text-custom-pink-400">0</span>
+          </div>
+          <div class="mt-6 text-center">
+            <p class="text-custom-pink-800/70 font-bold uppercase tracking-widest text-xs mb-2">Ghi chú chấm điểm</p>
+            <p id="result-level" class="text-xl md:text-2xl font-black text-custom-pink-700 bg-white inline-block px-6 py-3 rounded-2xl shadow-sm border border-custom-pink-200"></p>
+          </div>
+        </div>
+
+      <div class="border-t border-slate-200 pt-6 mt-4">
+        <button id="btn-toggle-review" class="w-full flex justify-between items-center text-left py-4 px-6 bg-slate-50 hover:bg-slate-100 rounded-xl transition-all font-bold text-slate-800 border border-slate-200">
+          <span class="text-lg">Xem chi tiết bài làm</span>
+          <svg id="icon-review-arrow" class="w-6 h-6 transition-transform text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+        </button>
+        <div id="review-container" class="hidden mt-6 space-y-4"></div>
+      </div>
+
+      <div class="mt-12 text-center">
+        <button id="btn-retake" class="text-slate-400 hover:text-custom-pink-600 font-bold transition-colors underline decoration-2 underline-offset-4 text-sm uppercase tracking-wider">
+          Làm lại bài kiểm tra
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bg-white border-t border-slate-200 py-6 mt-auto">
+    <div class="container mx-auto px-4 text-center">
+      <p class="text-sm text-slate-400 font-semibold tracking-wide">© 2026 Trung tâm Ngoại ngữ Pala.</p>
+    </div>
+  </footer>
+
+  <button id="highlight-btn" class="hidden absolute z-[100] bg-slate-900 text-white hover:bg-custom-pink-600 px-4 py-2 rounded-lg shadow-lg text-sm font-bold flex items-center gap-2 transition-colors">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+    Highlight
+  </button>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    // Configuration
+    const JSON_PATH = '/tests/IELTS/ielts-mindset-1-1.json'; // Update when the JSON file is uploaded
+    const STORAGE_KEY = 'pala_ielts_mindset_1_1_final_progress';
+    
+    let testData = null;
+    let flatQuestions = [];
+    let state = { name: '', answers: {}, isCompleted: false, completionTime: null };
+
+    const SUPABASE_URL = 'https://qkxjrytqidbnrmizwmmz.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFreGpyeXRxaWRibnJtaXp3bW16Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyNjgyNzAsImV4cCI6MjA5OTg0NDI3MH0.XGGuTUsC-1i6BK5qkyurBxiCGvfx8Gg-PcIlNvbJc04'; // Paste your key here
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const ui = {
+      screens: {
+        loading: document.getElementById('loading-screen'),
+        error: document.getElementById('error-screen'),
+        start: document.getElementById('start-screen'),
+        test: document.getElementById('test-screen'),
+        result: document.getElementById('result-screen')
+      },
+      start: {
+        title: document.getElementById('test-title'),
+        qCount: document.getElementById('q-count'),
+        form: document.getElementById('start-form'),
+        nameInput: document.getElementById('student-name'),
+        resumePrompt: document.getElementById('resume-prompt'),
+        btnResume: document.getElementById('btn-resume'),
+        btnRestartClear: document.getElementById('btn-restart-clear')
+      },
+      test: {
+        headerProgress: document.getElementById('header-progress'),
+        name: document.getElementById('display-name'),
+        progress: document.getElementById('progress-text'),
+        total: document.getElementById('total-text'),
+        progressBarFill: document.getElementById('progress-bar-fill'),
+        container: document.getElementById('questions-container'),
+        btnSubmit: document.getElementById('btn-submit-test')
+      },
+      result: {
+        name: document.getElementById('result-name'),
+        time: document.getElementById('result-time'),
+        score: document.getElementById('score-correct'),
+        total: document.getElementById('score-total'),
+        level: document.getElementById('result-level'),
+        btnReview: document.getElementById('btn-toggle-review'),
+        reviewContainer: document.getElementById('review-container'),
+        arrow: document.getElementById('icon-review-arrow'),
+        btnRetake: document.getElementById('btn-retake')
+      }
+    };
+
+    async function init() {
+      try {
+        const response = await fetch(JSON_PATH);
+        if (!response.ok) throw new Error('Không thể đọc file JSON');
+        
+        testData = await response.json();
+        flatQuestions = testData.parts.flatMap(part => 
+          part.questionSets.flatMap(set => set.questions)
+        );
+
+        if(testData.testTitle) ui.start.title.textContent = testData.testTitle;
+        ui.start.qCount.textContent = flatQuestions.length;
+        ui.test.total.textContent = flatQuestions.length;
+
+        loadState();
+        initHighlighting();
+      } catch (error) {
+        console.error(error);
+        showScreen('error');
+      }
+    }
+
+    function loadState() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        state = JSON.parse(saved);
+        if (state.isCompleted) {
+          showScreen('result');
+          renderResults();
+        } else if (state.name) {
+          ui.start.resumePrompt.classList.remove('hidden');
+          showScreen('start');
+        } else {
+          showScreen('start');
+        }
+      } else {
+        showScreen('start');
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function showScreen(screen) {
+      Object.values(ui.screens).forEach(s => s.classList.add('hidden'));
+      ui.screens[screen].classList.remove('hidden');
+      
+      if (screen === 'test') {
+        ui.test.headerProgress.classList.remove('hidden');
+        ui.test.headerProgress.classList.add('flex');
+      } else {
+        ui.test.headerProgress.classList.add('hidden');
+        ui.test.headerProgress.classList.remove('flex');
+      }
+      
+      window.scrollTo(0, 0);
+    }
+
+    ui.start.form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      state.name = ui.start.nameInput.value.trim();
+      state.answers = {};
+      state.isCompleted = false;
+      state.completionTime = null;
+      saveState();
+      buildTestUI();
+    });
+
+    ui.start.btnResume.addEventListener('click', buildTestUI);
+    
+    ui.start.btnRestartClear.addEventListener('click', () => {
+      localStorage.removeItem(STORAGE_KEY);
+      state = { name: '', answers: {}, isCompleted: false, completionTime: null };
+      ui.start.resumePrompt.classList.add('hidden');
+      ui.start.nameInput.value = '';
+    });
+
+  ui.test.btnSubmit.addEventListener('click', async () => {
+      const answered = Object.values(state.answers).filter(val => val && val.trim() !== '').length;
+      const total = flatQuestions.length;
+      let confirmMessage = 'Bạn có chắc chắn muốn nộp bài?';
+      if (answered < total) confirmMessage = `Bạn mới hoàn thành ${answered}/${total} câu. Bạn có chắc chắn muốn nộp bài khi chưa làm xong?`;
+
+      if (confirm(confirmMessage)) {
+        // Show loading state
+        ui.test.btnSubmit.innerText = "Đang nộp bài...";
+        ui.test.btnSubmit.disabled = true;
+
+        state.isCompleted = true;
+        state.completionTime = new Date().toISOString();
+        saveState();
+
+        // --- Calculate final score and CEFR level for the backend ---
+        const scoredQuestions = flatQuestions.filter(q => q.autoGrade !== false);
+        let correct = 0;
+        scoredQuestions.forEach(q => {
+          const ans = state.answers[q.number];
+          if (isAnswerCorrect(ans, q)) correct++;
+        });
+
+        const titleText = testData.testTitle ? testData.testTitle : 'IELTS Mindset 1.1 Final Test';
+        // -------------------------------------------------------------
+
+        // Send data to Supabase
+        try {
+          const { error } = await supabaseClient
+            .from('test_results')
+            .insert([
+              {
+                student_name: state.name,
+                // Append the CEFR rating to the title for the admin dashboard
+                test_title: titleText, 
+                score_correct: correct,
+                score_total: scoredQuestions.length,
+                answers: state.answers
+              }
+            ]);
+
+          if (error) throw error;
+          console.log("Nộp bài lên server thành công!");
+
+        } catch (err) {
+          console.error("Lỗi khi nộp bài:", err);
+          alert("Lỗi kết nối máy chủ! Kết quả của bạn vẫn được lưu trên máy này. Hãy chụp màn hình lại để đề phòng nhé.");
+        }
+
+        renderResults();
+        showScreen('result');
+      }
+    });
+
+    ui.result.btnReview.addEventListener('click', () => {
+      ui.result.reviewContainer.classList.toggle('hidden');
+      ui.result.arrow.classList.toggle('rotate-180');
+    });
+
+    ui.result.btnRetake.addEventListener('click', () => {
+      if(confirm('Làm lại sẽ xóa điểm số hiện tại. Bạn đồng ý chứ?')) {
+        localStorage.removeItem(STORAGE_KEY);
+        state = { name: '', answers: {}, isCompleted: false, completionTime: null };
+        ui.result.reviewContainer.classList.add('hidden');
+        ui.result.arrow.classList.remove('rotate-180');
+        ui.start.nameInput.value = '';
+        ui.start.resumePrompt.classList.add('hidden');
+        showScreen('start');
+      }
+    });
+
+    // --- BUILD TEST UI ---
+    function buildTestUI() {
+      ui.test.name.textContent = state.name;
+      ui.test.container.innerHTML = '';
+
+      testData.parts.forEach(part => {
+        const partSection = document.createElement('div');
+        partSection.className = "mb-12";
+        
+        const titleHtml = `<h3 class="text-2xl font-black text-slate-800 uppercase tracking-tight mb-4 px-2">${part.title}</h3>`;
+        
+        // Setup Split Screen Container
+        const splitContainer = document.createElement('div');
+        splitContainer.className = "flex flex-col lg:flex-row w-full h-[75vh] min-h-[600px] border-2 border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm split-container";
+        
+        const parsedContext = marked.parse(part.context || '');
+        const audioHtml = part.audioUrl ? `<div class="mb-6 rounded-xl border border-slate-200 bg-white p-4 shadow-sm"><p class="mb-2 text-sm font-bold text-slate-700">🎧 Audio bài nghe</p><audio controls preload="metadata" class="w-full"><source src="${part.audioUrl}">Trình duyệt của bạn không hỗ trợ audio.</audio></div>` : '';
+        const imageHtml = part.imageUrl ? `<img src="${part.imageUrl}" alt="Illustration for ${part.title || 'this section'}" class="mb-6 h-auto max-w-full rounded-xl border border-slate-200" loading="lazy">` : '';
+
+        // Left Pane (Reading)
+        const leftPane = document.createElement('div');
+        leftPane.className = "w-full lg:w-1/2 h-1/2 lg:h-full overflow-y-auto p-6 lg:p-10 bg-slate-50 scroll-pane reading-pane relative";
+        leftPane.innerHTML = `${audioHtml}${imageHtml}<div class="prose prose-slate max-w-none prose-table:w-full prose-th:bg-slate-200 prose-td:border-b prose-td:border-slate-200 prose-a:text-custom-pink-600 prose-p:leading-loose text-lg">${parsedContext}</div>`;
+
+        // Resizer (Hidden on Mobile)
+        const resizer = document.createElement('div');
+        resizer.className = "resizer hidden lg:block";
+
+        // Right Pane (Questions)
+        const rightPane = document.createElement('div');
+        rightPane.className = "w-full lg:w-1/2 h-1/2 lg:h-full overflow-y-auto p-6 lg:p-10 scroll-pane bg-white";
+        
+        let questionsHtml = '';
+        part.questionSets.forEach((set, setIdx) => {
+          questionsHtml += `
+            <div class="mb-6 p-4 bg-custom-pink-50/50 rounded-xl border border-custom-pink-100 sticky top-0 z-10 backdrop-blur-sm">
+              <p class="text-slate-700 font-bold text-base italic">${set.instructions}</p>
+            </div>
+            <div class="space-y-6 mb-10" id="part-${part.partNumber}-set-${setIdx}">`;
+
+          set.questions.forEach(q => {
+            const savedAnswer = state.answers[q.number] || '';
+            let inputHtml = '';
+
+            if (q.type === 'multiple_choice') {
+              let optionsHtml = '';
+              q.options.forEach(opt => {
+                const isChecked = savedAnswer === opt ? 'checked' : '';
+                optionsHtml += `
+                  <label class="block relative cursor-pointer group mb-2">
+                    <input type="radio" name="q_${q.number}" value="${opt}" class="sr-only option-radio" ${isChecked} onchange="handleInput(${q.number}, this.value)">
+                    <div class="flex items-center p-3 border-2 border-slate-100 hover:border-custom-pink-200 rounded-xl transition-all bg-slate-50/50">
+                      <div class="w-5 h-5 rounded-full border-2 border-slate-300 mr-3 relative radio-circle flex-shrink-0 transition-colors"></div>
+                      <span class="text-slate-700 font-medium text-base">${opt}</span>
+                    </div>
+                  </label>`;
+              });
+              inputHtml = `<div class="grid grid-cols-1 gap-1">${optionsHtml}</div>`;
+            } else if (q.type === 'short_answer' || q.type === 'fill_in_the_blank') {
+              inputHtml = `<input type="text" value="${escapeAttribute(savedAnswer)}" placeholder="Câu trả lời..." oninput="handleInput(${q.number}, this.value)" class="w-full mt-2 px-4 py-2.5 rounded-xl border-2 border-slate-200 focus:outline-none focus:border-custom-pink-500 focus:ring-2 focus:ring-custom-pink-100 transition-all text-slate-800 font-medium text-base">`;
+            } else if (q.type === 'essay' || q.type === 'long_answer' || q.type === 'writing') {
+              inputHtml = `<textarea rows="8" placeholder="Write your answer here..." oninput="handleInput(${q.number}, this.value)" class="w-full mt-2 px-4 py-3 rounded-xl border-2 border-slate-200 focus:outline-none focus:border-custom-pink-500 focus:ring-2 focus:ring-custom-pink-100 transition-all text-slate-800 font-medium text-base leading-relaxed">${escapeHtml(savedAnswer)}</textarea><p class="mt-2 text-xs text-slate-500">Your response is saved automatically on this device.</p>`;
+            }
+            if (q.imageUrl) inputHtml = `<img src="${q.imageUrl}" alt="Question ${q.number}" class="mb-4 h-auto max-w-full rounded-xl border border-slate-200" loading="lazy">` + inputHtml;
+
+            questionsHtml += `
+              <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+                <div class="flex flex-col sm:flex-row sm:items-start gap-4">
+                  <div class="flex-shrink-0 w-8 h-8 bg-slate-100 text-slate-500 font-black rounded-full flex items-center justify-center border border-slate-200 text-sm">${q.displayNumber ?? q.number}</div>
+                  <div class="flex-grow w-full">
+                    <h4 class="text-base font-bold text-slate-800 mb-3">${q.questionText}</h4>
+                    ${inputHtml}
+                  </div>
+                </div>
+              </div>`;
+          });
+          questionsHtml += `</div>`;
+        });
+
+        rightPane.innerHTML = questionsHtml;
+
+        splitContainer.appendChild(leftPane);
+        splitContainer.appendChild(resizer);
+        splitContainer.appendChild(rightPane);
+
+        partSection.innerHTML = titleHtml;
+        partSection.appendChild(splitContainer);
+        
+        ui.test.container.appendChild(partSection);
+      });
+
+      initResizers();
+      updateProgress();
+      showScreen('test');
+    }
+
+    // --- RESIZER LOGIC ---
+    function initResizers() {
+      const resizers = document.querySelectorAll('.resizer');
+      resizers.forEach(resizer => {
+        let isResizing = false;
+        const leftPane = resizer.previousElementSibling;
+        const rightPane = resizer.nextElementSibling;
+        const container = resizer.parentElement;
+
+        resizer.addEventListener('mousedown', (e) => {
+          isResizing = true;
+          document.body.style.cursor = 'col-resize';
+          leftPane.style.userSelect = 'none';
+          rightPane.style.userSelect = 'none';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+          if (!isResizing) return;
+          const containerRect = container.getBoundingClientRect();
+          let newLeftWidth = ((e.clientX - containerRect.left) / containerRect.width) * 100;
+          
+          // Constrain width between 20% and 80%
+          if (newLeftWidth > 20 && newLeftWidth < 80) {
+            leftPane.style.width = `${newLeftWidth}%`;
+            rightPane.style.width = `${100 - newLeftWidth}%`;
+          }
+        });
+
+        document.addEventListener('mouseup', () => {
+          if (isResizing) {
+            isResizing = false;
+            document.body.style.cursor = 'default';
+            leftPane.style.userSelect = 'auto';
+            rightPane.style.userSelect = 'auto';
+          }
+        });
+      });
+    }
+
+    // --- HIGHLIGHTING LOGIC ---
+    function initHighlighting() {
+      const highlightBtn = document.getElementById('highlight-btn');
+
+      document.addEventListener('mouseup', (e) => {
+        const selection = window.getSelection();
+        const selectedText = selection.toString().trim();
+        
+        // Show button if text selected inside a reading pane
+        if (selectedText.length > 0 && e.target.closest('.reading-pane')) {
+          const range = selection.getRangeAt(0);
+          const rect = range.getBoundingClientRect();
+          
+          highlightBtn.style.top = `${rect.top + window.scrollY - 45}px`;
+          highlightBtn.style.left = `${rect.left + window.scrollX + (rect.width / 2) - (highlightBtn.offsetWidth / 2)}px`;
+          highlightBtn.classList.remove('hidden');
+        } else if (e.target.id !== 'highlight-btn') {
+          highlightBtn.classList.add('hidden');
+        }
+      });
+
+      highlightBtn.addEventListener('click', () => {
+        const selection = window.getSelection();
+        if (!selection.rangeCount) return;
+
+        const range = selection.getRangeAt(0);
+        const mark = document.createElement('mark');
+        mark.className = 'ielts-highlight';
+        
+        // Remove highlight when clicked
+        mark.onclick = function() {
+          const parent = this.parentNode;
+          while(this.firstChild) {
+            parent.insertBefore(this.firstChild, this);
+          }
+          parent.removeChild(this);
+        };
+
+        try {
+          range.surroundContents(mark);
+        } catch(e) {
+          alert("Lỗi: Vui lòng bôi đen văn bản trong cùng một đoạn văn để Highlight.");
+        }
+
+        selection.removeAllRanges();
+        highlightBtn.classList.add('hidden');
+      });
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>\"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[ch]));
+    }
+    function escapeAttribute(value) { return escapeHtml(value); }
+
+    window.handleInput = function(qId, answer) {
+      state.answers[qId] = answer;
+      saveState();
+      updateProgress();
+    };
+
+    function updateProgress() {
+      const answered = Object.values(state.answers).filter(val => val && val.trim() !== '').length;
+      const total = flatQuestions.length;
+      ui.test.progress.textContent = answered;
+      const percentage = (answered / total) * 100;
+      ui.test.progressBarFill.style.width = `${percentage}%`;
+
+      if (answered === total) {
+        ui.test.btnSubmit.classList.remove('bg-slate-800', 'hover:bg-slate-900');
+        ui.test.btnSubmit.classList.add('bg-custom-pink-600', 'hover:bg-custom-pink-700', 'shadow-custom-pink-500/40');
+      } else {
+        ui.test.btnSubmit.classList.add('bg-slate-800', 'hover:bg-slate-900');
+        ui.test.btnSubmit.classList.remove('bg-custom-pink-600', 'hover:bg-custom-pink-700', 'shadow-custom-pink-500/40');
+      }
+    }
+
+    function isAnswerCorrect(userAns, q) {
+      if (!userAns) return false;
+      const cleanString = (str) => str.trim().toLowerCase().replace(/\s+/g, ' ').replace(/\.$/, '');
+      const normalizedUser = cleanString(userAns);
+
+      let validAnswers = [cleanString(q.answer)];
+      if (q.acceptableAnswers && Array.isArray(q.acceptableAnswers)) {
+        validAnswers = validAnswers.concat(q.acceptableAnswers.map(a => cleanString(a)));
+      }
+
+      if (q.type === 'multiple_choice') {
+         for (let validAns of validAnswers) {
+             if (validAns.length === 1 && normalizedUser.startsWith(validAns)) {
+                 if (normalizedUser === validAns || normalizedUser.charAt(1).match(/[\s.]/)) return true; 
+             }
+         }
+      }
+      return validAnswers.includes(normalizedUser);
+    }
+
+    function getEstimatedLevel(score) {
+      if (score <= 10) return "Foundation (4.5+ / CEFR B1)"; 
+      if (score <= 16) return "Level 1 (5.0+ / CEFR B1)";
+      if (score <= 24) return "Level 2 (5.5+ / CEFR B2)";
+      return "Level 3 (6.5+ / CEFR C1)"; 
+    }
+
+    function renderResults() {
+      ui.result.name.textContent = state.name;
+      ui.result.total.textContent = flatQuestions.filter(q => q.autoGrade !== false).length;
+      
+      if (state.completionTime) {
+          const dateObj = new Date(state.completionTime);
+          ui.result.time.textContent = dateObj.toLocaleDateString('vi-VN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+      } else {
+          ui.result.time.textContent = "Không xác định";
+      }
+
+      let correct = 0;
+      let wrongs = [];
+
+      const scoredQuestions = flatQuestions.filter(q => q.autoGrade !== false);
+      scoredQuestions.forEach(q => {
+        const ans = state.answers[q.number];
+        if (isAnswerCorrect(ans, q)) correct++;
+        else wrongs.push({ q, userAns: ans || null });
+      });
+
+      ui.result.score.textContent = correct;
+      ui.result.level.textContent = 'Phần Writing cần được giáo viên chấm riêng; Speaking được đánh giá riêng.';
+      ui.result.reviewContainer.innerHTML = '';
+
+      if (wrongs.length === 0) {
+        ui.result.reviewContainer.innerHTML = '<div class="p-6 bg-green-50 text-green-700 font-bold text-center rounded-2xl border border-green-100 text-lg">Tuyệt vời! Bạn đã làm đúng tất cả các câu hỏi. 🎉</div>';
+      } else {
+        wrongs.forEach(item => {
+          const q = item.q;
+          const isUnanswered = !item.userAns || item.userAns.trim() === '';
+          let statusLabel = isUnanswered ? '<span class="px-2 py-1 bg-amber-100 text-amber-700 text-xs font-black rounded uppercase tracking-wider">Bỏ qua</span>' : '<span class="px-2 py-1 bg-red-100 text-red-600 text-xs font-black rounded uppercase tracking-wider">Sai</span>';
+          const userText = isUnanswered ? 'Chưa trả lời' : item.userAns;
+          
+          let correctText = `<span class="text-green-600 font-bold">${q.answer}</span>`;
+          if (q.acceptableAnswers && q.acceptableAnswers.length > 0) correctText += ` <span class="text-green-500 text-sm font-medium">(Hoặc: ${q.acceptableAnswers.join(', ')})</span>`;
+
+          const borderClass = isUnanswered ? 'border-amber-200' : 'border-red-100';
+
+          const div = document.createElement('div');
+          div.className = `bg-white border-2 ${borderClass} rounded-2xl p-5 shadow-sm text-sm`;
+          div.innerHTML = `
+            <div class="flex items-start mb-3">
+              <div class="mr-3 mt-0.5">${statusLabel}</div>
+              <p class="font-bold text-slate-800 text-base leading-relaxed"><span class="text-slate-500 mr-1">${q.sectionLabel ? q.sectionLabel + ' — ' : ''}Câu ${q.displayNumber ?? q.number}:</span> ${q.questionText}</p>
+            </div>
+            <div class="pl-12 space-y-2 mt-2 bg-slate-50 p-3 rounded-xl">
+              <p class="${isUnanswered ? 'text-amber-600' : 'text-slate-500'} font-medium">Bạn điền: <span class="${isUnanswered ? 'italic' : 'line-through decoration-red-400 decoration-2 font-semibold'}">${userText}</span></p>
+              <p class="text-slate-600">Đáp án đúng: ${correctText}</p>
+            </div>`;
+          ui.result.reviewContainer.appendChild(div);
+        });
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
