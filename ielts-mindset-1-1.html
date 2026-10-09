@@ -15,6 +15,34 @@
 
   <link rel="stylesheet" href="/src/output.css">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    .audio-progress-track { height: 6px; background: #e2e8f0; border-radius: 9999px; overflow: hidden; }
+    .audio-progress-fill { height: 100%; width: 0%; background: #db2777; transition: width 120ms linear; }
+    .writing-answer-text { white-space: pre-wrap; overflow-wrap: anywhere; }
+    @media print {
+      @page { margin: 14mm; }
+      body > header, body > footer, body > #highlight-btn { display: none !important; }
+      body > main { display: block !important; width: 100% !important; max-width: none !important; margin: 0 !important; padding: 0 !important; }
+      body > main > #loading-screen, body > main > #error-screen,
+      body > main > #start-screen, body > main > #test-screen { display: none !important; }
+      body > main > #result-screen {
+        display: block !important; position: static !important; width: 100% !important; max-width: none !important;
+        margin: 0 !important; padding: 0 !important; border: 0 !important; box-shadow: none !important;
+        border-radius: 0 !important; animation: none !important; background: #fff !important;
+      }
+      #result-screen > div > * { display: none !important; visibility: hidden !important; }
+      #result-screen > div > #writing-submission {
+        display: block !important; position: static !important; width: 100% !important; max-width: none !important;
+        margin: 0 !important; padding: 0 !important; border: 0 !important; border-radius: 0 !important;
+        box-shadow: none !important; background: #fff !important;
+      }
+      #writing-submission, #writing-submission * { visibility: visible !important; }
+      #writing-submission .writing-controls, #writing-submission .writing-feedback,
+      #writing-submission .writing-help { display: none !important; }
+      #writing-submission .writing-answer-card { break-inside: avoid; box-shadow: none !important; }
+      #writing-submission .writing-answer-text { white-space: pre-wrap !important; overflow-wrap: anywhere !important; }
+    }
+  </style>
 
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col relative overflow-x-hidden">
@@ -64,7 +92,8 @@
           <li>Đọc/nghe nội dung được cung cấp và trả lời câu hỏi. Một số phần có thể bao gồm hình ảnh hoặc bài viết dài.</li>
           <li>Trên máy tính, bạn có thể kéo thanh ở giữa để điều chỉnh kích thước hai bên.</li>
           <li><strong>Bôi đen văn bản</strong> để sử dụng tính năng Highlight (đánh dấu).</li>
-          <li>Điền tên học viên trước khi bắt đầu. Câu trả lời được lưu trên thiết bị này.</li>
+          <li>Mỗi audio được nghe tối đa <strong>2 lượt</strong>. Khi đã bắt đầu, audio sẽ phát liên tục đến hết, không thể tạm dừng hoặc tua.</li>
+          <li>Điền tên học viên trước khi bắt đầu. Câu trả lời và số lượt nghe được lưu trên thiết bị này.</li>
         </ul>
       </div>
 
@@ -129,6 +158,27 @@
           </div>
         </div>
 
+        <section id="writing-submission" class="mb-10 w-full text-left border-2 border-custom-pink-100 rounded-2xl p-5 md:p-7 bg-white">
+          <div class="mb-5">
+            <h3 class="text-xl md:text-2xl font-black text-slate-800 mb-2">Bài Writing của bạn</h3>
+            <p class="text-sm text-slate-600">Bài viết sẽ hiển thị tại đây sau khi nộp bài. Bạn có thể sao chép, in/lưu PDF hoặc gửi qua email cho giáo viên.</p>
+          </div>
+          <div id="writing-answers" class="space-y-5"></div>
+          <div class="writing-controls flex flex-col sm:flex-row flex-wrap gap-3 mt-6">
+            <button type="button" id="btn-copy-writing" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-bold transition-colors">Sao chép bài Writing</button>
+            <button type="button" id="btn-print-writing" class="px-5 py-3 rounded-xl bg-custom-pink-600 hover:bg-custom-pink-700 text-white font-bold transition-colors">In / Lưu thành PDF</button>
+          </div>
+          <div class="writing-controls mt-5 p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <label for="teacher-email" class="block font-bold text-slate-700 mb-2">Email của giáo viên</label>
+            <div class="flex flex-col sm:flex-row gap-3">
+              <input type="email" id="teacher-email" placeholder="teacher@example.com" class="min-w-0 flex-1 px-4 py-3 rounded-xl border-2 border-slate-200 focus:outline-none focus:border-custom-pink-500 text-slate-800">
+              <button type="button" id="btn-email-writing" class="px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition-colors">Gửi qua email</button>
+            </div>
+            <p class="writing-help text-xs text-slate-500 mt-2">Nút email sẽ mở ứng dụng email trên thiết bị. Hãy kiểm tra nội dung và nhấn Gửi trong ứng dụng đó. Nếu không có ứng dụng email, hãy sao chép bài viết rồi gửi qua kênh liên lạc của lớp.</p>
+          </div>
+          <p id="writing-feedback" class="writing-feedback mt-4 text-sm font-semibold text-slate-600" role="status" aria-live="polite"></p>
+        </section>
+
       <div class="border-t border-slate-200 pt-6 mt-4">
         <button id="btn-toggle-review" class="w-full flex justify-between items-center text-left py-4 px-6 bg-slate-50 hover:bg-slate-100 rounded-xl transition-all font-bold text-slate-800 border border-slate-200">
           <span class="text-lg">Xem chi tiết bài làm</span>
@@ -166,7 +216,9 @@
     
     let testData = null;
     let flatQuestions = [];
-    let state = { name: '', answers: {}, isCompleted: false, completionTime: null };
+    const AUDIO_PLAY_LIMIT = 2;
+    let currentAudioElement = null;
+    let state = { name: '', answers: {}, audioPlays: {}, isCompleted: false, completionTime: null };
 
     const SUPABASE_URL = 'https://qkxjrytqidbnrmizwmmz.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFreGpyeXRxaWRibnJtaXp3bW16Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyNjgyNzAsImV4cCI6MjA5OTg0NDI3MH0.XGGuTUsC-1i6BK5qkyurBxiCGvfx8Gg-PcIlNvbJc04'; // Paste your key here
@@ -207,7 +259,14 @@
         btnReview: document.getElementById('btn-toggle-review'),
         reviewContainer: document.getElementById('review-container'),
         arrow: document.getElementById('icon-review-arrow'),
-        btnRetake: document.getElementById('btn-retake')
+        btnRetake: document.getElementById('btn-retake'),
+        writingSection: document.getElementById('writing-submission'),
+        writingAnswers: document.getElementById('writing-answers'),
+        btnCopyWriting: document.getElementById('btn-copy-writing'),
+        btnPrintWriting: document.getElementById('btn-print-writing'),
+        btnEmailWriting: document.getElementById('btn-email-writing'),
+        teacherEmail: document.getElementById('teacher-email'),
+        writingFeedback: document.getElementById('writing-feedback')
       }
     };
 
@@ -237,6 +296,8 @@
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         state = JSON.parse(saved);
+        state.answers = state.answers && typeof state.answers === 'object' ? state.answers : {};
+        state.audioPlays = state.audioPlays && typeof state.audioPlays === 'object' ? state.audioPlays : {};
         if (state.isCompleted) {
           showScreen('result');
           renderResults();
@@ -274,6 +335,7 @@
       e.preventDefault();
       state.name = ui.start.nameInput.value.trim();
       state.answers = {};
+      state.audioPlays = {};
       state.isCompleted = false;
       state.completionTime = null;
       saveState();
@@ -284,7 +346,7 @@
     
     ui.start.btnRestartClear.addEventListener('click', () => {
       localStorage.removeItem(STORAGE_KEY);
-      state = { name: '', answers: {}, isCompleted: false, completionTime: null };
+      state = { name: '', answers: {}, audioPlays: {}, isCompleted: false, completionTime: null };
       ui.start.resumePrompt.classList.add('hidden');
       ui.start.nameInput.value = '';
     });
@@ -296,6 +358,7 @@
       if (answered < total) confirmMessage = `Bạn mới hoàn thành ${answered}/${total} câu. Bạn có chắc chắn muốn nộp bài khi chưa làm xong?`;
 
       if (confirm(confirmMessage)) {
+        let serverSaveFailed = false;
         // Show loading state
         ui.test.btnSubmit.innerText = "Đang nộp bài...";
         ui.test.btnSubmit.disabled = true;
@@ -334,11 +397,14 @@
           console.log("Nộp bài lên server thành công!");
 
         } catch (err) {
-          console.error("Lỗi khi nộp bài:", err);
-          alert("Lỗi kết nối máy chủ! Kết quả của bạn vẫn được lưu trên máy này. Hãy chụp màn hình lại để đề phòng nhé.");
+          serverSaveFailed = true;
+          console.warn("Không lưu được kết quả lên máy chủ; vẫn hiển thị kết quả và bài Writing trên thiết bị.", err);
         }
 
         renderResults();
+        if (serverSaveFailed) {
+          setWritingFeedback('Kết quả chưa được lưu lên máy chủ. Bài Writing vẫn hiển thị tại đây; hãy sao chép hoặc in/lưu PDF rồi gửi cho giáo viên trước khi đóng trang.', true);
+        }
         showScreen('result');
       }
     });
@@ -348,10 +414,14 @@
       ui.result.arrow.classList.toggle('rotate-180');
     });
 
+    ui.result.btnCopyWriting.addEventListener('click', copyWritingSubmission);
+    ui.result.btnPrintWriting.addEventListener('click', () => window.print());
+    ui.result.btnEmailWriting.addEventListener('click', emailWritingSubmission);
+
     ui.result.btnRetake.addEventListener('click', () => {
       if(confirm('Làm lại sẽ xóa điểm số hiện tại. Bạn đồng ý chứ?')) {
         localStorage.removeItem(STORAGE_KEY);
-        state = { name: '', answers: {}, isCompleted: false, completionTime: null };
+        state = { name: '', answers: {}, audioPlays: {}, isCompleted: false, completionTime: null };
         ui.result.reviewContainer.classList.add('hidden');
         ui.result.arrow.classList.remove('rotate-180');
         ui.start.nameInput.value = '';
@@ -365,7 +435,7 @@
       ui.test.name.textContent = state.name;
       ui.test.container.innerHTML = '';
 
-      testData.parts.forEach(part => {
+      testData.parts.forEach((part, partIndex) => {
         const partSection = document.createElement('div');
         partSection.className = "mb-12";
         
@@ -376,7 +446,7 @@
         splitContainer.className = "flex flex-col lg:flex-row w-full h-[75vh] min-h-[600px] border-2 border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm split-container";
         
         const parsedContext = marked.parse(part.context || '');
-        const audioHtml = part.audioUrl ? `<div class="mb-6 rounded-xl border border-slate-200 bg-white p-4 shadow-sm"><p class="mb-2 text-sm font-bold text-slate-700">🎧 Audio bài nghe</p><audio controls preload="metadata" class="w-full"><source src="${part.audioUrl}">Trình duyệt của bạn không hỗ trợ audio.</audio></div>` : '';
+        const audioHtml = part.audioUrl ? createAudioPlayerMarkup(part, partIndex) : '';
         const imageHtml = part.imageUrl ? `<img src="${part.imageUrl}" alt="Illustration for ${part.title || 'this section'}" class="mb-6 h-auto max-w-full rounded-xl border border-slate-200" loading="lazy">` : '';
 
         // Left Pane (Reading)
@@ -452,6 +522,7 @@
       });
 
       initResizers();
+      initAudioPlayers(ui.test.container);
       updateProgress();
       showScreen('test');
     }
@@ -544,6 +615,287 @@
       });
     }
 
+    // --- AUDIO LISTENING LIMIT (2 complete play attempts per audio per attempt) ---
+    function createAudioPlayerMarkup(part, partIndex) {
+      const audioId = `part-audio-${partIndex + 1}`;
+      return `
+        <div class="mb-6 rounded-xl border border-slate-200 bg-white p-4 shadow-sm" data-audio-player data-audio-id="${audioId}">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
+            <p class="text-sm font-bold text-slate-700">🎧 Audio bài nghe</p>
+            <span class="text-xs font-bold text-custom-pink-700 bg-custom-pink-50 px-3 py-1 rounded-full" data-audio-count>Đã nghe: 0/2 lượt</span>
+          </div>
+          <audio class="hidden" preload="metadata" playsinline data-audio-element>
+            <source src="${escapeAttribute(part.audioUrl)}">Trình duyệt của bạn không hỗ trợ audio.
+          </audio>
+          <button type="button" data-audio-play class="w-full sm:w-auto px-5 py-3 rounded-xl bg-custom-pink-600 hover:bg-custom-pink-700 text-white font-bold transition-colors disabled:opacity-50 disabled:cursor-not-allowed">▶ Bắt đầu nghe (còn 2 lượt)</button>
+          <div class="audio-progress-track mt-4" role="progressbar" aria-label="Tiến độ nghe audio" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-audio-progress>
+            <div class="audio-progress-fill" data-audio-progress-fill></div>
+          </div>
+          <p class="mt-3 text-xs text-slate-500" data-audio-status role="status" aria-live="polite">Tối đa 2 lượt nghe. Khi bắt đầu, audio sẽ phát liên tục đến hết và không thể tạm dừng hoặc tua.</p>
+        </div>`;
+    }
+
+    function getAudioPlayCount(audioId) {
+      const count = Number(state.audioPlays?.[audioId] || 0);
+      return Number.isFinite(count) ? Math.max(0, Math.min(AUDIO_PLAY_LIMIT, count)) : 0;
+    }
+
+    function refreshAudioPlayer(card) {
+      const audio = card.querySelector('[data-audio-element]');
+      const button = card.querySelector('[data-audio-play]');
+      const countLabel = card.querySelector('[data-audio-count]');
+      const audioId = card.dataset.audioId;
+      const count = getAudioPlayCount(audioId);
+      const thisPlaying = currentAudioElement === audio && !audio.ended;
+      const anotherPlaying = currentAudioElement && currentAudioElement !== audio && !currentAudioElement.ended;
+
+      countLabel.textContent = `Đã nghe: ${count}/${AUDIO_PLAY_LIMIT} lượt`;
+      if (thisPlaying) {
+        button.disabled = true;
+        button.textContent = `Đang nghe lượt ${count}/${AUDIO_PLAY_LIMIT}…`;
+      } else if (count >= AUDIO_PLAY_LIMIT) {
+        button.disabled = true;
+        button.textContent = 'Đã hết 2 lượt nghe';
+      } else if (anotherPlaying) {
+        button.disabled = true;
+        button.textContent = 'Vui lòng nghe xong audio hiện tại';
+      } else {
+        button.disabled = false;
+        button.textContent = count === 0 ? '▶ Bắt đầu nghe (còn 2 lượt)' : `▶ Nghe lại (còn ${AUDIO_PLAY_LIMIT - count} lượt)`;
+      }
+    }
+
+    function refreshAllAudioPlayers() {
+      document.querySelectorAll('[data-audio-player]').forEach(refreshAudioPlayer);
+    }
+
+    function initAudioPlayers(root) {
+      root.querySelectorAll('[data-audio-player]').forEach(card => {
+        if (card.dataset.audioBound === 'true') return;
+        card.dataset.audioBound = 'true';
+        const audio = card.querySelector('[data-audio-element]');
+        const button = card.querySelector('[data-audio-play]');
+        const status = card.querySelector('[data-audio-status]');
+        const progress = card.querySelector('[data-audio-progress]');
+        const progressFill = card.querySelector('[data-audio-progress-fill]');
+        const audioId = card.dataset.audioId;
+
+        button.addEventListener('click', () => {
+          const count = getAudioPlayCount(audioId);
+          if (count >= AUDIO_PLAY_LIMIT) {
+            refreshAudioPlayer(card);
+            status.textContent = 'Bạn đã sử dụng hết 2 lượt nghe cho audio này.';
+            return;
+          }
+          if (currentAudioElement && currentAudioElement !== audio && !currentAudioElement.ended) {
+            status.textContent = 'Vui lòng nghe xong audio đang phát trước khi mở audio khác.';
+            return;
+          }
+
+          // Reserve and persist the attempt before playback starts, so a refresh does not reset the limit.
+          state.audioPlays[audioId] = count + 1;
+          saveState();
+          audio.dataset.allowPause = 'false';
+          audio.dataset.hasStarted = 'false';
+          audio.dataset.lastTime = '0';
+          currentAudioElement = audio;
+          status.textContent = `Đang nghe lượt ${count + 1}/${AUDIO_PLAY_LIMIT}. Audio sẽ tiếp tục phát đến hết.`;
+          refreshAllAudioPlayers();
+
+          const playResult = audio.play();
+          if (playResult && typeof playResult.then === 'function') {
+            playResult.then(() => {
+              audio.dataset.hasStarted = 'true';
+            }).catch(() => {
+              // Roll back only when playback could not start at all.
+              state.audioPlays[audioId] = count;
+              saveState();
+              audio.dataset.allowPause = 'true';
+              if (currentAudioElement === audio) currentAudioElement = null;
+              status.textContent = 'Không thể phát audio. Hãy kiểm tra kết nối rồi thử lại.';
+              refreshAllAudioPlayers();
+            });
+          } else {
+            audio.dataset.hasStarted = 'true';
+          }
+        });
+
+        audio.addEventListener('timeupdate', () => {
+          const duration = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : 0;
+          const percentage = duration ? Math.min(100, (audio.currentTime / duration) * 100) : 0;
+          progressFill.style.width = `${percentage}%`;
+          progress.setAttribute('aria-valuenow', String(Math.round(percentage)));
+          audio.dataset.lastTime = String(audio.currentTime || 0);
+        });
+
+        // There are no native controls; this also rejects any seek attempt initiated by the browser.
+        audio.addEventListener('seeking', () => {
+          const lastTime = Number(audio.dataset.lastTime || 0);
+          if (Math.abs(audio.currentTime - lastTime) > 0.75) audio.currentTime = lastTime;
+        });
+
+        // If the browser emits a pause event while a started audio has not ended, resume it.
+        audio.addEventListener('pause', () => {
+          if (!audio.ended && audio.dataset.allowPause !== 'true' && currentAudioElement === audio) {
+            const resumeResult = audio.play();
+            if (resumeResult && typeof resumeResult.catch === 'function') {
+              resumeResult.catch(() => {
+                status.textContent = 'Trình duyệt đã ngắt audio. Hãy giữ trang mở trong khi nghe.';
+              });
+            }
+          }
+        });
+
+        audio.addEventListener('ended', () => {
+          audio.dataset.allowPause = 'true';
+          progressFill.style.width = '100%';
+          progress.setAttribute('aria-valuenow', '100');
+          if (currentAudioElement === audio) currentAudioElement = null;
+          status.textContent = getAudioPlayCount(audioId) >= AUDIO_PLAY_LIMIT
+            ? 'Bạn đã nghe đủ 2/2 lượt cho audio này.'
+            : `Đã nghe xong lượt ${getAudioPlayCount(audioId)}/${AUDIO_PLAY_LIMIT}. Bạn có thể nghe lại ${AUDIO_PLAY_LIMIT - getAudioPlayCount(audioId)} lượt.`;
+          refreshAllAudioPlayers();
+        });
+
+        audio.addEventListener('error', () => {
+          // Failed initial playback is rolled back by the play() promise rejection handler.
+          // Once playback has started, the attempt remains counted.
+          audio.dataset.allowPause = 'true';
+          if (currentAudioElement === audio) currentAudioElement = null;
+          status.textContent = 'Không tải được audio. Vui lòng kiểm tra đường dẫn hoặc kết nối mạng.';
+          refreshAllAudioPlayers();
+        });
+
+        refreshAudioPlayer(card);
+        const savedCount = getAudioPlayCount(audioId);
+        if (savedCount > 0) status.textContent = `Bạn đã sử dụng ${savedCount}/${AUDIO_PLAY_LIMIT} lượt nghe trước đó.`;
+        if (savedCount >= AUDIO_PLAY_LIMIT) status.textContent = 'Bạn đã sử dụng hết 2 lượt nghe cho audio này.';
+      });
+    }
+
+    // --- WRITING SUBMISSION HANDOFF (no database required) ---
+    function isWritingQuestion(question) {
+      const type = String(question.type || '').toLowerCase();
+      const section = String(question.sectionLabel || '').toLowerCase();
+      return ['essay', 'long_answer', 'writing'].includes(type) || section.includes('writing');
+    }
+
+    function getWritingQuestions() {
+      return flatQuestions.filter(isWritingQuestion);
+    }
+
+    function getWritingSubmissionText() {
+      const title = testData?.testTitle || 'IELTS Mindset 1.1 Final Test';
+      const completedAt = state.completionTime
+        ? new Date(state.completionTime).toLocaleString('vi-VN')
+        : 'Không xác định';
+      const lines = [
+        'BÀI WRITING - NỘP CHO GIÁO VIÊN',
+        `Bài thi: ${title}`,
+        `Học viên: ${state.name || 'Chưa nhập tên'}`,
+        `Thời gian nộp: ${completedAt}`,
+        ''
+      ];
+      const questions = getWritingQuestions();
+      if (!questions.length) lines.push('Không tìm thấy câu hỏi Writing dạng bài luận trong bài thi này.');
+      questions.forEach((question, index) => {
+        const label = question.displayNumber ?? question.number ?? (index + 1);
+        const section = question.sectionLabel ? `${question.sectionLabel} — ` : '';
+        const answer = String(state.answers?.[question.number] || '').trim();
+        lines.push(`${section}Câu ${label}: ${question.questionText || 'Writing'}`, '', answer || '[Chưa có câu trả lời]', '', '--------------------------------------------------', '');
+      });
+      return lines.join('\n').trim();
+    }
+
+    function renderWritingSubmission() {
+      const questions = getWritingQuestions();
+      ui.result.writingAnswers.innerHTML = '';
+      if (!questions.length) {
+        const empty = document.createElement('p');
+        empty.className = 'text-slate-500 italic';
+        empty.textContent = 'Không tìm thấy câu hỏi Writing dạng bài luận trong bài thi này.';
+        ui.result.writingAnswers.appendChild(empty);
+        return;
+      }
+
+      questions.forEach((question, index) => {
+        const card = document.createElement('article');
+        card.className = 'writing-answer-card border border-slate-200 rounded-xl p-4 md:p-5 bg-slate-50';
+        const heading = document.createElement('h4');
+        heading.className = 'font-black text-slate-800 mb-3';
+        const questionLabel = question.displayNumber ?? question.number ?? (index + 1);
+        heading.textContent = `${question.sectionLabel ? question.sectionLabel + ' — ' : ''}Câu ${questionLabel}: ${question.questionText || 'Writing'}`;
+        const answer = document.createElement('div');
+        answer.className = 'writing-answer-text text-slate-700 leading-relaxed';
+        const text = String(state.answers?.[question.number] || '').trim();
+        answer.textContent = text || '[Chưa có câu trả lời]';
+        card.appendChild(heading);
+        card.appendChild(answer);
+        ui.result.writingAnswers.appendChild(card);
+      });
+    }
+
+    function setWritingFeedback(message, isError = false) {
+      ui.result.writingFeedback.textContent = message;
+      ui.result.writingFeedback.className = `writing-feedback mt-4 text-sm font-semibold ${isError ? 'text-red-600' : 'text-emerald-700'}`;
+    }
+
+    async function copyWritingSubmission() {
+      const text = getWritingSubmissionText();
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          throw new Error('Clipboard API unavailable');
+        }
+        setWritingFeedback('Đã sao chép bài Writing. Bạn có thể dán vào email hoặc ứng dụng nhắn tin để gửi giáo viên.');
+      } catch (error) {
+        const temp = document.createElement('textarea');
+        temp.value = text;
+        temp.setAttribute('readonly', '');
+        temp.style.position = 'fixed';
+        temp.style.opacity = '0';
+        document.body.appendChild(temp);
+        temp.select();
+        let copied = false;
+        try { copied = document.execCommand('copy'); } catch (_) { copied = false; }
+        temp.remove();
+        if (copied) {
+          setWritingFeedback('Đã sao chép bài Writing. Bạn có thể dán vào email hoặc ứng dụng nhắn tin để gửi giáo viên.');
+        } else {
+          setWritingFeedback('Không thể tự sao chép trên trình duyệt này. Hãy bôi đen nội dung bài viết bên trên rồi sao chép thủ công.', true);
+        }
+      }
+    }
+
+    function emailWritingSubmission() {
+      const email = ui.result.teacherEmail.value.trim();
+      if (!email) {
+        setWritingFeedback('Vui lòng nhập email của giáo viên trước khi gửi.', true);
+        ui.result.teacherEmail.focus();
+        return;
+      }
+      if (!ui.result.teacherEmail.checkValidity()) {
+        setWritingFeedback('Địa chỉ email chưa đúng định dạng. Vui lòng kiểm tra lại.', true);
+        ui.result.teacherEmail.focus();
+        return;
+      }
+
+      const title = testData?.testTitle || 'IELTS Mindset 1.1 Final Test';
+      const subject = `Bài Writing - ${state.name || 'Học viên'} - ${title}`;
+      const body = getWritingSubmissionText();
+      const mailtoUrl = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      if (mailtoUrl.length > 7000) {
+        setWritingFeedback('Bài viết khá dài và có thể vượt giới hạn của ứng dụng email. Hãy bấm “Sao chép bài Writing”, mở email tới giáo viên, rồi dán toàn bộ nội dung vào thư.', true);
+      } else {
+        setWritingFeedback('Đang mở ứng dụng email với bài Writing đã điền sẵn. Vui lòng kiểm tra thư và nhấn Gửi trong ứng dụng email.');
+      }
+      const safeBody = mailtoUrl.length > 7000
+        ? `Bài Writing của ${state.name || 'học viên'} đã hoàn thành. Nội dung bài viết hơi dài; vui lòng dán nội dung đã sao chép vào email này.`
+        : body;
+      window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(safeBody)}`;
+    }
+
     function escapeHtml(value) {
       return String(value ?? '').replace(/[&<>\"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[ch]));
     }
@@ -621,6 +973,8 @@
 
       ui.result.score.textContent = correct;
       ui.result.level.textContent = 'Phần Writing cần được giáo viên chấm riêng; Speaking được đánh giá riêng.';
+      ui.result.writingFeedback.textContent = '';
+      renderWritingSubmission();
       ui.result.reviewContainer.innerHTML = '';
 
       if (wrongs.length === 0) {
