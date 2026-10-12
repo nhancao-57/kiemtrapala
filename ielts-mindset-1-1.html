@@ -158,6 +158,11 @@
           </div>
         </div>
 
+        <div class="mb-8 text-center">
+          <p id="submission-status" class="text-sm font-semibold text-slate-600" role="status" aria-live="polite"></p>
+          <button type="button" id="btn-retry-submit" class="hidden mt-3 px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-bold transition-colors">Gửi lại kết quả</button>
+        </div>
+
         <section id="writing-submission" class="mb-10 w-full text-left border-2 border-custom-pink-100 rounded-2xl p-5 md:p-7 bg-white">
           <div class="mb-5">
             <h3 class="text-xl md:text-2xl font-black text-slate-800 mb-2">Bài Writing của bạn</h3>
@@ -218,6 +223,7 @@
     let flatQuestions = [];
     const AUDIO_PLAY_LIMIT = 2;
     let currentAudioElement = null;
+    let isSubmitting = false;
     let state = { name: '', answers: {}, audioPlays: {}, isCompleted: false, completionTime: null };
 
     const SUPABASE_URL = 'https://qkxjrytqidbnrmizwmmz.supabase.co';
@@ -260,6 +266,8 @@
         reviewContainer: document.getElementById('review-container'),
         arrow: document.getElementById('icon-review-arrow'),
         btnRetake: document.getElementById('btn-retake'),
+        submissionStatus: document.getElementById('submission-status'),
+        btnRetrySubmit: document.getElementById('btn-retry-submit'),
         writingSection: document.getElementById('writing-submission'),
         writingAnswers: document.getElementById('writing-answers'),
         btnCopyWriting: document.getElementById('btn-copy-writing'),
@@ -338,6 +346,7 @@
       state.audioPlays = {};
       state.isCompleted = false;
       state.completionTime = null;
+      state.submissionStatus = null;
       saveState();
       buildTestUI();
     });
@@ -352,61 +361,78 @@
     });
 
   ui.test.btnSubmit.addEventListener('click', async () => {
+      if (isSubmitting || state.isCompleted) return;
       const answered = Object.values(state.answers).filter(val => val && val.trim() !== '').length;
       const total = flatQuestions.length;
       let confirmMessage = 'Bạn có chắc chắn muốn nộp bài?';
       if (answered < total) confirmMessage = `Bạn mới hoàn thành ${answered}/${total} câu. Bạn có chắc chắn muốn nộp bài khi chưa làm xong?`;
 
       if (confirm(confirmMessage)) {
-        let serverSaveFailed = false;
         // Show loading state
         ui.test.btnSubmit.innerText = "Đang nộp bài...";
         ui.test.btnSubmit.disabled = true;
 
         state.isCompleted = true;
         state.completionTime = new Date().toISOString();
+        state.submissionStatus = 'pending';
         saveState();
 
-        // --- Calculate final score and CEFR level for the backend ---
-        const scoredQuestions = flatQuestions.filter(q => q.autoGrade !== false);
-        let correct = 0;
-        scoredQuestions.forEach(q => {
-          const ans = state.answers[q.number];
-          if (isAnswerCorrect(ans, q)) correct++;
-        });
-
-        const titleText = testData.testTitle ? testData.testTitle : 'IELTS Mindset 1.1 Final Test';
-        // -------------------------------------------------------------
-
-        // Send data to Supabase
-        try {
-          const { error } = await supabaseClient
-            .from('test_results')
-            .insert([
-              {
-                student_name: state.name,
-                // Append the CEFR rating to the title for the admin dashboard
-                test_title: titleText, 
-                score_correct: correct,
-                score_total: scoredQuestions.length,
-                answers: state.answers
-              }
-            ]);
-
-          if (error) throw error;
-          console.log("Nộp bài lên server thành công!");
-
-        } catch (err) {
-          serverSaveFailed = true;
-          console.warn("Không lưu được kết quả lên máy chủ; vẫn hiển thị kết quả và bài Writing trên thiết bị.", err);
-        }
-
         renderResults();
-        if (serverSaveFailed) {
-          setWritingFeedback('Kết quả chưa được lưu lên máy chủ. Bài Writing vẫn hiển thị tại đây; hãy sao chép hoặc in/lưu PDF rồi gửi cho giáo viên trước khi đóng trang.', true);
-        }
         showScreen('result');
+        await submitResults();
       }
+    });
+
+    function renderSubmissionStatus() {
+      const saved = state.submissionStatus === 'saved';
+      const failed = state.submissionStatus === 'failed';
+      ui.result.submissionStatus.textContent = isSubmitting
+        ? 'Đang lưu kết quả và bài Writing lên máy chủ...'
+        : saved
+          ? 'Đã lưu kết quả và bài Writing lên máy chủ thành công.'
+          : failed
+            ? 'Chưa xác nhận được việc lưu kết quả. Bài làm vẫn được lưu trên thiết bị này. Vui lòng thử gửi lại.'
+            : 'Chưa xác định được trạng thái lưu của bài làm này. Hãy kiểm tra với giáo viên trước khi gửi lại để tránh trùng kết quả.';
+      ui.result.submissionStatus.className = `text-sm font-semibold ${saved ? 'text-emerald-700' : 'text-slate-600'}`;
+      ui.result.btnRetrySubmit.classList.toggle('hidden', saved);
+      ui.result.btnRetrySubmit.disabled = isSubmitting;
+      ui.result.btnRetake.disabled = isSubmitting;
+    }
+
+    async function submitResults() {
+      if (isSubmitting || !state.isCompleted || state.submissionStatus === 'saved') return;
+      isSubmitting = true;
+      renderSubmissionStatus();
+      try {
+        const scoredQuestions = flatQuestions.filter(q => q.autoGrade !== false);
+        const correct = scoredQuestions.filter(q => isAnswerCorrect(state.answers[q.number], q)).length;
+        // Use the same table and columns as the other tests. Include Writing in
+        // answers for teacher marking, but exclude it from the automatic score.
+        const { error } = await supabaseClient.from('test_results').insert([{
+          student_name: state.name,
+          test_title: testData.testTitle || 'IELTS Mindset 1.1 Final Test',
+          score_correct: correct,
+          score_total: scoredQuestions.length,
+          answers: state.answers
+        }]);
+        if (error) throw error;
+        state.submissionStatus = 'saved';
+      } catch (err) {
+        state.submissionStatus = 'failed';
+        console.error('Không lưu được kết quả lên máy chủ:', err);
+      } finally {
+        isSubmitting = false;
+        ui.test.btnSubmit.innerText = 'Nộp bài';
+        ui.test.btnSubmit.disabled = false;
+        renderSubmissionStatus();
+        saveState();
+      }
+    }
+
+    ui.result.btnRetrySubmit.addEventListener('click', async () => {
+      if (isSubmitting || state.submissionStatus === 'saved') return;
+      if (!confirm('Gửi lại kết quả và bài Writing lên máy chủ? Nếu lần gửi trước đã được lưu nhưng mất kết nối trước khi xác nhận, kết quả có thể bị trùng.')) return;
+      await submitResults();
     });
 
     ui.result.btnReview.addEventListener('click', () => {
@@ -951,6 +977,7 @@
     }
 
     function renderResults() {
+      renderSubmissionStatus();
       ui.result.name.textContent = state.name;
       ui.result.total.textContent = flatQuestions.filter(q => q.autoGrade !== false).length;
       
