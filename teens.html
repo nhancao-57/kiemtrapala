@@ -11,75 +11,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="/images/Pala_logo.png">
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'custom-pink': {
-              50: '#fdf2f8', 100: '#fce7f3', 200: '#fbcfe8',
-              300: '#f9a8d4', 400: '#f472b6', 500: '#ec4899',
-              600: '#db2777', 700: '#be185d', 800: '#9d174d', 900: '#831843'
-            }
-          },
-          fontFamily: { sans: ['Inter', 'sans-serif'] },
-          animation: {
-            'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
-            'pulse-soft': 'pulseSoft 2s infinite',
-          },
-          keyframes: {
-            fadeInUp: {
-              '0%': { opacity: '0', transform: 'translateY(15px)' },
-              '100%': { opacity: '1', transform: 'translateY(0)' },
-            },
-            pulseSoft: {
-              '0%, 100%': { transform: 'scale(1)' },
-              '50%': { transform: 'scale(1.02)' },
-            }
-          }
-        }
-      }
-    }
-  </script>
-
-  <style>
-    /* Custom Radio Buttons for mobile tap targets */
-    .option-radio:checked + div {
-      border-color: #db2777; /* custom-pink-600 */
-      background-color: #fdf2f8; /* custom-pink-50 */
-      box-shadow: 0 4px 6px -1px rgba(219, 39, 119, 0.1);
-    }
-    .option-radio:checked + div .radio-circle {
-      border-color: #db2777;
-      background-color: #db2777;
-    }
-    .option-radio:checked + div .radio-circle::after {
-      content: '';
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: white;
-    }
-    
-    /* Loading Spinner */
-    .loader {
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid #db2777;
-      border-radius: 50%;
-      width: 48px;
-      height: 48px;
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-  </style>
+  <link rel="stylesheet" href="/src/output.css">
+  <link rel="stylesheet" href="/src/test-system.css">
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-custom-pink-200 selection:text-custom-pink-900 relative">
+<body class="test-page bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-custom-pink-200 selection:text-custom-pink-900 relative">
 
   <header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50 h-16 flex items-center justify-center">
-    <div class="container mx-auto px-4 flex justify-center items-center">
+    <div class="test-header-inner container mx-auto px-4 flex justify-center items-center">
+      <a id="btn-return" class="test-return" href="/index.html" aria-label="Trở về danh sách bài thi">← Trở về</a>
       <img src="images/PLC_Logo_FA_Horizontal_COLOUR.png" alt="Pala Language Centre Logo" class="h-10 md:h-12 w-auto object-contain transition-transform hover:scale-105" onerror="this.outerHTML='<span class=\'text-2xl font-black text-custom-pink-600 tracking-tight\'>PALA<span class=\'text-slate-800\'>CENTRE</span></span>'">
     </div>
   </header>
@@ -213,6 +152,7 @@
     </div>
   </footer>
 
+  <script src="/js/test-common.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
@@ -223,7 +163,7 @@
 
     const SUPABASE_URL = 'https://qkxjrytqidbnrmizwmmz.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFreGpyeXRxaWRibnJtaXp3bW16Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyNjgyNzAsImV4cCI6MjA5OTg0NDI3MH0.XGGuTUsC-1i6BK5qkyurBxiCGvfx8Gg-PcIlNvbJc04'; // Paste your key here
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const supabaseClient = window.supabase?.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) || null;
 
     const ui = {
       screens: {
@@ -285,9 +225,9 @@
     }
 
     function loadState() {
-      const saved = localStorage.getItem(STORAGE_KEY);
+      const saved = TestCommon.readState(STORAGE_KEY, state, flatQuestions.map(q => q.number));
       if (saved) {
-        state = JSON.parse(saved);
+        state = saved;
         if (state.isCompleted) {
           showScreen('result');
           renderResults();
@@ -303,17 +243,19 @@
     }
 
     function saveState() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      return TestCommon.saveState(STORAGE_KEY, state);
     }
 
     function showScreen(screen) {
       Object.values(ui.screens).forEach(s => s.classList.add('hidden'));
       ui.screens[screen].classList.remove('hidden');
+      TestCommon.onScreen(screen);
       window.scrollTo(0, 0);
     }
 
     ui.start.form.addEventListener('submit', (e) => {
       e.preventDefault();
+      state = { name: '', answers: {}, audioPlays: {}, flags: {}, isCompleted: false, completionTime: null, endTime: null };
       state.name = ui.start.nameInput.value.trim();
       state.answers = {};
       state.isCompleted = false;
@@ -325,13 +267,14 @@
     ui.start.btnResume.addEventListener('click', buildTestUI);
     
     ui.start.btnRestartClear.addEventListener('click', () => {
-      localStorage.removeItem(STORAGE_KEY);
+      TestCommon.clearState(STORAGE_KEY);
       state = { name: '', answers: {}, isCompleted: false, completionTime: null };
       ui.start.resumePrompt.classList.add('hidden');
       ui.start.nameInput.value = '';
     });
 
 ui.test.btnSubmit.addEventListener('click', async () => {
+      if (state.isCompleted) return;
       const answered = Object.keys(state.answers).length;
       const total = flatQuestions.length;
       
@@ -366,30 +309,16 @@ ui.test.btnSubmit.addEventListener('click', async () => {
         const finalTotal = questionsToEvaluate.length;
         // -----------------------------------------------------
 
-        // Send data to Supabase
-        try {
-          const { error } = await supabaseClient
-            .from('test_results')
-            .insert([
-              {
+        const submissionPayload = {
                 student_name: state.name,
                 test_title: testData.testTitle, // Uses testTitle for this file
                 score_correct: finalCorrect,
                 score_total: finalTotal,
                 answers: state.answers
-              }
-            ]);
-
-          if (error) throw error;
-          console.log("Nộp bài lên server thành công!");
-
-        } catch (err) {
-          console.error("Lỗi khi nộp bài:", err);
-          alert("Lỗi kết nối máy chủ! Kết quả của bạn vẫn được lưu trên máy này. Hãy chụp màn hình lại để đề phòng nhé.");
-        }
-
+              };
         renderResults();
         showScreen('result');
+        await TestCommon.submitResult(state, submissionPayload, supabaseClient, saveState);
       }
     });
 
@@ -400,7 +329,7 @@ ui.test.btnSubmit.addEventListener('click', async () => {
 
     ui.result.btnRetake.addEventListener('click', () => {
       if(confirm('Làm lại sẽ xóa điểm số hiện tại. Bạn đồng ý chứ?')) {
-        localStorage.removeItem(STORAGE_KEY);
+        TestCommon.clearState(STORAGE_KEY);
         state = { name: '', answers: {}, isCompleted: false, completionTime: null };
         ui.result.reviewContainer.classList.add('hidden');
         ui.result.arrow.classList.remove('rotate-180');
@@ -454,7 +383,7 @@ ui.test.btnSubmit.addEventListener('click', async () => {
               
               optionsHtml += `
                 <label class="block relative cursor-pointer group mb-2 last:mb-0">
-                  <input type="radio" name="q_${q.number}" value="${opt}" class="sr-only option-radio" ${isChecked} onchange="selectAnswer(${q.number}, this.value)">
+                  <input type="radio" name="q_${q.number}" value="${TestCommon.escapeHtml(opt)}" class="sr-only option-radio" ${isChecked} onchange="selectAnswer(${q.number}, this.value)">
                   <div class="flex items-center p-3 border-2 border-slate-100 hover:border-custom-pink-100 rounded-xl transition-all bg-slate-50/50">
                     <div class="w-5 h-5 rounded-full border-2 border-slate-300 mr-3 relative radio-circle flex-shrink-0 transition-colors"></div>
                     <span class="font-black text-slate-400 w-5 mr-1 text-sm">${optLetter}.</span>
@@ -576,7 +505,7 @@ ui.test.btnSubmit.addEventListener('click', async () => {
             </div>
             <div class="pl-12 space-y-2 mt-2 bg-slate-50 p-3 rounded-xl">
               <p class="${isUnanswered ? 'text-amber-600' : 'text-slate-500'} font-medium">
-                Bạn chọn: <span class="${isUnanswered ? 'italic' : 'line-through decoration-red-400 decoration-2'}">${userText}</span>
+                Bạn chọn: <span class="${isUnanswered ? 'italic' : 'line-through decoration-red-400 decoration-2'}">${TestCommon.escapeHtml(userText)}</span>
               </p>
               <p class="text-green-600 font-bold">
                 Đáp án đúng: ${correctText}
@@ -588,6 +517,7 @@ ui.test.btnSubmit.addEventListener('click', async () => {
       }
     }
 
+    TestCommon.setup({ getState: () => state, save: saveState, client: supabaseClient, customSubmission: false });
     document.addEventListener('DOMContentLoaded', init);
   </script>
 </body>

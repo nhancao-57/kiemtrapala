@@ -13,12 +13,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="/images/Pala_logo.png">
   <link rel="stylesheet" href="/src/output.css">
+  <link rel="stylesheet" href="/src/test-system.css">
 
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-custom-pink-200 selection:text-custom-pink-900 relative">
+<body class="test-page bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-custom-pink-200 selection:text-custom-pink-900 relative">
 
   <header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50 h-16 flex items-center justify-center">
-    <div class="container mx-auto px-4 flex justify-center items-center">
+    <div class="test-header-inner container mx-auto px-4 flex justify-center items-center">
+      <a id="btn-return" class="test-return" href="/index.html" aria-label="Trở về danh sách bài thi">← Trở về</a>
       <img src="images/PLC_Logo_FA_Horizontal_COLOUR.png" alt="Pala Language Centre Logo" class="h-10 md:h-12 w-auto object-contain transition-transform hover:scale-105" onerror="this.outerHTML='<span class=\'text-2xl font-black text-custom-pink-600 tracking-tight\'>PALA<span class=\'text-slate-800\'>CENTRE</span></span>'">
     </div>
   </header>
@@ -152,6 +154,7 @@
     </div>
   </footer>
 
+  <script src="/js/test-common.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
@@ -162,7 +165,7 @@
 
     const SUPABASE_URL = 'https://qkxjrytqidbnrmizwmmz.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFreGpyeXRxaWRibnJtaXp3bW16Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyNjgyNzAsImV4cCI6MjA5OTg0NDI3MH0.XGGuTUsC-1i6BK5qkyurBxiCGvfx8Gg-PcIlNvbJc04'; // Replace with your actual anon key!
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const supabaseClient = window.supabase?.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) || null;
 
     const ui = {
       screens: {
@@ -226,9 +229,9 @@
     }
 
     function loadState() {
-      const saved = localStorage.getItem(STORAGE_KEY);
+      const saved = TestCommon.readState(STORAGE_KEY, state, flatQuestions.map(q => q.id));
       if (saved) {
-        state = JSON.parse(saved);
+        state = saved;
         if (state.isCompleted) {
           showScreen('result');
           renderResults();
@@ -244,18 +247,20 @@
     }
 
     function saveState() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      return TestCommon.saveState(STORAGE_KEY, state);
     }
 
     function showScreen(screen) {
       Object.values(ui.screens).forEach(s => s.classList.add('hidden'));
       ui.screens[screen].classList.remove('hidden');
+      TestCommon.onScreen(screen);
       window.scrollTo(0, 0);
     }
 
     // --- EVENT LISTENERS ---
     ui.start.form.addEventListener('submit', (e) => {
       e.preventDefault();
+      state = { name: '', answers: {}, audioPlays: {}, flags: {}, isCompleted: false, completionTime: null, endTime: null };
       state.name = ui.start.nameInput.value.trim();
       state.answers = {};
       state.isCompleted = false;
@@ -267,13 +272,14 @@
     ui.start.btnResume.addEventListener('click', buildTestUI);
     
     ui.start.btnRestartClear.addEventListener('click', () => {
-      localStorage.removeItem(STORAGE_KEY);
+      TestCommon.clearState(STORAGE_KEY);
       state = { name: '', answers: {}, isCompleted: false, completionTime: null };
       ui.start.resumePrompt.classList.add('hidden');
       ui.start.nameInput.value = '';
     });
 
   ui.test.btnSubmit.addEventListener('click', async () => {
+      if (state.isCompleted) return;
       const answered = Object.keys(state.answers).length;
       const total = flatQuestions.length;
       
@@ -297,30 +303,16 @@
           if (state.answers[q.id] === q.correctAnswer) correct++;
         });
 
-        // Send data to Supabase
-        try {
-          const { error } = await supabaseClient
-            .from('test_results')
-            .insert([
-              {
+        const submissionPayload = {
                 student_name: state.name,
                 test_title: testData.testInformation.title,
                 score_correct: correct,
                 score_total: total,
                 answers: state.answers
-              }
-            ]);
-
-          if (error) throw error;
-          console.log("Nộp bài lên server thành công!");
-
-        } catch (err) {
-          console.error("Lỗi khi nộp bài:", err);
-          alert("Lỗi kết nối máy chủ! Kết quả của bạn vẫn được lưu trên máy này. Hãy chụp màn hình lại để đề phòng nhé.");
-        }
-
+              };
         renderResults();
         showScreen('result');
+        await TestCommon.submitResult(state, submissionPayload, supabaseClient, saveState);
       }
     });
 
@@ -331,7 +323,7 @@
 
     ui.result.btnRetake.addEventListener('click', () => {
       if(confirm('Làm lại sẽ xóa điểm số hiện tại. Bạn đồng ý chứ?')) {
-        localStorage.removeItem(STORAGE_KEY);
+        TestCommon.clearState(STORAGE_KEY);
         state = { name: '', answers: {}, isCompleted: false, completionTime: null };
         ui.result.reviewContainer.classList.add('hidden');
         ui.result.arrow.classList.remove('rotate-180');
@@ -486,7 +478,7 @@
             </div>
             <div class="pl-12 space-y-2 mt-2 bg-slate-50 p-3 rounded-xl">
               <p class="${isUnanswered ? 'text-amber-600' : 'text-slate-500'} font-medium">
-                Bạn chọn: <span class="${isUnanswered ? 'italic' : 'line-through decoration-red-400 decoration-2'}">${userText}</span>
+                Bạn chọn: <span class="${isUnanswered ? 'italic' : 'line-through decoration-red-400 decoration-2'}">${TestCommon.escapeHtml(userText)}</span>
               </p>
               <p class="text-green-600 font-bold">
                 Đáp án đúng: ${correctText}
@@ -499,6 +491,7 @@
     }
 
     // Start
+    TestCommon.setup({ getState: () => state, save: saveState, client: supabaseClient, customSubmission: false });
     document.addEventListener('DOMContentLoaded', init);
   </script>
 </body>

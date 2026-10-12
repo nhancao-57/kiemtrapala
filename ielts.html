@@ -14,13 +14,15 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-EYZEE006PK"></script>
 
   <link rel="stylesheet" href="/src/output.css">
+  <link rel="stylesheet" href="/src/test-system.css">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col relative overflow-x-hidden">
+<body class="ielts-test bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col relative overflow-x-hidden">
 
   <header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50 h-16 flex items-center justify-center">
-    <div class="container mx-auto px-4 flex justify-between items-center max-w-7xl">
+    <div class="test-header-inner container mx-auto px-4 flex justify-between items-center max-w-7xl">
+      <a id="btn-return" class="test-return" href="/index.html" aria-label="Trở về danh sách bài thi">← Trở về</a>
       <img src="images/PLC_Logo_FA_Horizontal_COLOUR.png" alt="Pala Language Centre Logo" class="h-10 md:h-12 w-auto object-contain transition-transform hover:scale-105" onerror="this.outerHTML='<span class=\'text-2xl font-black text-custom-pink-600 tracking-tight\'>PALA<span class=\'text-slate-800\'>CENTRE</span></span>'">
       
       <div id="header-progress" class="hidden items-center gap-4">
@@ -62,7 +64,9 @@
         <ul class="list-disc list-inside text-slate-700 space-y-2 font-medium">
           <li>Bài thi gồm <strong id="q-count" class="text-custom-pink-600 text-lg">0</strong> câu hỏi.</li>
           <li>Đọc kỹ đoạn văn bên trái và trả lời các câu hỏi bên phải.</li>
-          <li>Bạn có thể kéo thanh ở giữa để điều chỉnh kích thước hai bên.</li>
+          <li>Chọn phần và số câu ở thanh điều hướng phía dưới. Dùng “Đánh dấu xem lại” cho câu cần kiểm tra sau.</li>
+          <li>Trên máy tính, kéo thanh ở giữa để điều chỉnh hai bên. Trên điện thoại, bài đọc nằm phía trên câu hỏi và có thể cuộn riêng.</li>
+          <li>Nút “Trở về” lưu bài đang làm trên thiết bị này để bạn tiếp tục sau.</li>
           <li><strong>Bôi đen văn bản</strong> để sử dụng tính năng Highlight (đánh dấu).</li>
           <li>Điền tên Học viên trước khi làm bài.</li>
         </ul>
@@ -92,7 +96,7 @@
       <div id="questions-container" class="flex-grow space-y-10">
         </div>
 
-      <div class="mt-8 pt-6 border-t border-slate-200 text-center pb-8">
+      <div class="exam-submit-row mt-8 pt-6 border-t border-slate-200 text-center pb-8">
         <button id="btn-submit-test" class="bg-slate-800 hover:bg-slate-900 text-white font-black py-4 px-12 rounded-xl transition-all shadow-lg text-lg w-full md:w-auto uppercase tracking-wide">
           Nộp Bài
         </button>
@@ -157,6 +161,8 @@
     Highlight
   </button>
 
+  <script src="/js/test-common.js"></script>
+  <script src="/js/ielts-workspace.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
@@ -170,7 +176,7 @@
 
     const SUPABASE_URL = 'https://qkxjrytqidbnrmizwmmz.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFreGpyeXRxaWRibnJtaXp3bW16Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyNjgyNzAsImV4cCI6MjA5OTg0NDI3MH0.XGGuTUsC-1i6BK5qkyurBxiCGvfx8Gg-PcIlNvbJc04'; // Paste your key here
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const supabaseClient = window.supabase?.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) || null;
 
     const ui = {
       screens: {
@@ -234,9 +240,9 @@
     }
 
     function loadState() {
-      const saved = localStorage.getItem(STORAGE_KEY);
+      const saved = TestCommon.readState(STORAGE_KEY, state, flatQuestions.map(q => q.number));
       if (saved) {
-        state = JSON.parse(saved);
+        state = saved;
         if (state.isCompleted) {
           showScreen('result');
           renderResults();
@@ -252,12 +258,13 @@
     }
 
     function saveState() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      return TestCommon.saveState(STORAGE_KEY, state);
     }
 
     function showScreen(screen) {
       Object.values(ui.screens).forEach(s => s.classList.add('hidden'));
       ui.screens[screen].classList.remove('hidden');
+      TestCommon.onScreen(screen);
       
       if (screen === 'test') {
         ui.test.headerProgress.classList.remove('hidden');
@@ -272,6 +279,7 @@
 
     ui.start.form.addEventListener('submit', (e) => {
       e.preventDefault();
+      state = { name: '', answers: {}, audioPlays: {}, flags: {}, isCompleted: false, completionTime: null, endTime: null };
       state.name = ui.start.nameInput.value.trim();
       state.answers = {};
       state.isCompleted = false;
@@ -283,13 +291,14 @@
     ui.start.btnResume.addEventListener('click', buildTestUI);
     
     ui.start.btnRestartClear.addEventListener('click', () => {
-      localStorage.removeItem(STORAGE_KEY);
+      TestCommon.clearState(STORAGE_KEY);
       state = { name: '', answers: {}, isCompleted: false, completionTime: null };
       ui.start.resumePrompt.classList.add('hidden');
       ui.start.nameInput.value = '';
     });
 
   ui.test.btnSubmit.addEventListener('click', async () => {
+      if (state.isCompleted) return;
       const answered = Object.values(state.answers).filter(val => val && val.trim() !== '').length;
       const total = flatQuestions.length;
       let confirmMessage = 'Bạn có chắc chắn muốn nộp bài?';
@@ -315,31 +324,17 @@
         const titleText = testData.testTitle ? testData.testTitle : 'IELTS Reading Test';
         // -------------------------------------------------------------
 
-        // Send data to Supabase
-        try {
-          const { error } = await supabaseClient
-            .from('test_results')
-            .insert([
-              {
+        const submissionPayload = {
                 student_name: state.name,
                 // Append the CEFR rating to the title for the admin dashboard
                 test_title: `${titleText} - ${cefrLevel}`, 
                 score_correct: correct,
                 score_total: total,
                 answers: state.answers
-              }
-            ]);
-
-          if (error) throw error;
-          console.log("Nộp bài lên server thành công!");
-
-        } catch (err) {
-          console.error("Lỗi khi nộp bài:", err);
-          alert("Lỗi kết nối máy chủ! Kết quả của bạn vẫn được lưu trên máy này. Hãy chụp màn hình lại để đề phòng nhé.");
-        }
-
+              };
         renderResults();
         showScreen('result');
+        await TestCommon.submitResult(state, submissionPayload, supabaseClient, saveState);
       }
     });
 
@@ -350,7 +345,7 @@
 
     ui.result.btnRetake.addEventListener('click', () => {
       if(confirm('Làm lại sẽ xóa điểm số hiện tại. Bạn đồng ý chứ?')) {
-        localStorage.removeItem(STORAGE_KEY);
+        TestCommon.clearState(STORAGE_KEY);
         state = { name: '', answers: {}, isCompleted: false, completionTime: null };
         ui.result.reviewContainer.classList.add('hidden');
         ui.result.arrow.classList.remove('rotate-180');
@@ -367,7 +362,7 @@
 
       testData.parts.forEach(part => {
         const partSection = document.createElement('div');
-        partSection.className = "mb-12";
+        partSection.className = "exam-part";
         
         const titleHtml = `<h3 class="text-2xl font-black text-slate-800 uppercase tracking-tight mb-4 px-2">${part.title}</h3>`;
         
@@ -375,7 +370,7 @@
         const splitContainer = document.createElement('div');
         splitContainer.className = "flex flex-col lg:flex-row w-full h-[75vh] min-h-[600px] border-2 border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm split-container";
         
-        const parsedContext = marked.parse(part.context);
+        const parsedContext = window.marked ? marked.parse(part.context || '') : `<p>${TestCommon.escapeHtml(part.context || '').replace(/\n/g, '<br>')}</p>`;
 
         // Left Pane (Reading)
         const leftPane = document.createElement('div');
@@ -388,12 +383,12 @@
 
         // Right Pane (Questions)
         const rightPane = document.createElement('div');
-        rightPane.className = "w-full lg:w-1/2 h-1/2 lg:h-full overflow-y-auto p-6 lg:p-10 scroll-pane bg-white";
+        rightPane.className = "w-full lg:w-1/2 h-1/2 lg:h-full overflow-y-auto p-6 lg:p-10 scroll-pane questions-pane bg-white";
         
         let questionsHtml = '';
         part.questionSets.forEach((set, setIdx) => {
           questionsHtml += `
-            <div class="mb-6 p-4 bg-custom-pink-50/50 rounded-xl border border-custom-pink-100 sticky top-0 z-10 backdrop-blur-sm">
+            <div class="question-instructions mb-6 p-4 bg-custom-pink-50/50 rounded-xl border border-custom-pink-100 sticky top-0 z-10 backdrop-blur-sm">
               <p class="text-slate-700 font-bold text-base italic">${set.instructions}</p>
             </div>
             <div class="space-y-6 mb-10" id="part-${part.partNumber}-set-${setIdx}">`;
@@ -408,7 +403,7 @@
                 const isChecked = savedAnswer === opt ? 'checked' : '';
                 optionsHtml += `
                   <label class="block relative cursor-pointer group mb-2">
-                    <input type="radio" name="q_${q.number}" value="${opt}" class="sr-only option-radio" ${isChecked} onchange="handleInput(${q.number}, this.value)">
+                    <input type="radio" name="q_${q.number}" value="${TestCommon.escapeHtml(opt)}" class="sr-only option-radio" ${isChecked} onchange="handleInput(${q.number}, this.value)">
                     <div class="flex items-center p-3 border-2 border-slate-100 hover:border-custom-pink-200 rounded-xl transition-all bg-slate-50/50">
                       <div class="w-5 h-5 rounded-full border-2 border-slate-300 mr-3 relative radio-circle flex-shrink-0 transition-colors"></div>
                       <span class="text-slate-700 font-medium text-base">${opt}</span>
@@ -417,15 +412,15 @@
               });
               inputHtml = `<div class="grid grid-cols-1 gap-1">${optionsHtml}</div>`;
             } else if (q.type === 'short_answer' || q.type === 'fill_in_the_blank') {
-              inputHtml = `<input type="text" value="${savedAnswer}" placeholder="Câu trả lời..." oninput="handleInput(${q.number}, this.value)" class="w-full mt-2 px-4 py-2.5 rounded-xl border-2 border-slate-200 focus:outline-none focus:border-custom-pink-500 focus:ring-2 focus:ring-custom-pink-100 transition-all text-slate-800 font-medium text-base">`;
+              inputHtml = `<input type="text" value="${TestCommon.escapeHtml(savedAnswer)}" placeholder="Câu trả lời..." oninput="handleInput(${q.number}, this.value)" class="w-full mt-2 px-4 py-2.5 rounded-xl border-2 border-slate-200 focus:outline-none focus:border-custom-pink-500 focus:ring-2 focus:ring-custom-pink-100 transition-all text-slate-800 font-medium text-base">`;
             }
 
             questionsHtml += `
-              <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+              <div id="question-${q.number}" data-question="${q.number}" class="question-card bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
                 <div class="flex flex-col sm:flex-row sm:items-start gap-4">
                   <div class="flex-shrink-0 w-8 h-8 bg-slate-100 text-slate-500 font-black rounded-full flex items-center justify-center border border-slate-200 text-sm">${q.number}</div>
                   <div class="flex-grow w-full">
-                    <h4 class="text-base font-bold text-slate-800 mb-3">${q.questionText}</h4>
+                    <h4 id="question-title-${q.number}" class="text-base font-bold text-slate-800 mb-3">${q.questionText}</h4>
                     ${inputHtml}
                   </div>
                 </div>
@@ -446,67 +441,34 @@
         ui.test.container.appendChild(partSection);
       });
 
+      IELTSWorkspace.mount({ parts: testData.parts, getState: () => state, save: saveState });
       initResizers();
       updateProgress();
       showScreen('test');
     }
 
     // --- RESIZER LOGIC ---
-    function initResizers() {
-      const resizers = document.querySelectorAll('.resizer');
-      resizers.forEach(resizer => {
-        let isResizing = false;
-        const leftPane = resizer.previousElementSibling;
-        const rightPane = resizer.nextElementSibling;
-        const container = resizer.parentElement;
-
-        resizer.addEventListener('mousedown', (e) => {
-          isResizing = true;
-          document.body.style.cursor = 'col-resize';
-          leftPane.style.userSelect = 'none';
-          rightPane.style.userSelect = 'none';
-        });
-
-        document.addEventListener('mousemove', (e) => {
-          if (!isResizing) return;
-          const containerRect = container.getBoundingClientRect();
-          let newLeftWidth = ((e.clientX - containerRect.left) / containerRect.width) * 100;
-          
-          // Constrain width between 20% and 80%
-          if (newLeftWidth > 20 && newLeftWidth < 80) {
-            leftPane.style.width = `${newLeftWidth}%`;
-            rightPane.style.width = `${100 - newLeftWidth}%`;
-          }
-        });
-
-        document.addEventListener('mouseup', () => {
-          if (isResizing) {
-            isResizing = false;
-            document.body.style.cursor = 'default';
-            leftPane.style.userSelect = 'auto';
-            rightPane.style.userSelect = 'auto';
-          }
-        });
-      });
-    }
+    function initResizers() { IELTSWorkspace.initResizers(); }
 
     // --- HIGHLIGHTING LOGIC ---
     function initHighlighting() {
       const highlightBtn = document.getElementById('highlight-btn');
 
+      highlightBtn.addEventListener('pointerdown', e => e.preventDefault());
       document.addEventListener('mouseup', (e) => {
         const selection = window.getSelection();
         const selectedText = selection.toString().trim();
         
         // Show button if text selected inside a reading pane
-        if (selectedText.length > 0 && e.target.closest('.reading-pane')) {
+        if (selectedText.length > 0 && e.target.closest('.reading-pane') && e.target.closest('.reading-pane').contains(selection.anchorNode) && e.target.closest('.reading-pane').contains(selection.focusNode)) {
           const range = selection.getRangeAt(0);
           const rect = range.getBoundingClientRect();
           
-          highlightBtn.style.top = `${rect.top + window.scrollY - 45}px`;
-          highlightBtn.style.left = `${rect.left + window.scrollX + (rect.width / 2) - (highlightBtn.offsetWidth / 2)}px`;
           highlightBtn.classList.remove('hidden');
-        } else if (e.target.id !== 'highlight-btn') {
+          highlightBtn.style.top = `${rect.top + window.scrollY - 45}px`;
+          highlightBtn.style.left = `${Math.max(8, Math.min(window.innerWidth - highlightBtn.offsetWidth - 8, rect.left + window.scrollX + (rect.width / 2) - (highlightBtn.offsetWidth / 2)))}px`;
+          highlightBtn.classList.remove('hidden');
+        } else if (!e.target.closest('#highlight-btn')) {
           highlightBtn.classList.add('hidden');
         }
       });
@@ -546,6 +508,7 @@
     };
 
     function updateProgress() {
+      IELTSWorkspace.refresh();
       const answered = Object.values(state.answers).filter(val => val && val.trim() !== '').length;
       const total = flatQuestions.length;
       ui.test.progress.textContent = answered;
@@ -563,7 +526,7 @@
 
     function isAnswerCorrect(userAns, q) {
       if (!userAns) return false;
-      const cleanString = (str) => str.trim().toLowerCase().replace(/\s+/g, ' ').replace(/\.$/, '');
+      const cleanString = (str) => String(str ?? '').trim().toLowerCase().replace(/\s+/g, ' ').replace(/\.$/, '');
       const normalizedUser = cleanString(userAns);
 
       let validAnswers = [cleanString(q.answer)];
@@ -634,7 +597,7 @@
               <p class="font-bold text-slate-800 text-base leading-relaxed"><span class="text-slate-500 mr-1">Câu ${q.number}:</span> ${q.questionText}</p>
             </div>
             <div class="pl-12 space-y-2 mt-2 bg-slate-50 p-3 rounded-xl">
-              <p class="${isUnanswered ? 'text-amber-600' : 'text-slate-500'} font-medium">Bạn điền: <span class="${isUnanswered ? 'italic' : 'line-through decoration-red-400 decoration-2 font-semibold'}">${userText}</span></p>
+              <p class="${isUnanswered ? 'text-amber-600' : 'text-slate-500'} font-medium">Bạn điền: <span class="${isUnanswered ? 'italic' : 'line-through decoration-red-400 decoration-2 font-semibold'}">${TestCommon.escapeHtml(userText)}</span></p>
               <p class="text-slate-600">Đáp án đúng: ${correctText}</p>
             </div>`;
           ui.result.reviewContainer.appendChild(div);
@@ -642,6 +605,7 @@
       }
     }
 
+    TestCommon.setup({ getState: () => state, save: saveState, client: supabaseClient, customSubmission: false });
     document.addEventListener('DOMContentLoaded', init);
   </script>
 </body>

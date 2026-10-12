@@ -143,6 +143,10 @@
   </footer>
 
   <script>
+    // Keep database text out of HTML markup, including student-supplied names.
+    const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[char]));
     // --- SUPABASE CREDENTIALS ---
     const SUPABASE_URL = 'https://qkxjrytqidbnrmizwmmz.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFreGpyeXRxaWRibnJtaXp3bW16Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyNjgyNzAsImV4cCI6MjA5OTg0NDI3MH0.XGGuTUsC-1i6BK5qkyurBxiCGvfx8Gg-PcIlNvbJc04';
@@ -162,7 +166,7 @@
     // Helper: Generate Initials for Avatars
     function getInitials(name) {
       if (!name) return '?';
-      const parts = name.trim().split(' ');
+      const parts = name.trim().split(/\s+/);
       if (parts.length >= 2) {
         return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
       }
@@ -281,15 +285,15 @@
             <td class="p-4 sm:p-5 whitespace-nowrap">
               <div class="flex items-center gap-3.5">
                 <div class="hidden sm:flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-custom-pink-100 text-custom-pink-700 font-bold text-sm">
-                  ${initials}
+                  ${escapeHtml(initials)}
                 </div>
-                <div class="font-bold text-slate-800">${row.student_name}</div>
+                <div class="font-bold text-slate-800">${escapeHtml(row.student_name)}</div>
               </div>
             </td>
             <td class="p-4 sm:p-5 text-slate-600 font-medium">
               <div class="flex items-center gap-2">
                 <svg class="w-4 h-4 text-slate-400 hidden sm:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                <span class="truncate max-w-[150px] sm:max-w-xs">${row.test_title}</span>
+                <span class="truncate max-w-[150px] sm:max-w-xs">${escapeHtml(row.test_title)}</span>
               </div>
             </td>
             <td class="p-4 sm:p-5 text-center whitespace-nowrap">
