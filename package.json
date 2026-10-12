@@ -8,8 +8,7 @@
   },
   "scripts": {
     "test": "node --test checks/*.test.cjs",
-    "build:css": "tailwindcss -i ./src/input.css -o ./src/output.css --minify",
-    "dev": "tailwindcss -i ./src/input.css -o ./src/output.css --watch"
+    "build:css": "tailwindcss -i ./src/input.css -o ./src/output.css --minify"
   },
   "repository": {
     "type": "git",
@@ -27,8 +26,10 @@
     "@tailwindcss/cli": "^4.3.3",
     "tailwindcss": "^4.3.3"
   },
+  
   "devDependencies": {
-    "@playwright/test": "^1.64.0",
     "jsdom": "^29.1.1"
   }
 }
+
+
