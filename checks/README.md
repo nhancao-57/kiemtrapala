@@ -1,5 +1,11 @@
 Run `npm install`, then `npm test` for the student-flow regression suite.
-Run `npm run build:css` after changing Tailwind classes. `npm run dev` watches CSS changes.
+Run `npm run build:css` after changing Tailwind classes.
+
+Run `npm run test:layout` with Google Chrome installed for isolated headless browser checks.
+These check both IELTS pages at five viewport widths (320–1440px), every part at the
+largest text size, balanced columns, keyboard resizing, and wrapping of long questions,
+options and Writing responses. External requests are blocked and local files are served
+inside the tests. Screenshots are saved under the ignored `test-results/` directory.
 
 The tests run the actual page scripts with local test JSON in jsdom. Database calls,
 audio playback and browser dialogs are mocked; no student results are sent to Supabase.

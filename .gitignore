@@ -1,5 +1,7 @@
 # Dependency directories
 node_modules/
+test-results/
+playwright-report/
 
 # Optional npm cache directory
 .npm
