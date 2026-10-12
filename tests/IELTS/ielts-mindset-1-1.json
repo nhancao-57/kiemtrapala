@@ -223,7 +223,7 @@
               "sectionLabel": "Listening — Part 4",
               "questionText": "Space Travel building",
               "type": "multiple_choice",
-              "answer": "C",
+              "answer": "E",
               "autoGrade": true,
               "options": [
                 "A",
@@ -674,7 +674,7 @@
               "sectionLabel": "Reading — Passage 1, Part 1",
               "questionText": "What ingredient name, other than dextran, might manufacturers use on labels instead of “sugar”?",
               "type": "short_answer",
-              "answer": "syrup",
+              "answer": "dextran",
               "autoGrade": true
             }
           ]
