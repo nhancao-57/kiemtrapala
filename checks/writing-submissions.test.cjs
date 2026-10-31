@@ -223,3 +223,17 @@ test('admin displays writing safely and can read legacy essays', async t => {
   assert.equal(page.window.pwned, undefined);
   assert.equal(page.errors.length, 0);
 });
+
+for (const correctFirst30 of [24, 25]) {
+  test(`Teens business rule remains unchanged at ${correctFirst30}/30`, async t => {
+    const page = await openPage('teens.html');
+    t.after(page.close);
+    page.evaluate(`state.name = 'Threshold test'; state.answers = Object.fromEntries(flatQuestions.map((q, index) => [q.number, index < ${correctFirst30} || index >= 30 ? q.answer : '__unanswered__']));`);
+    page.window.document.getElementById('btn-submit-test').click();
+    await settle();
+    const total = correctFirst30 >= 25 ? page.evaluate('flatQuestions.length') : 30;
+    assert.equal(page.requests[0].payload[0].score_total, total);
+    assert.equal(page.requests[0].payload[0].score_correct, correctFirst30 + total - 30);
+    assert.equal(Number(page.window.document.getElementById('score-total').textContent), total);
+  });
+}

@@ -25,7 +25,7 @@ window.TestCommon = (() => {
       const saved = JSON.parse(raw);
       if (!saved || typeof saved !== 'object' || Array.isArray(saved) || typeof saved.name !== 'string') throw new Error('Invalid saved test');
       const result = { ...defaults, ...saved };
-      for (const field of ['answers', 'audioPlays', 'flags']) {
+      for (const field of ['answers', 'audioPlays', 'flags', 'lastQuestionByGroup']) {
         const value = result[field];
         result[field] = value && typeof value === 'object' && !Array.isArray(value) ? value : {};
       }
