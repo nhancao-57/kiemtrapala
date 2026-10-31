@@ -173,6 +173,40 @@
       return name.substring(0, 2).toUpperCase();
     }
 
+    function renderWriting(row) {
+      let writing = Array.isArray(row.writing_answers) ? row.writing_answers : [];
+      // Older Mindset submissions kept the essay only under answers[61].
+      // Do not attach today's prompt to an older result.
+      if (!writing.length && row.test_title === 'IELTS Mindset 1.1 Final Test' &&
+          Object.prototype.hasOwnProperty.call(row.answers || {}, '61')) {
+        writing = [{ question_id: '61', section: 'Writing — Task 1',
+          answer: row.answers['61'], prompt: 'Bài cũ: đề bài chưa được lưu cùng kết quả.' }];
+      }
+      if (!writing.length) return '';
+      const cards = writing.filter(item => item && typeof item === 'object').map(item => {
+        const answer = String(item.answer ?? '');
+        const wordCount = answer.trim() ? answer.trim().split(/\s+/u).length : 0;
+        // Only render local diagram paths. Database content is never HTML.
+        const imagePath = typeof item.image_url === 'string' &&
+          /^\/tests\/[a-zA-Z0-9_./-]+$/.test(item.image_url) ? item.image_url : null;
+        return `<article class="p-4 bg-slate-50 rounded-xl border border-slate-200 mb-4">
+          <h4 class="font-bold text-slate-800">${escapeHtml(item.section || 'Writing')} — Câu ${escapeHtml(item.display_number ?? item.question_id)}</h4>
+          <p class="text-sm text-slate-500 mt-2">${wordCount} từ · ${wordCount ? 'Cần giáo viên chấm' : 'Chưa có câu trả lời'}</p>
+          <p class="mt-2 text-slate-600" style="white-space: pre-wrap; overflow-wrap: anywhere">${escapeHtml(item.context || '')}</p>
+          ${imagePath ? `<img src="${escapeHtml(imagePath)}" alt="Hình minh họa đề Writing" loading="lazy" style="max-width: 100%; max-height: 400px; object-fit: contain">` : ''}
+          <p class="mt-2 text-sm text-slate-500">${escapeHtml(item.instructions || '')}</p>
+          <p class="mt-2 font-bold">${escapeHtml(item.prompt || '')}</p>
+          <div class="mt-4 text-slate-800" style="white-space: pre-wrap; overflow-wrap: anywhere">${escapeHtml(answer || '[Chưa có câu trả lời]')}</div>
+        </article>`;
+      }).join('');
+      return `<tr><td colspan="4" class="p-4 sm:p-5">
+        <details><summary class="font-bold text-custom-pink-600" style="cursor: pointer">Xem bài Writing (${writing.length}) — ${escapeHtml(row.student_name)}</summary>
+          <div class="mt-4">${cards}</div>
+          <p class="text-sm text-slate-500">Điểm tự động bên trên không bao gồm phần Writing.</p>
+        </details>
+      </td></tr>`;
+    }
+
     // Password Toggle UI Logic
     const togglePasswordBtn = document.getElementById('toggle-password');
     const eyeIcon = document.getElementById('eye-icon');
@@ -216,6 +250,7 @@
     // Handle Logout
     ui.logoutBtn.addEventListener('click', async () => {
       await supabaseClient.auth.signOut();
+      ui.tableBody.replaceChildren();
       ui.dashboardSection.classList.add('hidden');
       ui.loginSection.classList.remove('hidden');
       ui.loginForm.reset();
@@ -265,7 +300,7 @@
       }
 
       ui.tableBody.innerHTML = data.map(row => {
-        const dateObj = new Date(row.created_at);
+        const dateObj = new Date(row.completed_at || row.created_at);
         const formattedDate = dateObj.toLocaleDateString('vi-VN', { 
           year: 'numeric', month: '2-digit', day: '2-digit'
         });
@@ -273,7 +308,7 @@
           hour: '2-digit', minute: '2-digit'
         });
 
-        const percentage = Math.round((row.score_correct / row.score_total) * 100);
+        const percentage = row.score_total > 0 ? Math.round((row.score_correct / row.score_total) * 100) : 0;
         let scoreColor = 'text-emerald-700 bg-emerald-50 ring-emerald-600/20';
         if (percentage < 50) scoreColor = 'text-red-700 bg-red-50 ring-red-600/20';
         else if (percentage < 75) scoreColor = 'text-amber-700 bg-amber-50 ring-amber-600/20';
@@ -298,7 +333,7 @@
             </td>
             <td class="p-4 sm:p-5 text-center whitespace-nowrap">
               <span class="inline-flex items-center px-3 py-1 rounded-full font-bold text-sm ${scoreColor} ring-1 ring-inset">
-                ${row.score_correct} / ${row.score_total}
+                ${escapeHtml(row.score_correct)} / ${escapeHtml(row.score_total)}
               </span>
             </td>
             <td class="p-4 sm:p-5 text-right whitespace-nowrap">
@@ -306,6 +341,7 @@
               <div class="text-slate-400 text-xs mt-0.5">${formattedTime}</div>
             </td>
           </tr>
+          ${renderWriting(row)}
         `;
       }).join('');
     }

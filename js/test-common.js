@@ -152,7 +152,7 @@ window.TestCommon = (() => {
       panel.innerHTML = '<p role="status" aria-live="polite"></p><button type="button" class="test-secondary">Gửi lại kết quả</button>';
       document.getElementById('result-screen').append(panel);
       panel.querySelector('button').addEventListener('click', () => {
-        if (!confirm('Gửi lại kết quả? Nếu máy chủ đã nhận lần trước nhưng mất kết nối khi xác nhận, kết quả có thể bị trùng.')) return;
+        if (!confirm('Gửi lại kết quả lên máy chủ?')) return;
         const state = config.getState();
         submitResult(state, state.submissionPayload, config.client, config.save);
       });
@@ -165,21 +165,66 @@ window.TestCommon = (() => {
     document.getElementById('btn-retake').disabled = submitting;
   }
 
+  function isWritingQuestion(question) {
+    return ['essay', 'long_answer', 'writing'].includes(String(question.type || '').toLowerCase()) ||
+      String(question.sectionLabel || '').toLowerCase().includes('writing');
+  }
+
+  // Snapshot the task as well as the response so later test edits do not change
+  // the prompt a teacher sees for an already submitted essay.
+  function collectWritingAnswers(testData, answers) {
+    return (testData.parts || []).flatMap(part => (part.questionSets || []).flatMap(set =>
+      (set.questions || []).filter(isWritingQuestion).map(question => {
+        const answer = String(answers[question.number] ?? '');
+        return {
+          question_id: String(question.number),
+          display_number: question.displayNumber ?? question.number,
+          section: question.sectionLabel || part.title || 'Writing',
+          prompt: question.questionText || '',
+          context: part.context || '',
+          instructions: set.instructions || '',
+          image_url: question.imageUrl || part.imageUrl || null,
+          answer,
+          word_count: answer.trim() ? answer.trim().split(/\s+/u).length : 0
+        };
+      })
+    ));
+  }
+
+  function prepareSubmission(state, payload) {
+    // Reuse the exact same payload after timeouts, retries, and page reloads.
+    // Older local drafts without an ID are upgraded on their next submission.
+    if (state.submissionPayload?.submission_id) return state.submissionPayload;
+    const source = state.submissionPayload || payload;
+    state.submissionPayload = JSON.parse(JSON.stringify({
+      ...source,
+      submission_id: crypto.randomUUID(),
+      completed_at: state.completionTime || new Date().toISOString(),
+      writing_answers: source.writing_answers || payload.writing_answers || []
+    }));
+    return state.submissionPayload;
+  }
+
   async function insertResult(client, payload) {
     if (!client) throw new Error('Không kết nối được dịch vụ lưu kết quả. Hãy tải lại trang để thử lại.');
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 20000);
     try {
+      // Plain INSERT works with insert-only RLS. Only this named unique-key
+      // conflict confirms an earlier upload; other database errors stay errors.
       const request = client.from('test_results').insert([payload]);
       const result = await request.abortSignal(controller.signal);
-      if (result.error) throw result.error;
+      if (result.error && !(result.error.code === '23505' &&
+          String(result.error.message).includes('"test_results_submission_id_key"'))) {
+        throw result.error;
+      }
     } finally { clearTimeout(timeout); }
   }
 
   async function submitResult(state, payload, client, save) {
     if (submitting || state.submissionStatus === 'saved' || !payload) return;
+    payload = prepareSubmission(state, payload);
     submitting = true;
-    state.submissionPayload = payload;
     state.submissionStatus = 'pending';
     save();
     renderSubmission();
@@ -196,5 +241,6 @@ window.TestCommon = (() => {
     }
   }
 
-  return { escapeHtml, readState, saveState, clearState, setup, onScreen, stopAudio, insertResult, submitResult };
+  return { escapeHtml, readState, saveState, clearState, setup, onScreen, stopAudio,
+    isWritingQuestion, collectWritingAnswers, prepareSubmission, insertResult, submitResult };
 })();

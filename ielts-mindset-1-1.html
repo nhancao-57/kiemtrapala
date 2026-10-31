@@ -170,7 +170,7 @@
         <section id="writing-submission" class="mb-10 w-full text-left border-2 border-custom-pink-100 rounded-2xl p-5 md:p-7 bg-white">
           <div class="mb-5">
             <h3 class="text-xl md:text-2xl font-black text-slate-800 mb-2">Bài Writing của bạn</h3>
-            <p class="text-sm text-slate-600">Bài viết sẽ hiển thị tại đây sau khi nộp bài. Bạn có thể sao chép, in/lưu PDF hoặc gửi qua email cho giáo viên.</p>
+            <p class="text-sm text-slate-600">Bài viết được gửi cùng kết quả để giáo viên chấm riêng. Hãy kiểm tra trạng thái lưu bên trên. Bạn cũng có thể sao chép, in/lưu PDF hoặc gửi qua email cho giáo viên.</p>
           </div>
           <div id="writing-answers" class="space-y-5"></div>
           <div class="writing-controls flex flex-col sm:flex-row flex-wrap gap-3 mt-6">
@@ -412,17 +412,19 @@
       isSubmitting = true;
       renderSubmissionStatus();
       try {
-        const scoredQuestions = flatQuestions.filter(q => q.autoGrade !== false);
+        const scoredQuestions = flatQuestions.filter(q => q.autoGrade !== false && !isWritingQuestion(q));
         const correct = scoredQuestions.filter(q => isAnswerCorrect(state.answers[q.number], q)).length;
-        // Use the same table and columns as the other tests. Include Writing in
-        // answers for teacher marking, but exclude it from the automatic score.
-        await TestCommon.insertResult(supabaseClient, {
+        const payload = TestCommon.prepareSubmission(state, {
           student_name: state.name,
           test_title: testData.testTitle || 'IELTS Mindset 1.1 Final Test',
           score_correct: correct,
           score_total: scoredQuestions.length,
-          answers: state.answers
+          answers: state.answers,
+          writing_answers: TestCommon.collectWritingAnswers(testData, state.answers)
         });
+        state.submissionStatus = 'pending';
+        saveState();
+        await TestCommon.insertResult(supabaseClient, payload);
         state.submissionStatus = 'saved';
       } catch (err) {
         state.submissionStatus = 'failed';
@@ -438,7 +440,7 @@
 
     ui.result.btnRetrySubmit.addEventListener('click', async () => {
       if (isSubmitting || state.submissionStatus === 'saved') return;
-      if (!confirm('Gửi lại kết quả và bài Writing lên máy chủ? Nếu lần gửi trước đã được lưu nhưng mất kết nối trước khi xác nhận, kết quả có thể bị trùng.')) return;
+      if (!confirm('Gửi lại kết quả và bài Writing lên máy chủ?')) return;
       await submitResults();
     });
 
@@ -776,11 +778,9 @@
       });
     }
 
-    // --- WRITING SUBMISSION HANDOFF (no database required) ---
+    // --- WRITING DISPLAY AND LOCAL BACKUP ---
     function isWritingQuestion(question) {
-      const type = String(question.type || '').toLowerCase();
-      const section = String(question.sectionLabel || '').toLowerCase();
-      return ['essay', 'long_answer', 'writing'].includes(type) || section.includes('writing');
+      return TestCommon.isWritingQuestion(question);
     }
 
     function getWritingQuestions() {
@@ -957,7 +957,7 @@
     function renderResults() {
       renderSubmissionStatus();
       ui.result.name.textContent = state.name;
-      ui.result.total.textContent = flatQuestions.filter(q => q.autoGrade !== false).length;
+      ui.result.total.textContent = flatQuestions.filter(q => q.autoGrade !== false && !isWritingQuestion(q)).length;
       
       if (state.completionTime) {
           const dateObj = new Date(state.completionTime);
@@ -969,7 +969,7 @@
       let correct = 0;
       let wrongs = [];
 
-      const scoredQuestions = flatQuestions.filter(q => q.autoGrade !== false);
+      const scoredQuestions = flatQuestions.filter(q => q.autoGrade !== false && !isWritingQuestion(q));
       scoredQuestions.forEach(q => {
         const ans = state.answers[q.number];
         if (isAnswerCorrect(ans, q)) correct++;
