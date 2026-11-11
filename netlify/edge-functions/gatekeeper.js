@@ -30,7 +30,10 @@ async function validSession(token, key) {
 
 export default async (request, context) => {
   const url = new URL(request.url);
-  const publicPages = ['/login.html', '/admin.html', '/admin'];
+  if (url.pathname === '/logout' && request.method === 'POST') {
+    return redirect('/login.html', 'pala_auth=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT');
+  }
+  const publicPages = ['/login.html', '/admin.html', '/admin', '/js/theme.js'];
   const publicDirectories = ['/images/', '/src/'];
   if (publicPages.includes(url.pathname) || publicDirectories.some(path => url.pathname.startsWith(path))) {
     return context.next();
@@ -63,5 +66,7 @@ export default async (request, context) => {
 
   const token = (request.headers.get('cookie') || '').split(';').map(part => part.trim()).find(part => part.startsWith('pala_auth='))?.slice('pala_auth='.length);
   if (!await validSession(token, key)) return redirect('/login.html');
-  return context.next();
+  const response = await context.next();
+  response.headers.set('Cache-Control', 'no-store');
+  return response;
 };

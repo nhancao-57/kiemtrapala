@@ -26,6 +26,12 @@
         <svg class="w-4 h-4 text-slate-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
         <span id="nav-timer-display" class="font-mono text-lg font-bold text-slate-800 tracking-tight">00:00</span>
       </div>
+      <form action="/logout" method="POST" class="site-logout">
+        <button type="submit" aria-label="Đăng xuất" title="Đăng xuất">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H5v14h4m6-14 7 7-7 7m7-7H9"/></svg>
+          <span>Đăng xuất</span>
+        </button>
+      </form>
     </div>
 </header>
 
@@ -46,12 +52,12 @@
     <section id="start-screen" class="hidden w-full bg-white rounded-3xl shadow-xl border border-slate-100 p-6 md:p-10">
       <div class="text-center mb-8">
         <h1 id="test-title" class="text-2xl md:text-4xl font-bold text-custom-pink-600 mb-3 normal-case tracking-tight"></h1>
-        <p class="text-slate-500 font-semibold tracking-normal text-sm" id="test-duration"></p>
+        <p class="test-centre-name" id="test-center">Trung tâm Ngoại ngữ Pala</p>
       </div>
 
-      <div class="bg-custom-pink-50/50 rounded-2xl p-6 mb-8 border border-custom-pink-100 text-sm md:text-base">
+      <div class="test-opening-instructions">
         <h2 class="font-semibold text-slate-800 mb-3 flex items-center">
-          <span class="text-2xl mr-2">📝</span> Hướng dẫn làm bài:
+          Hướng dẫn làm bài
         </h2>
         <ul class="list-disc list-inside text-slate-700 space-y-2 font-medium">
           <li>Bài thi gồm <strong id="q-count" class="text-custom-pink-600 text-lg">0</strong> câu hỏi.</li>
@@ -173,7 +179,7 @@
 
     const ui = {
       screens: { loading: document.getElementById('loading-screen'), error: document.getElementById('error-screen'), start: document.getElementById('start-screen'), test: document.getElementById('test-screen'), result: document.getElementById('result-screen') },
-      start: { title: document.getElementById('test-title'), duration: document.getElementById('test-duration'), qCount: document.getElementById('q-count'), form: document.getElementById('start-form'), nameInput: document.getElementById('student-name'), resumePrompt: document.getElementById('resume-prompt'), btnResume: document.getElementById('btn-resume'), btnRestartClear: document.getElementById('btn-restart-clear') },
+      start: { title: document.getElementById('test-title'), duration: document.getElementById('test-center'), qCount: document.getElementById('q-count'), form: document.getElementById('start-form'), nameInput: document.getElementById('student-name'), resumePrompt: document.getElementById('resume-prompt'), btnResume: document.getElementById('btn-resume'), btnRestartClear: document.getElementById('btn-restart-clear') },
       test: { name: document.getElementById('display-name'), container: document.getElementById('questions-container'), btnSubmit: document.getElementById('btn-submit-test'), navTimer: document.getElementById('nav-timer-container'), navTimerText: document.getElementById('nav-timer-display'), progressBar: document.getElementById('progress-bar'), progressText: document.getElementById('progress-text') },
       result: { name: document.getElementById('result-name'), score: document.getElementById('score-correct'), total: document.getElementById('score-total'), btnRetake: document.getElementById('btn-retake'), reviewContainer: document.getElementById('review-container'), btnAudit: document.getElementById('btn-download-audit') }
     };

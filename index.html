@@ -27,8 +27,14 @@
 
   <!-- Header -->
   <header class="bg-white/80 backdrop-blur-md border-b border-slate-100 shadow-sm sticky top-0 z-50 h-16 sm:h-20 flex items-center justify-center transition-all">
-    <div class="container mx-auto px-4 flex justify-center items-center">
+    <div class="app-header-inner container mx-auto px-4">
       <img src="images/PLC_Logo_FA_Horizontal_COLOUR.png" alt="Pala Language Centre Logo" class="h-10 sm:h-12 w-auto object-contain transition-transform duration-300 hover:scale-105" onerror="this.outerHTML='<span class=\'text-2xl font-bold text-custom-pink-600 tracking-tight\'>PALA<span class=\'text-slate-800\'>CENTRE</span></span>'">
+      <form action="/logout" method="POST" class="site-logout">
+        <button type="submit" aria-label="Đăng xuất" title="Đăng xuất">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H5v14h4m6-14 7 7-7 7m7-7H9"/></svg>
+          <span>Đăng xuất</span>
+        </button>
+      </form>
     </div>
   </header>
 

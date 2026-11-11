@@ -15,6 +15,21 @@ function setup(overrides = {}) {
   return { call, login, sandbox };
 }
 
+test('logout expires the site cookie and protected pages cannot be cached', async () => {
+  const { call, login } = setup();
+  const signedIn = await login('primary-password');
+  const cookie = signedIn.headers.get('Set-Cookie').split(';')[0];
+  const page = await call('/kids.html', { headers: { cookie } });
+  assert.equal(page.headers.get('Cache-Control'), 'no-store');
+  const response = await call('/logout', { method: 'POST', headers: { cookie } });
+  assert.equal(response.status, 302);
+  assert.equal(response.headers.get('Location'), '/login.html');
+  assert.match(response.headers.get('Set-Cookie'), /^pala_auth=; Path=\/; HttpOnly; Secure; SameSite=Lax; Max-Age=0;/);
+  assert.equal((await call('/kids.html')).headers.get('Location'), '/login.html');
+  assert.equal((await setup({ SITE_PASSWORD: undefined }).call('/logout', { method: 'POST' })).status, 302);
+  assert.equal(await (await call('/js/theme.js')).text(), 'allowed');
+});
+
 test('both configured passwords issue signed cookies that permit access', async () => {
   const { call, login } = setup();
   for (const password of ['primary-password', 'secondary-password']) {

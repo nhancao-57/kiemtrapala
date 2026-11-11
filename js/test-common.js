@@ -84,11 +84,12 @@ window.TestCommon = (() => {
 
   function setup(options) {
     config = options;
-    document.getElementById('btn-return').addEventListener('click', event => {
+    function leaveTest(event) {
       const state = config.getState();
       if (document.body.dataset.testScreen === 'test' && !state.isCompleted) {
         const saved = config.save();
-        let message = saved ? 'Trở về danh sách bài thi? Bài làm được lưu để tiếp tục trên thiết bị này.' : 'Bài làm chưa lưu được. Nếu rời trang, bạn có thể mất câu trả lời. Vẫn muốn trở về?';
+        const destination = event.type === 'submit' ? 'Đăng xuất?' : 'Trở về danh sách bài thi?';
+        let message = saved ? `${destination} Bài làm được lưu để tiếp tục trên thiết bị này.` : `Bài làm chưa lưu được. Nếu rời trang, bạn có thể mất câu trả lời. ${destination}`;
         if (state.endTime) message += '\nThời gian làm bài vẫn tiếp tục tính khi bạn rời trang.';
         if ([...document.querySelectorAll('audio')].some(audio => !audio.paused && !audio.ended)) message += '\nAudio đang phát sẽ dừng; lượt nghe đã bắt đầu vẫn được tính.';
         if (!confirm(message)) { event.preventDefault(); return; }
@@ -96,7 +97,9 @@ window.TestCommon = (() => {
         event.preventDefault(); return;
       }
       stopAudio();
-    });
+    }
+    document.getElementById('btn-return').addEventListener('click', leaveTest);
+    document.querySelector('.site-logout')?.addEventListener('submit', leaveTest);
     const form = document.getElementById('start-form');
     const input = document.getElementById('student-name');
     form.addEventListener('submit', event => {

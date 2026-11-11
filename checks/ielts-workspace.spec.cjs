@@ -20,6 +20,45 @@ test.beforeAll(async () => {
 });
 test.afterAll(async () => { server.closeAllConnections(); await new Promise(resolve => server.close(resolve)); });
 
+test('every opening has the same hierarchy, Vietnamese centre name and usable logout', async ({ page }, info) => {
+  await page.route('**/*', route => route.request().url().startsWith(origin) ? route.continue() : route.abort());
+  for (const colorScheme of ['light', 'dark']) {
+    await page.emulateMedia({ colorScheme });
+    await page.setViewportSize({ width: 390, height: 844 });
+    for (const file of ['kids.html', 'teens.html', 'ielts.html', 'ielts-mindset-1-1.html', 'mindset_final_test.html']) {
+      await page.goto(`${origin}/${file}`);
+      await expect(page.locator('#start-screen')).toBeVisible();
+      await expect(page.locator('#test-center')).toHaveText('Trung tâm Ngoại ngữ Pala');
+      await expect(page.locator('#test-title')).not.toBeEmpty();
+      await expect(page.locator('.test-opening-instructions')).toBeVisible();
+      await expect(page.getByRole('button', { name: 'Đăng xuất', exact: true })).toBeVisible();
+      expect(await page.evaluate(() => {
+        const title = document.querySelector('#test-title').getBoundingClientRect();
+        const centre = document.querySelector('#test-center').getBoundingClientRect();
+        const instructions = document.querySelector('.test-opening-instructions').getBoundingClientRect();
+        return title.bottom <= centre.top && centre.bottom <= instructions.top && document.documentElement.scrollWidth <= innerWidth;
+      })).toBe(true);
+      if (file === 'ielts.html') await page.screenshot({ path: info.outputPath(`opening-${colorScheme}.png`) });
+    }
+  }
+});
+
+test('logout during an exam can be cancelled and submits POST when accepted', async ({ page }) => {
+  await start(page, 'ielts.html');
+  let dialogMessage;
+  page.once('dialog', dialog => { dialogMessage = dialog.message(); return dialog.dismiss(); });
+  await page.getByRole('button', { name: 'Đăng xuất', exact: true }).click();
+  expect(dialogMessage).toContain('Đăng xuất?');
+  await expect(page.locator('#exam-toolbar')).toBeVisible();
+  await page.route('**/logout', route => {
+    expect(route.request().method()).toBe('POST');
+    return route.fulfill({ status: 200, contentType: 'text/html', body: 'Signed out' });
+  });
+  page.once('dialog', dialog => dialog.accept());
+  await page.getByRole('button', { name: 'Đăng xuất', exact: true }).click();
+  await expect(page).toHaveURL(`${origin}/logout`);
+});
+
 async function start(page, file, size = { width: 1366, height: 768 }) {
   await page.setViewportSize(size);
   await page.route('**/*', route => route.request().url().startsWith(origin) ? route.continue() : route.abort());
