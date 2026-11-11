@@ -17,19 +17,15 @@
 
   <link rel="stylesheet" href="/src/pala-theme.css">
   <script src="/js/theme.js"></script>
+  <script src="/js/main.js" defer></script>
 </head>
 <body class="test-page bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-custom-pink-200 selection:text-custom-pink-900 relative">
 
-  <header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50 h-16 flex items-center justify-center">
+  <header data-site-header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50 h-16 flex items-center justify-center">
     <div class="test-header-inner container mx-auto px-4 flex justify-center items-center">
       <a id="btn-return" class="test-return" href="/index.html" aria-label="Trở về danh sách bài thi">← Trở về</a>
-      <img src="images/PLC_Logo_FA_Horizontal_COLOUR.png" alt="Pala Language Centre Logo" class="h-10 md:h-12 w-auto object-contain transition-transform hover:scale-105" onerror="this.outerHTML='<span class=\'text-2xl font-bold text-custom-pink-600 tracking-tight\'>PALA<span class=\'text-slate-800\'>CENTRE</span></span>'">
-      <form action="/logout" method="POST" class="site-logout">
-        <button type="submit" aria-label="Đăng xuất" title="Đăng xuất">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H5v14h4m6-14 7 7-7 7m7-7H9"/></svg>
-          <span>Đăng xuất</span>
-        </button>
-      </form>
+      
+      
     </div>
   </header>
 
@@ -156,11 +152,7 @@
 
   </main>
 
-  <footer class="bg-white border-t border-slate-200 py-8 mt-auto">
-    <div class="container mx-auto px-4 text-center">
-      <p class="text-sm text-slate-400 font-semibold tracking-normal">© 2026 Trung tâm Ngoại ngữ Pala.</p>
-    </div>
-  </footer>
+  <div data-site-footer></div>
 
   <script src="/js/test-common.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

@@ -20,6 +20,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="stylesheet" href="/src/pala-theme.css">
   <script src="/js/theme.js"></script>
+  <script src="/js/main.js" defer></script>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans min-h-[100dvh] flex flex-col selection:bg-custom-pink-200 selection:text-custom-pink-900 relative overflow-x-hidden">
 
@@ -28,9 +29,9 @@
   <div class="fixed bottom-[-10%] right-[-10%] w-96 h-96 bg-custom-pink-300 rounded-full mix-blend-multiply filter blur-[128px] opacity-20 pointer-events-none z-0"></div>
 
   <!-- Header -->
-  <header class="bg-white/80 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-50 h-16 flex items-center justify-center shrink-0 transition-all">
+  <header data-site-header data-hide-logout class="bg-white/80 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-50 h-16 flex items-center justify-center shrink-0 transition-all">
     <div class="container mx-auto px-4 flex justify-center items-center">
-      <img src="images/PLC_Logo_FA_Horizontal_COLOUR.png" alt="Pala Language Centre Logo" class="h-10 md:h-12 w-auto object-contain transition-transform hover:scale-105" onerror="this.outerHTML='<span class=\'text-2xl font-bold text-custom-pink-600 tracking-tight\'>PALA<span class=\'text-slate-800\'>CENTRE</span></span>'">
+      
     </div>
   </header>
 
@@ -138,11 +139,7 @@
   </main>
 
   <!-- Footer -->
-  <footer class="bg-transparent py-6 shrink-0 z-10 relative">
-    <div class="container mx-auto px-4 text-center">
-      <p class="text-sm text-slate-400 font-medium tracking-normal">© 2026 Trung tâm Ngoại ngữ Pala.</p>
-    </div>
-  </footer>
+  <div data-site-footer></div>
 
   <script>
     // Keep database text out of HTML markup, including student-supplied names.

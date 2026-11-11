@@ -23,8 +23,9 @@ async function openPage(file, { storage = {}, upload = () => ({ error: null }), 
   window.HTMLElement.prototype.scrollIntoView = () => {};
   window.HTMLMediaElement.prototype.pause = () => {};
   window.console.error = (...args) => errors.push(args);
-  window.fetch = async url => ({ ok: true, json: async () =>
-    JSON.parse(fs.readFileSync(path.join(root, String(url).replace(/^\//, '')), 'utf8')) });
+  window.fetch = async url => ({ ok: true,
+    text: async () => fs.readFileSync(path.join(root, String(url).replace(/^\//, '')), 'utf8'),
+    json: async () => JSON.parse(fs.readFileSync(path.join(root, String(url).replace(/^\//, '')), 'utf8')) });
   Object.entries(storage).forEach(([key, value]) => window.localStorage.setItem(key, value));
   window.supabase = { createClient: () => ({
     auth: { getSession: async () => ({ data: { session: {} } }), signOut: async () => ({}) },

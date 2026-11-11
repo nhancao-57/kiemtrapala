@@ -33,7 +33,7 @@ export default async (request, context) => {
   if (url.pathname === '/logout' && request.method === 'POST') {
     return redirect('/login.html', 'pala_auth=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT');
   }
-  const publicPages = ['/login.html', '/admin.html', '/admin', '/js/theme.js'];
+  const publicPages = ['/login.html', '/admin.html', '/admin', '/js/theme.js', '/js/main.js', '/header.html', '/footer.html'];
   const publicDirectories = ['/images/', '/src/'];
   if (publicPages.includes(url.pathname) || publicDirectories.some(path => url.pathname.startsWith(path))) {
     return context.next();

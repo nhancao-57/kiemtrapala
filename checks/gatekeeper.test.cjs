@@ -68,7 +68,7 @@ test('invalid login, missing configuration and public-path lookalikes fail close
   for (const path of ['/admin-extra.html', '/login.html-private', '/src-private/data']) {
     assert.equal((await call(path)).status, 302);
   }
-  for (const path of ['/admin', '/admin.html', '/login.html', '/src/test-system.css', '/images/Pala_logo.png']) {
+  for (const path of ['/admin', '/admin.html', '/login.html', '/src/test-system.css', '/images/Pala_logo.png', '/header.html', '/footer.html', '/js/main.js']) {
     assert.equal(await (await call(path)).text(), 'allowed');
   }
   assert.equal((await call('/login', { method: 'POST', body: 'not form data' })).headers.get('Location'), '/login.html?error=1');
