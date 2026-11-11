@@ -5,5 +5,10 @@ module.exports = defineConfig({
   testMatch: '**/*.spec.cjs',
   fullyParallel: false,
   workers: 1,
-  use: { browserName: 'chromium', channel: 'chrome', headless: true },
+  use: { headless: true },
+  projects: [
+    { name: 'chrome', use: { browserName: 'chromium', channel: 'chrome' } },
+    { name: 'firefox', use: { browserName: 'firefox' } },
+    { name: 'webkit', use: { browserName: 'webkit' } },
+  ],
 });

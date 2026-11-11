@@ -38,7 +38,7 @@ input:not([type='radio']):not([type='checkbox']):not([type='range']), select { m
 input:focus, textarea:focus, select:focus { border-color: var(--pala-focus); box-shadow: 0 0 0 4px rgb(230 62 117 / .14); }
 input[type='radio'], input[type='checkbox'] { accent-color: var(--pala-primary); }
 body > header { border-color: var(--pala-border); }
-body:not([data-test-screen='test']) > header { min-height: 77px; }
+body:not([data-test-screen='test']) > header { min-height: calc(68px + env(safe-area-inset-top, 0px)); }
 .test-return, .test-secondary { border-radius: 12px; min-height: 44px; background: var(--pala-surface); color: var(--pala-text); border-color: var(--pala-border); }
 .test-return:hover, .test-secondary:hover { background: #FBEAF0; color: #9E254B; border-color: #C43161; }
 #nav-timer-container, #timer { font-variant-numeric: tabular-nums; }
@@ -75,7 +75,7 @@ a.group.rounded-\[2rem\]:hover { transform: translateY(-4px); box-shadow: 0 10px
   .test-opening-instructions { padding: 16px; }
 }
 @media print { .site-logout { display: none !important; } }
-@media (min-width: 1280px) { body:not([data-test-screen='test']) > header { min-height: 85px; } }
+@media (min-width: 1280px) { body:not([data-test-screen='test']) > header { min-height: calc(72px + env(safe-area-inset-top, 0px)); } }
 /* Retain readable utility-based content and dynamically rendered exam panels. */
 .dark :is(.bg-white, [class*='bg-white/']) { background-color: var(--pala-surface); }
 .dark :is(.bg-slate-50, .bg-slate-100, [class*='bg-slate-50/']) { background-color: var(--pala-inset); }
@@ -93,3 +93,47 @@ a.group.rounded-\[2rem\]:hover { transform: translateY(-4px); box-shadow: 0 10px
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
 }
+
+/* Opaque edge surfaces let Safari blend its chrome with the current theme. */
+html { background-color: var(--pala-surface); touch-action: manipulation; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { min-height: 100vh; min-height: 100dvh; }
+body > header, body > footer { background-color: var(--pala-surface); -webkit-backdrop-filter: none; backdrop-filter: none; }
+body > header { height: calc(64px + env(safe-area-inset-top, 0px)); padding-top: env(safe-area-inset-top, 0px); transition-property: background-color, border-color; }
+body > header > div, body > footer > div, body > main {
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+body > main { min-width: 0; }
+body > footer { padding-bottom: calc(32px + env(safe-area-inset-bottom, 0px)); }
+.ielts-test[data-test-screen='test'] { height: 100vh; height: 100dvh; min-height: 0; }
+.ielts-test[data-test-screen='test'] > header { height: calc(52px + env(safe-area-inset-top, 0px)); }
+.ielts-test #exam-navigation { padding-bottom: env(safe-area-inset-bottom, 0px); }
+.ielts-test #exam-toolbar, .ielts-test #exam-navigation {
+  padding-left: max(10px, env(safe-area-inset-left, 0px));
+  padding-right: max(10px, env(safe-area-inset-right, 0px));
+}
+.app-header-inner { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); }
+@media (pointer: coarse) {
+  .exam-tools .test-secondary, .exam-tools #btn-submit-test,
+  #exam-questions button, .exam-overview-questions button { min-height: 44px; min-width: 44px; }
+}
+
+@media (min-width: 768px) {
+  .ielts-test #exam-toolbar, .ielts-test #exam-navigation {
+    padding-left: max(20px, env(safe-area-inset-left, 0px));
+    padding-right: max(20px, env(safe-area-inset-right, 0px));
+  }
+}
+
+/* Exam panes scroll independently, so each needs landscape notch clearance. */
+.ielts-test .split-container > .scroll-pane {
+  padding-left: max(28px, env(safe-area-inset-left, 0px));
+  padding-right: max(28px, env(safe-area-inset-right, 0px));
+}
+@media (max-width: 767px) {
+  .ielts-test .split-container > .scroll-pane {
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+}
+body:not(.ielts-test) #test-screen > .sticky { top: calc(76px + env(safe-area-inset-top, 0px)); }

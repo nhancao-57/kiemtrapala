@@ -4,7 +4,9 @@
   function apply() {
     let saved;
     try { saved = localStorage.getItem('theme'); } catch (_) { /* Storage may be unavailable. */ }
-    document.documentElement.classList.toggle('dark', saved === 'dark' || (saved !== 'light' && !!system?.matches));
+    const dark = saved === 'dark' || (saved !== 'light' && !!system?.matches);
+    document.documentElement.classList.toggle('dark', dark);
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#1E293B' : '#FFFFFF');
   }
   apply();
   system?.addEventListener('change', apply);

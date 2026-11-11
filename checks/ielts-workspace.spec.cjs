@@ -167,3 +167,32 @@ test('resizing persists across parts and reload, and the submit button survives 
   await expect(page.locator('#exam-toolbar')).toHaveCount(1);
   await expect(page.locator('#exam-settings')).toHaveCount(1);
 });
+
+
+test('mobile pages retain zoom access, theme colours and fit narrow and landscape screens', async ({ page }) => {
+  await page.route('**/*', route => route.request().url().startsWith(origin) ? route.continue() : route.abort());
+  for (const colorScheme of ['light', 'dark']) {
+    await page.emulateMedia({ colorScheme });
+    for (const size of [{ width: 320, height: 568 }, { width: 844, height: 390 }]) {
+      await page.setViewportSize(size);
+      for (const file of ['index.html', 'login.html', 'kids.html', 'teens.html', 'ielts.html', 'admin.html']) {
+        await page.goto(origin + '/' + file);
+        await page.evaluate(() => window.siteLayoutReady);
+        const state = await page.evaluate(() => ({
+          overflow: document.documentElement.scrollWidth > innerWidth,
+          touchAction: getComputedStyle(document.documentElement).touchAction,
+          edge: getComputedStyle(document.documentElement).backgroundColor,
+          header: getComputedStyle(document.querySelector('header')).backgroundColor,
+          theme: document.querySelector('meta[name="theme-color"]').content,
+          viewport: document.querySelector('meta[name="viewport"]').content,
+        }));
+        expect(state.overflow, file).toBe(false);
+        expect(state.touchAction).toBe('manipulation');
+        expect(state.header).toBe(state.edge);
+        expect(state.theme).toBe(colorScheme === 'dark' ? '#1E293B' : '#FFFFFF');
+        expect(state.viewport).toContain('viewport-fit=cover');
+        expect(state.viewport).not.toMatch(/maximum-scale|user-scalable/);
+      }
+    }
+  }
+});

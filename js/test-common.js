@@ -99,7 +99,10 @@ window.TestCommon = (() => {
       stopAudio();
     }
     document.getElementById('btn-return').addEventListener('click', leaveTest);
-    document.querySelector('.site-logout')?.addEventListener('submit', leaveTest);
+    // The shared header may arrive after the exam has initialized.
+    document.addEventListener('submit', event => {
+      if (event.target.matches('.site-logout')) leaveTest(event);
+    });
     const form = document.getElementById('start-form');
     const input = document.getElementById('student-name');
     form.addEventListener('submit', event => {

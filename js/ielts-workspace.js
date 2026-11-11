@@ -198,8 +198,9 @@ window.IELTSWorkspace = (() => {
     byId('exam-text-size').addEventListener('change', event => {
       screen.dataset.textSize = options.getState().textSize = event.target.value; options.save();
     });
-    byId('exam-settings-open').addEventListener('click', () => settings.showModal());
-    byId('exam-overview-open').addEventListener('click', () => { renderOverview(); overview.showModal(); });
+    // Safari does not focus buttons on pointer clicks; give dialogs a return target.
+    byId('exam-settings-open').addEventListener('click', event => { event.currentTarget.focus({ preventScroll: true }); settings.showModal(); });
+    byId('exam-overview-open').addEventListener('click', event => { event.currentTarget.focus({ preventScroll: true }); renderOverview(); overview.showModal(); });
     byId('exam-overview-filter').addEventListener('change', renderOverview);
   }
   function renderOverview() {
