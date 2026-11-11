@@ -8,21 +8,23 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="/images/Pala_logo.png">
 
   <link rel="stylesheet" href="/src/output.css">
   <link rel="stylesheet" href="/src/test-system.css">
+  <link rel="stylesheet" href="/src/pala-theme.css">
+  <script src="/js/theme.js"></script>
 </head>
 <body class="test-page bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-custom-pink-200 selection:text-custom-pink-900 relative">
 
 <header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50 h-16 flex items-center justify-center">
     <div class="test-header-inner container mx-auto px-4 max-w-7xl">
       <a id="btn-return" class="test-return" href="/index.html" aria-label="Trở về danh sách bài thi">← Trở về</a>
-      <img src="images/PLC_Logo_FA_Horizontal_COLOUR.png" alt="Pala Language Centre Logo" class="h-10 md:h-12 w-auto object-contain transition-transform hover:scale-105" onerror="this.outerHTML='<span class=\'text-2xl font-black text-custom-pink-600 tracking-tight\'>PALA<span class=\'text-slate-800\'>CENTRE</span></span>'">
+      <img src="images/PLC_Logo_FA_Horizontal_COLOUR.png" alt="Pala Language Centre Logo" class="h-10 md:h-12 w-auto object-contain transition-transform hover:scale-105" onerror="this.outerHTML='<span class=\'text-2xl font-bold text-custom-pink-600 tracking-tight\'>PALA<span class=\'text-slate-800\'>CENTRE</span></span>'">
       <div id="nav-timer-container" class="hidden flex items-center bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-lg shadow-inner">
         <svg class="w-4 h-4 text-slate-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-        <span id="nav-timer-display" class="font-mono text-lg font-black text-slate-800 tracking-tight">00:00</span>
+        <span id="nav-timer-display" class="font-mono text-lg font-bold text-slate-800 tracking-tight">00:00</span>
       </div>
     </div>
 </header>
@@ -36,19 +38,19 @@
 
     <div id="error-screen" class="hidden text-center py-20 w-full bg-white rounded-3xl shadow-lg border border-red-100 p-8">
       <div class="text-red-500 text-6xl mb-4">⚠️</div>
-      <h2 class="text-2xl font-bold text-slate-800 mb-2">Không thể tải bài thi</h2>
+      <h2 class="text-2xl font-semibold text-slate-800 mb-2">Không thể tải bài thi</h2>
       <p class="text-slate-600 mb-8" id="error-message">Vui lòng kiểm tra lại đường dẫn file JSON</p>
-      <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-900 text-white px-8 py-3 rounded-xl font-bold transition-colors shadow-md">Thử lại</button>
+      <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-900 text-white px-8 py-3 rounded-xl font-semibold transition-colors shadow-md">Thử lại</button>
     </div>
 
     <section id="start-screen" class="hidden w-full bg-white rounded-3xl shadow-xl border border-slate-100 p-6 md:p-10">
       <div class="text-center mb-8">
-        <h1 id="test-title" class="text-2xl md:text-4xl font-black text-custom-pink-600 mb-3 uppercase tracking-tight"></h1>
-        <p class="text-slate-500 font-bold tracking-widest text-sm" id="test-duration"></p>
+        <h1 id="test-title" class="text-2xl md:text-4xl font-bold text-custom-pink-600 mb-3 normal-case tracking-tight"></h1>
+        <p class="text-slate-500 font-semibold tracking-normal text-sm" id="test-duration"></p>
       </div>
 
       <div class="bg-custom-pink-50/50 rounded-2xl p-6 mb-8 border border-custom-pink-100 text-sm md:text-base">
-        <h2 class="font-bold text-slate-800 mb-3 flex items-center">
+        <h2 class="font-semibold text-slate-800 mb-3 flex items-center">
           <span class="text-2xl mr-2">📝</span> Hướng dẫn làm bài:
         </h2>
         <ul class="list-disc list-inside text-slate-700 space-y-2 font-medium">
@@ -64,21 +66,21 @@
 
       <form id="start-form" class="space-y-6">
         <div>
-          <label for="student-name" class="block font-bold text-slate-700 mb-2">Nhập họ và tên Học viên <span class="text-red-500">*</span></label>
+          <label for="student-name" class="block font-semibold text-slate-700 mb-2">Nhập họ và tên Học viên <span class="text-red-500">*</span></label>
           <input type="text" id="student-name" required placeholder="Ví dụ: Nguyễn Văn A..."
                  class="w-full px-5 py-3 rounded-xl border-2 border-slate-200 focus:outline-none focus:border-custom-pink-500 focus:ring-4 focus:ring-custom-pink-100 transition-all text-slate-800 font-semibold text-lg">
         </div>
 
-        <button type="submit" class="w-full bg-custom-pink-600 hover:bg-custom-pink-700 text-white font-black py-4 px-8 rounded-xl transition-all shadow-lg text-lg uppercase tracking-wide">
+        <button type="submit" class="w-full bg-custom-pink-600 hover:bg-custom-pink-700 text-white font-bold py-4 px-8 rounded-xl transition-all shadow-lg text-lg normal-case tracking-normal">
           Bắt đầu làm bài
         </button>
       </form>
 
       <div id="resume-prompt" class="hidden mt-6 text-center p-6 bg-amber-50 rounded-2xl border border-amber-200">
-        <p class="mb-4 font-bold text-amber-800">Cảnh báo: Bạn có bài thi đang làm dở trước đó.</p>
+        <p class="mb-4 font-semibold text-amber-800">Cảnh báo: Bạn có bài thi đang làm dở trước đó.</p>
         <div class="flex flex-col sm:flex-row gap-3 justify-center">
-          <button id="btn-resume" class="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl transition-colors shadow-md">Tiếp tục làm bài</button>
-          <button id="btn-restart-clear" class="px-6 py-3 bg-white border-2 border-slate-200 hover:bg-slate-50 text-slate-700 font-bold rounded-xl transition-all">Xóa & Làm lại từ đầu</button>
+          <button id="btn-resume" class="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white font-semibold rounded-xl transition-colors shadow-md">Tiếp tục làm bài</button>
+          <button id="btn-restart-clear" class="px-6 py-3 bg-white border-2 border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold rounded-xl transition-all">Xóa & Làm lại từ đầu</button>
         </div>
       </div>
     </section>
@@ -87,11 +89,11 @@
       <div class="bg-white/95 p-4 rounded-xl shadow-sm border border-slate-200 mb-8 sticky top-[76px] z-40 backdrop-blur-md">
         <div class="flex justify-between items-end mb-3 px-1">
           <div>
-              <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Học viên</p>
-              <p id="display-name" class="font-bold text-slate-800 truncate max-w-[150px] md:max-w-xs text-sm"></p>
+              <p class="text-xs text-slate-400 font-semibold normal-case tracking-normal mb-1">Học viên</p>
+              <p id="display-name" class="font-semibold text-slate-800 truncate max-w-[150px] md:max-w-xs text-sm"></p>
           </div>
           <div class="text-right">
-              <p class="font-black text-custom-pink-600 text-sm mb-1">Tiến độ: <span id="progress-text" class="text-slate-800">0/0</span></p>
+              <p class="font-bold text-custom-pink-600 text-sm mb-1">Tiến độ: <span id="progress-text" class="text-slate-800">0/0</span></p>
           </div>
         </div>
         <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
@@ -102,7 +104,7 @@
       <div id="questions-container" class="space-y-12"></div>
 
       <div class="mt-12 mb-8 pt-6 border-t border-slate-200 text-center">
-        <button id="btn-submit-test" class="bg-slate-800 hover:bg-slate-900 text-white font-black py-4 px-12 rounded-xl transition-all shadow-lg text-lg w-full md:w-auto uppercase tracking-wide">
+        <button id="btn-submit-test" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-4 px-12 rounded-xl transition-all shadow-lg text-lg w-full md:w-auto normal-case tracking-normal">
           Nộp Bài
         </button>
       </div>
@@ -113,18 +115,18 @@
         <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
           <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7" /></svg>
         </div>
-        <h2 class="text-3xl md:text-4xl font-black text-slate-800 mb-4 tracking-tight">Hoàn Thành Bài Thi!</h2>
+        <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mb-4 tracking-tight">Hoàn Thành Bài Thi!</h2>
 
         <div class="mb-8 flex flex-col md:flex-row gap-4 justify-center items-center">
             <div class="bg-slate-50 border border-slate-100 p-4 rounded-2xl min-w-[250px] text-left">
-                <p class="text-slate-500 text-sm font-bold uppercase tracking-wider mb-1">Thông tin học viên</p>
-                <p class="text-xl text-slate-800 font-black truncate"><span id="result-name"></span></p>
+                <p class="text-slate-500 text-sm font-semibold normal-case tracking-normal mb-1">Thông tin học viên</p>
+                <p class="text-xl text-slate-800 font-bold truncate"><span id="result-name"></span></p>
             </div>
         </div>
 
         <div class="bg-gradient-to-br from-custom-pink-50 to-custom-pink-100 rounded-3xl p-8 mb-8 w-full border border-custom-pink-200 shadow-sm">
-          <p class="text-custom-pink-800 font-black uppercase tracking-widest mb-2 text-sm">Điểm số của bạn</p>
-          <div class="text-7xl font-black text-custom-pink-600 drop-shadow-sm flex items-baseline justify-center">
+          <p class="text-custom-pink-800 font-bold normal-case tracking-normal mb-2 text-sm">Điểm số của bạn</p>
+          <div class="text-7xl font-bold text-custom-pink-600 drop-shadow-sm flex items-baseline justify-center">
             <span id="score-correct">0</span>
             <span class="text-4xl text-custom-pink-300 mx-1">/</span>
             <span id="score-total" class="text-5xl text-custom-pink-400">0</span>
@@ -136,12 +138,12 @@
         </div>
 
       <div class="mt-12 flex flex-col items-center gap-4">
-        <button id="btn-download-audit" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2 px-6 rounded-lg transition-colors border border-slate-300 text-sm shadow-sm flex items-center justify-center gap-2">
+        <button id="btn-download-audit" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2 px-6 rounded-lg transition-colors border border-slate-300 text-sm shadow-sm flex items-center justify-center gap-2">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
           Tải Kết quả
         </button>
 
-        <button id="btn-retake" class="text-slate-400 hover:text-custom-pink-600 font-bold transition-colors underline decoration-2 underline-offset-4 text-sm uppercase tracking-wider">
+        <button id="btn-retake" class="text-slate-400 hover:text-custom-pink-600 font-semibold transition-colors underline decoration-2 underline-offset-4 text-sm normal-case tracking-normal">
           Làm lại bài kiểm tra
         </button>
       </div>
@@ -462,7 +464,7 @@
         });
 
         wrap.innerHTML = `
-           <div class="text-sm text-slate-700 mb-2 font-bold">${qNum}. Nhấp vào các từ bên dưới để sắp xếp thành câu:</div>
+           <div class="text-sm text-slate-700 mb-2 font-semibold">${qNum}. Nhấp vào các từ bên dưới để sắp xếp thành câu:</div>
            <div class="min-h-[56px] p-3 border-2 border-dashed border-custom-pink-300 bg-custom-pink-50 rounded-xl mb-3 flex flex-wrap gap-2 transition-all">
                ${currentAnswer.map((w, i) => `<button type="button" class="px-3 py-1 bg-white border border-custom-pink-400 rounded-lg shadow-sm text-custom-pink-800 font-medium cursor-pointer hover:bg-custom-pink-100 transition-colors" onclick="handleDDRemove('${qId}', ${i})">${TestCommon.escapeHtml(w)}</button>`).join('')}
                ${currentAnswer.length === 0 ? '<span class="text-custom-pink-300 italic text-sm py-1">Khu vực ghép câu (trống)</span>' : ''}
@@ -481,14 +483,14 @@
 
       testData.sections.forEach(section => {
         const secDiv = document.createElement('div');
-        secDiv.innerHTML = `<h2 class="text-2xl font-black text-custom-pink-600 mb-6 border-b-2 border-custom-pink-200 pb-2">SECTION ${section.section_id}: ${section.title} (${section.total_points} pts)</h2>`;
+        secDiv.innerHTML = `<h2 class="text-2xl font-bold text-custom-pink-600 mb-6 border-b-2 border-custom-pink-200 pb-2">SECTION ${section.section_id}: ${section.title} (${section.total_points} pts)</h2>`;
 
         section.parts.forEach(part => {
           const pDiv = document.createElement('div');
           pDiv.className = "mb-10 bg-white p-6 rounded-2xl shadow-sm border border-slate-200";
           const pKey = `${section.section_id}_${part.part_number}`;
 
-          let instructionsHtml = `<h3 class="text-lg font-bold text-slate-800 mb-2">Part ${part.part_number} (${part.points} pts)</h3><p class="text-slate-600 mb-6 italic">${part.instructions}</p>`;
+          let instructionsHtml = `<h3 class="text-lg font-semibold text-slate-800 mb-2">Part ${part.part_number} (${part.points} pts)</h3><p class="text-slate-600 mb-6 italic">${part.instructions}</p>`;
 
           let audioHtml = '';
           if (part.audio_url) {
@@ -496,8 +498,8 @@
              audioHtml = `
                 <div class="mb-6 bg-slate-50 p-4 rounded-xl border border-slate-200">
                    <div class="flex justify-between items-center mb-2">
-                       <span class="text-sm font-bold text-slate-600 flex items-center"><svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>Audio Track</span>
-                       <span id="audio-status-${pKey}" class="${limitDisplayClass} text-xs font-bold px-2 py-1 bg-custom-pink-100 text-custom-pink-700 rounded-md">Lượt nghe: 0/2</span>
+                       <span class="text-sm font-semibold text-slate-600 flex items-center"><svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>Audio Track</span>
+                       <span id="audio-status-${pKey}" class="${limitDisplayClass} text-xs font-semibold px-2 py-1 bg-custom-pink-100 text-custom-pink-700 rounded-md">Lượt nghe: 0/2</span>
                    </div>
                    <audio id="audio-${pKey}" controls class="w-full outline-none audio-element" data-key="${pKey}">
                        <source src="${part.audio_url}" type="audio/mpeg">
@@ -564,7 +566,7 @@
           }
           else if (part.type === 'fill_in_the_blank_reading' || part.type === 'fill_in_the_blank') {
             contentHtml = part.questions.map(q => {
-               const formattedText = q.text.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-slate-900">$1</strong>');
+               const formattedText = q.text.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-slate-900">$1</strong>');
                const finalInputText = formattedText.replace('_______', `<input type="text" class="w-40 border-b-2 border-slate-300 focus:border-custom-pink-500 outline-none text-center bg-transparent font-medium" value="${TestCommon.escapeHtml(state.answers[`${pKey}_${q.id}`] || '')}" oninput="saveAnswer('${pKey}_${q.id}', this.value)">`);
                return `<div class="mb-4 flex flex-col"><span class="text-slate-800 mb-2">${q.id}. ${finalInputText}</span></div>`;
             }).join('');
@@ -707,14 +709,14 @@
          } else {
              reviewHtmlBlocks.push(`
                 <div class="mb-4 bg-white p-5 rounded-2xl border-l-4 border-l-red-500 shadow-sm">
-                   <p class="font-bold text-slate-800 text-sm mb-2 pb-2 border-b border-slate-100">${questionLabels[key]}</p>
+                   <p class="font-semibold text-slate-800 text-sm mb-2 pb-2 border-b border-slate-100">${questionLabels[key]}</p>
                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2 text-sm">
                       <div class="bg-red-50/50 p-3 rounded-lg border border-red-100">
-                         <span class="block text-red-800 font-bold mb-1 text-xs uppercase tracking-wider">Your Answer</span>
+                         <span class="block text-red-800 font-semibold mb-1 text-xs normal-case tracking-normal">Your Answer</span>
                          <span class="text-red-600 font-medium">${displayActual}</span>
                       </div>
                       <div class="bg-green-50/50 p-3 rounded-lg border border-green-100">
-                         <span class="block text-green-800 font-bold mb-1 text-xs uppercase tracking-wider">Correct Answer</span>
+                         <span class="block text-green-800 font-semibold mb-1 text-xs normal-case tracking-normal">Correct Answer</span>
                          <span class="text-green-700 font-medium">${displayExpected}</span>
                       </div>
                    </div>
@@ -727,9 +729,9 @@
       ui.result.total.textContent = window.testTotalPoints;
 
       if (reviewHtmlBlocks.length > 0) {
-          ui.result.reviewContainer.innerHTML = `<h3 class="text-xl font-black text-slate-800 mb-6 text-center">Các câu trả lời chưa chính xác</h3>` + reviewHtmlBlocks.join('');
+          ui.result.reviewContainer.innerHTML = `<h3 class="text-xl font-bold text-slate-800 mb-6 text-center">Các câu trả lời chưa chính xác</h3>` + reviewHtmlBlocks.join('');
       } else {
-          ui.result.reviewContainer.innerHTML = `<div class="bg-green-50 p-6 rounded-2xl border border-green-200 text-center"><p class="text-green-700 font-black text-xl mb-1">Tuyệt vời!</p><p class="text-green-600 font-medium">Bạn đã trả lời đúng tất cả các câu hỏi.</p></div>`;
+          ui.result.reviewContainer.innerHTML = `<div class="bg-green-50 p-6 rounded-2xl border border-green-200 text-center"><p class="text-green-700 font-bold text-xl mb-1">Tuyệt vời!</p><p class="text-green-600 font-medium">Bạn đã trả lời đúng tất cả các câu hỏi.</p></div>`;
       }
     }
 

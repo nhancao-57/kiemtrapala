@@ -2,13 +2,13 @@
 
 /* Custom Radio Buttons for mobile tap targets */
 .option-radio:checked + div {
-    border-color: #db2777;
-    background-color: #fdf2f8;
-    box-shadow: 0 4px 6px -1px rgba(219, 39, 119, 0.1);
+    border-color: #C43161;
+    background-color: #FBEAF0;
+    box-shadow: 0 4px 6px -1px rgba(230, 62, 117, 0.14);
 }
 .option-radio:checked + div .radio-circle {
-    border-color: #db2777;
-    background-color: #db2777;
+    border-color: #C43161;
+    background-color: #C43161;
 }
 .option-radio:checked + div .radio-circle::after {
     content: '';
@@ -23,7 +23,7 @@
 /* Loading Spinner */
 .loader {
     border: 4px solid #f3f3f3;
-    border-top: 4px solid #db2777;
+    border-top: 4px solid #C43161;
     border-radius: 50%;
     width: 48px;
     height: 48px;
@@ -33,15 +33,15 @@
 
     /* Custom Radio Buttons */
 .option-radio:checked + div {
-    border-color: #db2777;
-    background-color: #fdf2f8;
-    box-shadow: 0 4px 6px -1px rgba(219, 39, 119, 0.1);
+    border-color: #C43161;
+    background-color: #FBEAF0;
+    box-shadow: 0 4px 6px -1px rgba(230, 62, 117, 0.14);
 }
 
 /* Loading Spinner */
 .loader {
     border: 4px solid #f3f3f3;
-    border-top: 4px solid #db2777;
+    border-top: 4px solid #C43161;
     border-radius: 50%;
     width: 48px;
     height: 48px;
@@ -51,13 +51,13 @@
 
 /* Custom Radio Buttons */
 .option-radio:checked + div {
-    border-color: #db2777;
-    background-color: #fdf2f8;
-    box-shadow: 0 4px 6px -1px rgba(219, 39, 119, 0.1);
+    border-color: #C43161;
+    background-color: #FBEAF0;
+    box-shadow: 0 4px 6px -1px rgba(230, 62, 117, 0.14);
 }
 .option-radio:checked + div .radio-circle {
-    border-color: #db2777;
-    background-color: #db2777;
+    border-color: #C43161;
+    background-color: #C43161;
 }
 .option-radio:checked + div .radio-circle::after {
     content: '';
@@ -72,7 +72,7 @@
 /* Loading Spinner */
 .loader {
     border: 4px solid #f3f3f3;
-    border-top: 4px solid #db2777;
+    border-top: 4px solid #C43161;
     border-radius: 50%;
     width: 48px;
     height: 48px;
@@ -96,11 +96,11 @@
     z-index: 10;
 }
 .resizer:hover, .resizer:active {
-    background-color: #db2777;
+    background-color: #C43161;
 }
 
 /* Highlight Styles */
-::selection { background: #fbcfe8; color: #831843; }
+::selection { background: #F1AAC3; color: #5C1228; }
 mark.ielts-highlight {
     background-color: #fef08a; /* Yellow */
     color: inherit;
@@ -127,16 +127,16 @@ mark.ielts-highlight:hover::after {
 
 @theme {
   /* Colors */
-  --color-custom-pink-50: #fdf2f8;
-  --color-custom-pink-100: #fce7f3;
-  --color-custom-pink-200: #fbcfe8;
-  --color-custom-pink-300: #f9a8d4;
-  --color-custom-pink-400: #f472b6;
-  --color-custom-pink-500: #ec4899;
-  --color-custom-pink-600: #db2777;
-  --color-custom-pink-700: #be185d;
-  --color-custom-pink-800: #9d174d;
-  --color-custom-pink-900: #831843;
+  --color-custom-pink-50: #FBEAF0;
+  --color-custom-pink-100: #F8D5E1;
+  --color-custom-pink-200: #F1AAC3;
+  --color-custom-pink-300: #EA7FA5;
+  --color-custom-pink-400: #E85B8A;
+  --color-custom-pink-500: #E63E75;
+  --color-custom-pink-600: #C43161;
+  --color-custom-pink-700: #9E254B;
+  --color-custom-pink-800: #7A1A37;
+  --color-custom-pink-900: #5C1228;
 
   /* Fonts */
   --font-sans: "Inter", sans-serif;
@@ -155,4 +155,37 @@ mark.ielts-highlight:hover::after {
     opacity: 1;
     transform: translateY(0);
   }
+}
+@theme {
+  --color-custom-green-50: #F4F7E6;
+  --color-custom-green-100: #E9F0CD;
+  --color-custom-green-200: #D6EB7C;
+  --color-custom-green-300: #B8D349;
+  --color-custom-green-400: #99B726;
+  --color-custom-green-500: #7A960B;
+  --color-custom-green-600: #5D7308;
+  --color-custom-green-700: #465705;
+  --color-custom-green-800: #2D3902;
+  --color-custom-green-900: #1F2606;
+  --color-green-50: #F4F7E6;
+  --color-green-100: #E9F0CD;
+  --color-green-200: #D6EB7C;
+  --color-green-300: #B8D349;
+  --color-green-400: #99B726;
+  --color-green-500: #7A960B;
+  --color-green-600: #5D7308;
+  --color-green-700: #465705;
+  --color-green-800: #2D3902;
+  --color-green-900: #1F2606;
+  --color-emerald-50: #F4F7E6;
+  --color-emerald-100: #E9F0CD;
+  --color-emerald-200: #D6EB7C;
+  --color-emerald-300: #B8D349;
+  --color-emerald-400: #99B726;
+  --color-emerald-500: #7A960B;
+  --color-emerald-600: #5D7308;
+  --color-emerald-700: #465705;
+  --color-emerald-800: #2D3902;
+  --color-emerald-900: #1F2606;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 }

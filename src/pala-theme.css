@@ -1,0 +1,65 @@
+/* Shared PALA application skin. Keep exam pane sizing in test-system.css. */
+:root {
+  color-scheme: light;
+  --pala-primary: #C43161;
+  --pala-focus: #C43161;
+  --pala-page: #F8FAFC;
+  --pala-surface: #FFFFFF;
+  --pala-inset: #F8FAFC;
+  --pala-heading: #1E293B;
+  --pala-text: #334155;
+  --pala-muted: #475569;
+  --pala-border: #E2E8F0;
+}
+:root.dark {
+  color-scheme: dark;
+  --pala-focus: #EA7FA5;
+  --pala-page: #0F172A;
+  --pala-surface: #1E293B;
+  --pala-inset: #0F172A;
+  --pala-heading: #F1F5F9;
+  --pala-text: #CBD5E1;
+  --pala-muted: #CBD5E1;
+  --pala-border: #334155;
+}
+body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; background-color: var(--pala-page); color: var(--pala-text); }
+h1, h2, h3, h4 { color: var(--pala-heading); }
+h1, h2 { letter-spacing: -.025em; }
+:is(button, a, input, textarea, select, [tabindex]):focus-visible,
+.option-radio:focus-visible + div { outline: 2px solid var(--pala-focus); outline-offset: 3px; }
+button, input, select, textarea { font-family: inherit; }
+button, a.test-return { min-height: 44px; }
+button { letter-spacing: normal; text-transform: none; }
+input:not([type='radio']):not([type='checkbox']):not([type='range']), select, textarea {
+  font-size: 16px; border-radius: 12px; border-color: var(--pala-border);
+  background-color: var(--pala-inset); color: var(--pala-heading);
+}
+input:not([type='radio']):not([type='checkbox']):not([type='range']), select { min-height: 48px; }
+input:focus, textarea:focus, select:focus { border-color: var(--pala-focus); box-shadow: 0 0 0 4px rgb(230 62 117 / .14); }
+input[type='radio'], input[type='checkbox'] { accent-color: var(--pala-primary); }
+body > header { border-color: var(--pala-border); }
+body:not([data-test-screen='test']) > header { min-height: 77px; }
+.test-return, .test-secondary { border-radius: 12px; min-height: 44px; background: var(--pala-surface); color: var(--pala-text); border-color: var(--pala-border); }
+.test-return:hover, .test-secondary:hover { background: #FBEAF0; color: #9E254B; border-color: #C43161; }
+#nav-timer-container, #timer { font-variant-numeric: tabular-nums; }
+a.group.rounded-\[2rem\] { border-radius: 24px; border-color: var(--pala-border); }
+a.group.rounded-\[2rem\]:hover { transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgb(15 23 42 / .08); }
+.text-custom-pink-500 { color: #C43161; }
+@media (min-width: 1280px) { body:not([data-test-screen='test']) > header { min-height: 85px; } }
+/* Retain readable utility-based content and dynamically rendered exam panels. */
+.dark :is(.bg-white, [class*='bg-white/']) { background-color: var(--pala-surface); }
+.dark :is(.bg-slate-50, .bg-slate-100, [class*='bg-slate-50/']) { background-color: var(--pala-inset); }
+.dark :is(.text-slate-900, .text-slate-800, .text-slate-700) { color: var(--pala-heading); }
+.dark :is(.text-slate-600, .text-slate-500, .text-slate-400) { color: var(--pala-muted); }
+.dark :is(.border-white, .border-slate-100, .border-slate-200, .border-slate-300) { border-color: var(--pala-border); }
+.dark :is(.text-custom-pink-500, .text-custom-pink-600, .text-custom-pink-700) { color: #EA7FA5; }
+.dark :is(.bg-custom-pink-50, .bg-custom-pink-100) { background-color: #5C1228; color: #F8D5E1; }
+.dark :is(.bg-green-50, .bg-green-100, .bg-emerald-50) { background-color: #1F2606; color: #E9F0CD; }
+.dark :is(.text-green-500, .text-green-600, .text-green-700, .text-emerald-700) { color: #D6EB7C; }
+.dark .ielts-test :is(.scroll-pane, #exam-toolbar, #exam-navigation, .question-instructions, .prose th) { background: var(--pala-surface); color: var(--pala-text); border-color: var(--pala-border); }
+.dark .ielts-test .prose { color: var(--pala-text); }
+.dark .option-radio:checked + div { background: #5C1228; border-color: #EA7FA5; }
+.dark #exam-parts button[aria-selected='true'] { background: #5C1228; color: #F8D5E1; border-bottom-color: #EA7FA5; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
