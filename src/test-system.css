@@ -86,7 +86,7 @@ button:disabled { opacity: .5; cursor: not-allowed; }
 .legend-flagged { color: #d97706; margin-left: 10px; }
 #exam-part-progress { font-size: 11px; color: #64748b; }
 #exam-mobile-panes { display: none; }
-.exam-dialog { position: fixed; inset: 0; margin: auto; width: min(560px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); padding: 24px; border: 1px solid #cbd5e1; border-radius: 16px; background: white; color: #1e293b; box-shadow: 0 24px 80px #0f172a33; overflow-y: auto; overscroll-behavior: contain; }
+.exam-dialog { position: fixed; inset: 0; margin: auto; width: min(560px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); padding: 24px; border: 1px solid #cbd5e1; border-radius: 16px; background: white; color: #1e293b; box-shadow: none; overflow-y: auto; overscroll-behavior: contain; }
 .exam-dialog::backdrop { background: #0f172a80; }
 .exam-dialog-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; }
 .exam-dialog-heading h2 { font-size: 20px; font-weight: 800; }

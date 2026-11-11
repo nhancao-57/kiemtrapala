@@ -20,11 +20,11 @@
 </head>
 <body class="test-page bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-custom-pink-200 selection:text-custom-pink-900 relative">
 
-<header data-site-header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50 h-16 flex items-center justify-center">
+<header data-site-header class="bg-white border-b border-slate-200  sticky top-0 z-50 h-16 flex items-center justify-center">
     <div class="test-header-inner container mx-auto px-4 max-w-7xl">
       <a id="btn-return" class="test-return" href="/index.html" aria-label="Trở về danh sách bài thi">← Trở về</a>
       
-      <div id="nav-timer-container" class="hidden flex items-center bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-lg shadow-inner">
+      <div id="nav-timer-container" class="hidden flex items-center bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-lg ">
         <svg class="w-4 h-4 text-slate-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
         <span id="nav-timer-display" class="font-mono text-lg font-bold text-slate-800 tracking-tight">00:00</span>
       </div>
@@ -39,14 +39,14 @@
       <p class="text-slate-500 font-medium text-lg animate-pulse">Đang tải dữ liệu bài thi...</p>
     </div>
 
-    <div id="error-screen" class="hidden text-center py-20 w-full bg-white rounded-3xl shadow-lg border border-red-100 p-8">
+    <div id="error-screen" class="hidden text-center py-20 w-full bg-white rounded-3xl  border border-red-100 p-8">
       <div class="text-red-500 text-6xl mb-4">⚠️</div>
       <h2 class="text-2xl font-semibold text-slate-800 mb-2">Không thể tải bài thi</h2>
       <p class="text-slate-600 mb-8" id="error-message">Vui lòng kiểm tra lại đường dẫn file JSON</p>
-      <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-900 text-white px-8 py-3 rounded-xl font-semibold transition-colors shadow-md">Thử lại</button>
+      <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-900 text-white px-8 py-3 rounded-xl font-semibold transition-colors ">Thử lại</button>
     </div>
 
-    <section id="start-screen" class="hidden w-full bg-white rounded-3xl shadow-xl border border-slate-100 p-6 md:p-10">
+    <section id="start-screen" class="hidden w-full bg-white rounded-3xl  border border-slate-100 p-6 md:p-10">
       <div class="text-center mb-8">
         <h1 id="test-title" class="text-2xl md:text-4xl font-bold text-custom-pink-600 mb-3 normal-case tracking-tight"></h1>
         <p class="test-centre-name" id="test-center">Trung tâm Ngoại ngữ Pala</p>
@@ -74,7 +74,7 @@
                  class="w-full px-5 py-3 rounded-xl border-2 border-slate-200 focus:outline-none focus:border-custom-pink-500 focus:ring-4 focus:ring-custom-pink-100 transition-all text-slate-800 font-semibold text-lg">
         </div>
 
-        <button type="submit" class="w-full bg-custom-pink-600 hover:bg-custom-pink-700 text-white font-bold py-4 px-8 rounded-xl transition-all shadow-lg text-lg normal-case tracking-normal">
+        <button type="submit" class="w-full bg-custom-pink-600 hover:bg-custom-pink-700 text-white font-bold py-4 px-8 rounded-xl transition-all  text-lg normal-case tracking-normal">
           Bắt đầu làm bài
         </button>
       </form>
@@ -82,14 +82,14 @@
       <div id="resume-prompt" class="hidden mt-6 text-center p-6 bg-amber-50 rounded-2xl border border-amber-200">
         <p class="mb-4 font-semibold text-amber-800">Cảnh báo: Bạn có bài thi đang làm dở trước đó.</p>
         <div class="flex flex-col sm:flex-row gap-3 justify-center">
-          <button id="btn-resume" class="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white font-semibold rounded-xl transition-colors shadow-md">Tiếp tục làm bài</button>
+          <button id="btn-resume" class="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white font-semibold rounded-xl transition-colors ">Tiếp tục làm bài</button>
           <button id="btn-restart-clear" class="px-6 py-3 bg-white border-2 border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold rounded-xl transition-all">Xóa & Làm lại từ đầu</button>
         </div>
       </div>
     </section>
 
     <section id="test-screen" class="hidden w-full">
-      <div class="bg-white/95 p-4 rounded-xl shadow-sm border border-slate-200 mb-8 sticky top-[76px] z-40 backdrop-blur-md">
+      <div class="bg-white p-4 rounded-xl  border border-slate-200 mb-8 sticky top-[76px] z-40 ">
         <div class="flex justify-between items-end mb-3 px-1">
           <div>
               <p class="text-xs text-slate-400 font-semibold normal-case tracking-normal mb-1">Học viên</p>
@@ -107,15 +107,15 @@
       <div id="questions-container" class="space-y-12"></div>
 
       <div class="mt-12 mb-8 pt-6 border-t border-slate-200 text-center">
-        <button id="btn-submit-test" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-4 px-12 rounded-xl transition-all shadow-lg text-lg w-full md:w-auto normal-case tracking-normal">
+        <button id="btn-submit-test" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-4 px-12 rounded-xl transition-all  text-lg w-full md:w-auto normal-case tracking-normal">
           Nộp Bài
         </button>
       </div>
     </section>
 
-    <section id="result-screen" class="hidden w-full bg-white rounded-3xl shadow-xl border border-slate-100 p-6 md:p-10">
+    <section id="result-screen" class="hidden w-full bg-white rounded-3xl  border border-slate-100 p-6 md:p-10">
       <div class="text-center">
-        <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
+        <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 ">
           <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7" /></svg>
         </div>
         <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mb-4 tracking-tight">Hoàn Thành Bài Thi!</h2>
@@ -127,9 +127,9 @@
             </div>
         </div>
 
-        <div class="bg-gradient-to-br from-custom-pink-50 to-custom-pink-100 rounded-3xl p-8 mb-8 w-full border border-custom-pink-200 shadow-sm">
+        <div class="bg-custom-pink-50 rounded-3xl p-8 mb-8 w-full border border-custom-pink-200 ">
           <p class="text-custom-pink-800 font-bold normal-case tracking-normal mb-2 text-sm">Điểm số của bạn</p>
-          <div class="text-7xl font-bold text-custom-pink-600 drop-shadow-sm flex items-baseline justify-center">
+          <div class="text-7xl font-bold text-custom-pink-600  flex items-baseline justify-center">
             <span id="score-correct">0</span>
             <span class="text-4xl text-custom-pink-300 mx-1">/</span>
             <span id="score-total" class="text-5xl text-custom-pink-400">0</span>
@@ -141,7 +141,7 @@
         </div>
 
       <div class="mt-12 flex flex-col items-center gap-4">
-        <button id="btn-download-audit" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2 px-6 rounded-lg transition-colors border border-slate-300 text-sm shadow-sm flex items-center justify-center gap-2">
+        <button id="btn-download-audit" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2 px-6 rounded-lg transition-colors border border-slate-300 text-sm  flex items-center justify-center gap-2">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
           Tải Kết quả
         </button>
@@ -469,11 +469,11 @@
         wrap.innerHTML = `
            <div class="text-sm text-slate-700 mb-2 font-semibold">${qNum}. Nhấp vào các từ bên dưới để sắp xếp thành câu:</div>
            <div class="min-h-[56px] p-3 border-2 border-dashed border-custom-pink-300 bg-custom-pink-50 rounded-xl mb-3 flex flex-wrap gap-2 transition-all">
-               ${currentAnswer.map((w, i) => `<button type="button" class="px-3 py-1 bg-white border border-custom-pink-400 rounded-lg shadow-sm text-custom-pink-800 font-medium cursor-pointer hover:bg-custom-pink-100 transition-colors" onclick="handleDDRemove('${qId}', ${i})">${TestCommon.escapeHtml(w)}</button>`).join('')}
+               ${currentAnswer.map((w, i) => `<button type="button" class="px-3 py-1 bg-white border border-custom-pink-400 rounded-lg  text-custom-pink-800 font-medium cursor-pointer hover:bg-custom-pink-100 transition-colors" onclick="handleDDRemove('${qId}', ${i})">${TestCommon.escapeHtml(w)}</button>`).join('')}
                ${currentAnswer.length === 0 ? '<span class="text-custom-pink-300 italic text-sm py-1">Khu vực ghép câu (trống)</span>' : ''}
            </div>
            <div class="p-3 border border-slate-200 bg-slate-100 rounded-xl flex flex-wrap gap-2">
-               ${remaining.map((w) => `<button type="button" class="px-3 py-1 bg-white border border-slate-300 hover:border-slate-400 rounded-lg shadow-sm text-slate-800 cursor-pointer hover:bg-slate-50 transition-colors" onclick="handleDDAdd('${qId}', ${TestCommon.escapeHtml(JSON.stringify(w))})">${TestCommon.escapeHtml(w)}</button>`).join('')}
+               ${remaining.map((w) => `<button type="button" class="px-3 py-1 bg-white border border-slate-300 hover:border-slate-400 rounded-lg  text-slate-800 cursor-pointer hover:bg-slate-50 transition-colors" onclick="handleDDAdd('${qId}', ${TestCommon.escapeHtml(JSON.stringify(w))})">${TestCommon.escapeHtml(w)}</button>`).join('')}
                ${remaining.length === 0 ? '<span class="text-slate-400 italic text-sm py-1">Đã dùng hết từ</span>' : ''}
            </div>
         `;
@@ -490,7 +490,7 @@
 
         section.parts.forEach(part => {
           const pDiv = document.createElement('div');
-          pDiv.className = "mb-10 bg-white p-6 rounded-2xl shadow-sm border border-slate-200";
+          pDiv.className = "mb-10 bg-white p-6 rounded-2xl  border border-slate-200";
           const pKey = `${section.section_id}_${part.part_number}`;
 
           let instructionsHtml = `<h3 class="text-lg font-semibold text-slate-800 mb-2">Part ${part.part_number} (${part.points} pts)</h3><p class="text-slate-600 mb-6 italic">${part.instructions}</p>`;
@@ -510,7 +510,7 @@
                 </div>`;
           }
 
-          let imageHtml = part.image_url ? `<img src="${part.image_url}" alt="Part Illustration" class="max-w-full h-auto rounded-xl mb-6 shadow-sm border border-slate-200">` : '';
+          let imageHtml = part.image_url ? `<img src="${part.image_url}" alt="Part Illustration" class="max-w-full h-auto rounded-xl mb-6  border border-slate-200">` : '';
           let passageHtml = part.reading_passage ? `<div class="bg-slate-50 p-4 rounded-xl border border-slate-200 mb-6 whitespace-pre-wrap leading-relaxed text-slate-700">${part.reading_passage}</div>` : '';
           let wordBoxHtml = part.word_box ? `<div class="flex flex-wrap gap-2 mb-6 p-4 bg-blue-50 border border-blue-100 rounded-xl">${part.word_box.map(w => `<span class="px-3 py-1 bg-white border border-blue-200 rounded-lg text-blue-800 font-medium">${w}</span>`).join('')}</div>` : '';
 
@@ -711,7 +711,7 @@
              score += qData.points;
          } else {
              reviewHtmlBlocks.push(`
-                <div class="mb-4 bg-white p-5 rounded-2xl border-l-4 border-l-red-500 shadow-sm">
+                <div class="mb-4 bg-white p-5 rounded-2xl border-l-4 border-l-red-500 ">
                    <p class="font-semibold text-slate-800 text-sm mb-2 pb-2 border-b border-slate-100">${questionLabels[key]}</p>
                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2 text-sm">
                       <div class="bg-red-50/50 p-3 rounded-lg border border-red-100">

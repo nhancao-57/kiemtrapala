@@ -25,14 +25,13 @@
       const returnLink = controls.querySelector('#btn-return');
       inner.insertBefore(returnLink, logo);
       logo.after(...controls.childNodes);
-    } else if (placeholder.hasAttribute('data-hide-logout')) {
-      inner.className = 'container mx-auto px-4 flex justify-center items-center';
     }
     if (placeholder.hasAttribute('data-hide-logout')) {
       header.querySelector('.site-logout')?.remove();
     }
     header.dataset.siteHeader = '';
     placeholder.replaceWith(header);
+    document.dispatchEvent(new Event('site-header-ready'));
   }
 
   async function loadFooter() {

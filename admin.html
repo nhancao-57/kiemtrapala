@@ -25,11 +25,9 @@
 <body class="bg-slate-50 text-slate-800 font-sans min-h-[100dvh] flex flex-col selection:bg-custom-pink-200 selection:text-custom-pink-900 relative overflow-x-hidden">
 
   <!-- Background Decorative Elements -->
-  <div class="fixed top-[-10%] left-[-10%] w-96 h-96 bg-custom-pink-200 rounded-full mix-blend-multiply filter blur-[128px] opacity-40 pointer-events-none z-0"></div>
-  <div class="fixed bottom-[-10%] right-[-10%] w-96 h-96 bg-custom-pink-300 rounded-full mix-blend-multiply filter blur-[128px] opacity-20 pointer-events-none z-0"></div>
 
   <!-- Header -->
-  <header data-site-header data-hide-logout class="bg-white/80 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-50 h-16 flex items-center justify-center shrink-0 transition-all">
+  <header data-site-header data-hide-logout class="bg-white  border-b border-slate-200/80 sticky top-0 z-50 h-16 flex items-center justify-center shrink-0 transition-all">
     <div class="container mx-auto px-4 flex justify-center items-center">
       
     </div>
@@ -38,9 +36,9 @@
   <main class="flex-1 w-full flex items-center justify-center px-4 py-8 sm:py-12 z-10 relative">
     
     <!-- LOGIN SCREEN -->
-    <div id="login-section" class="bg-white/95 backdrop-blur-xl rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white p-6 sm:p-10 w-full max-w-md animate-fade-in-up transition-all duration-300 ring-1 ring-slate-100 hover:shadow-[0_8px_30px_rgba(236,72,153,0.08)]">
+    <div id="login-section" class="bg-white  rounded-[2rem]  border border-slate-200 p-6 sm:p-10 w-full max-w-md animate-fade-in-up transition-all duration-300  ">
       
-      <div class="w-16 h-16 bg-gradient-to-br from-custom-pink-50 to-custom-pink-100 text-custom-pink-500 rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-inner border border-custom-pink-100">
+      <div class="w-16 h-16 bg-custom-pink-50 text-custom-pink-500 rounded-2xl flex items-center justify-center mb-6 mx-auto  border border-custom-pink-100">
         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
         </svg>
@@ -82,12 +80,12 @@
           </div>
         </div>
 
-        <div id="login-error" class="hidden bg-red-50 text-red-600 text-sm font-semibold py-3.5 px-4 rounded-xl flex items-center justify-center gap-2 border border-red-100 shadow-sm animate-fade-in-up">
+        <div id="login-error" class="hidden bg-red-50 text-red-600 text-sm font-semibold py-3.5 px-4 rounded-xl flex items-center justify-center gap-2 border border-red-100  animate-fade-in-up">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
           Email hoặc mật khẩu không đúng!
         </div>
 
-        <button type="submit" class="w-full bg-custom-pink-600 hover:bg-custom-pink-700 active:bg-custom-pink-800 text-white font-semibold py-3.5 px-6 rounded-xl flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg mt-6 normal-case tracking-normal focus:ring-4 focus:ring-custom-pink-200 outline-none">
+        <button type="submit" class="w-full bg-custom-pink-600 hover:bg-custom-pink-700 active:bg-custom-pink-800 text-white font-semibold py-3.5 px-6 rounded-xl flex items-center justify-center gap-2 transition-all   mt-6 normal-case tracking-normal focus-visible:outline-2 focus-visible:outline-offset-2 outline-none">
           <span>Đăng Nhập</span>
           <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
         </button>
@@ -98,19 +96,19 @@
     <div id="dashboard-section" class="w-full max-w-6xl mx-auto hidden animate-fade-in-up self-start">
       
       <!-- Dashboard Header -->
-      <div class="bg-white/95 backdrop-blur-xl rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white p-6 sm:p-8 mb-6 flex flex-col sm:flex-row justify-between items-center sm:items-end gap-4 ring-1 ring-slate-100">
+      <div class="bg-white  rounded-[2rem]  border border-slate-200 p-6 sm:p-8 mb-6 flex flex-col sm:flex-row justify-between items-center sm:items-end gap-4 ">
         <div class="text-center sm:text-left">
           <h1 class="text-2xl sm:text-3xl font-bold text-slate-800 tracking-tight">Kết Quả <span class="text-custom-pink-600">Bài Kiểm Tra</span></h1>
           <p class="text-slate-500 font-medium mt-1">Xem và quản lý điểm số của học viên</p>
         </div>
-        <button id="btn-logout" class="w-full sm:w-auto bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-red-600 font-semibold py-3 px-6 rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 border border-slate-200 focus:ring-4 focus:ring-slate-100 outline-none">
+        <button id="btn-logout" class="w-full sm:w-auto bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-red-600 font-semibold py-3 px-6 rounded-xl transition-all  flex items-center justify-center gap-2 border border-slate-200 focus:ring-4 focus:ring-slate-100 outline-none">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
           Đăng Xuất
         </button>
       </div>
 
       <!-- Dashboard Table -->
-      <div class="bg-white/95 backdrop-blur-xl rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white ring-1 ring-slate-100 overflow-hidden">
+      <div class="bg-white  rounded-[2rem]  border border-white  overflow-hidden">
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse min-w-[600px]">
             <thead>

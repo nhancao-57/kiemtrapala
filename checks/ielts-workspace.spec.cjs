@@ -20,6 +20,38 @@ test.beforeAll(async () => {
 });
 test.afterAll(async () => { server.closeAllConnections(); await new Promise(resolve => server.close(resolve)); });
 
+test('header theme switch works with keyboard, persists across pages and syncs tabs', async ({ page, context }) => {
+  await context.route('**/*', route => route.request().url().startsWith(origin) ? route.continue() : route.abort());
+  await page.emulateMedia({ colorScheme: 'light' });
+  await page.setViewportSize({ width: 320, height: 568 });
+  await page.goto(origin + '/index.html');
+  const toggle = page.getByRole('button', { name: 'Chế độ tối', exact: true });
+  await expect(toggle).toHaveAttribute('aria-pressed', 'false');
+  await toggle.focus();
+  await page.keyboard.press('Space');
+  await expect(toggle).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('html')).toHaveClass(/dark/);
+  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(15, 23, 42)');
+  for (const file of ['login.html', 'admin.html', 'kids.html', 'teens.html', 'ielts.html', 'ielts-mindset-1-1.html', 'mindset_final_test.html']) {
+    await page.goto(origin + '/' + file);
+    await expect(toggle).toBeVisible();
+    await expect(toggle).toHaveAttribute('aria-pressed', 'true');
+    expect(await page.evaluate(() => {
+      const actions = document.querySelector('.site-header-actions').getBoundingClientRect();
+      const logo = document.querySelector('header img').getBoundingClientRect();
+      return actions.right <= innerWidth && logo.right <= actions.left && document.documentElement.scrollWidth <= innerWidth;
+    }), file).toBe(true);
+  }
+  await page.reload();
+  await expect(toggle).toHaveAttribute('aria-pressed', 'true');
+  const other = await context.newPage();
+  await other.goto(origin + '/index.html');
+  await other.getByRole('button', { name: 'Chế độ tối', exact: true }).click();
+  await expect(toggle).toHaveAttribute('aria-pressed', 'false');
+  await expect(page.locator('html')).not.toHaveClass(/dark/);
+  await other.close();
+});
+
 test('every opening has the same hierarchy, Vietnamese centre name and usable logout', async ({ page }, info) => {
   await page.route('**/*', route => route.request().url().startsWith(origin) ? route.continue() : route.abort());
   for (const colorScheme of ['light', 'dark']) {

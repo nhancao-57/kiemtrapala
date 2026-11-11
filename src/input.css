@@ -4,7 +4,6 @@
 .option-radio:checked + div {
     border-color: #C43161;
     background-color: #FBEAF0;
-    box-shadow: 0 4px 6px -1px rgba(230, 62, 117, 0.14);
 }
 .option-radio:checked + div .radio-circle {
     border-color: #C43161;
@@ -35,7 +34,6 @@
 .option-radio:checked + div {
     border-color: #C43161;
     background-color: #FBEAF0;
-    box-shadow: 0 4px 6px -1px rgba(230, 62, 117, 0.14);
 }
 
 /* Loading Spinner */
@@ -53,7 +51,6 @@
 .option-radio:checked + div {
     border-color: #C43161;
     background-color: #FBEAF0;
-    box-shadow: 0 4px 6px -1px rgba(230, 62, 117, 0.14);
 }
 .option-radio:checked + div .radio-circle {
     border-color: #C43161;
